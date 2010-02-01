@@ -8,13 +8,28 @@
 	<name>hibernatedemo1.0</name>
 	<url>http://bigcat.easymorse.com</url>
 	<developers>
-	<developer>
-	<id>1</id>
-	<name>dahui</name>
-	<email>jiessiedyh@gmail.com</email>
-	<timezone>+8</timezone>
-	</developer>
+		<developer>
+			<id>1</id>
+			<name>dahui</name>
+			<email>jiessiedyh@gmail.com</email>
+			<timezone>+8</timezone>
+		</developer>
 	</developers>
+		<properties>
+		<hibernate.dialect>org.hibernate.dialect.MySQLDialect</hibernate.dialect>
+				<hibernate.show_sql>true</hibernate.show_sql>
+		<spring.version>2.5.6</spring.version>
+		<database.name>msp</database.name>
+		<dbunit.dataTypeFactoryName>org.dbunit.dataset.datatype.DefaultDataTypeFactory</dbunit.dataTypeFactoryName>
+		<dbunit.operation.type>CLEAN_INSERT</dbunit.operation.type>
+		<jdbc.url><![CDATA[jdbc:mysql://localhost/${database.name}?createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=utf-8]]></jdbc.url>
+				<jdbc.username>root</jdbc.username>
+				<jdbc.password>password</jdbc.password>
+				<jdbc.grougId>mysql</jdbc.grougId>
+				<jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
+				<jdbc.version>5.0.5</jdbc.version>
+				<jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -64,6 +79,41 @@
 			<artifactId>commons-lang</artifactId>
 			<version>2.4</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>hibernatedemo1.0</finalName>
@@ -76,10 +126,10 @@
 				</includes>
 				<filtering>true</filtering>
 			</resource>
-<!--			<resource>-->
-<!--				<directory>src/main/resources</directory>-->
-<!--				<filtering>false</filtering>-->
-<!--			</resource>-->
+			<!--			<resource>-->
+			<!--				<directory>src/main/resources</directory>-->
+			<!--				<filtering>false</filtering>-->
+			<!--			</resource>-->
 		</resources>
 		<plugins>
 			<plugin>
