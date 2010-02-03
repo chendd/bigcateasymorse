@@ -1,11 +1,13 @@
 package com.easymorse.demo;
 
-import javax.annotation.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -14,11 +16,12 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name = "product")
+@Table(name = "myproduct")
 public class Product {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="product_id")
 	private Long id;
 	@Column
 	private String productName;
@@ -26,6 +29,18 @@ public class Product {
 	private String productType;
 	@Column
 	private String description;
+
+	@ManyToOne(optional=true,fetch=FetchType.LAZY)
+	@JoinColumn(name="company_fk",nullable=true,insertable=false,updatable=false)
+	private  Company company;
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
 
 	public Long getId() {
 		return id;
