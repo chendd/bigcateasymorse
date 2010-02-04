@@ -30,17 +30,17 @@ public class Product {
 	@Column
 	private String description;
 
-	@ManyToOne(optional=true,fetch=FetchType.LAZY)
-	@JoinColumn(name="company_fk",nullable=true,insertable=false,updatable=false)
-	private  Company company;
-
-	public Company getCompany() {
-		return company;
-	}
-
-	public void setCompany(Company company) {
-		this.company = company;
-	}
+//	@ManyToOne(optional=true,fetch=FetchType.LAZY)
+//	@JoinColumn(name="company_fk",nullable=true,insertable=false,updatable=false)
+//	private  Company company;
+//
+//	public Company getCompany() {
+//		return company;
+//	}
+//
+//	public void setCompany(Company company) {
+//		this.company = company;
+//	}
 
 	public Long getId() {
 		return id;
