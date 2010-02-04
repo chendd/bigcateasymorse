@@ -33,9 +33,8 @@ public class Company {
 
 	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.LAZY)
 	@LazyCollection(LazyCollectionOption.FALSE)
-//	@JoinTable(name = "PC", joinColumns = @JoinColumn(name = "company_id",unique=true), 
-//			inverseJoinColumns = @JoinColumn(name = "product_id"))
-	 @JoinColumn(name="company_fk")
+	@JoinTable(name = "P_C", joinColumns = @JoinColumn(name = "mycompany_id"), 
+			inverseJoinColumns = @JoinColumn(name = "myproduct_id"))
 	private Set<Product> product;
 
 	public Set<Product> getProduct() {
