@@ -1,0 +1,4 @@
+java -cp convert-jar-with-dependencies.jar  com.main.MainFunction 10002
+
+
+mvn assembly:assembly
