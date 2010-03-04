@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Administrator">
+
+	<typeAlias alias="Administrator"
+		type="com.video.domain.Administrator" />
+
+
+	<resultMap id="Administrator" class="Administrator">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="password" column="password" />
+		<result property="loginCount" column="logintimes" />
+		<result property="lastLoginDate" column="lastlogin_date" />
+		<result property="lastLoginIp" column="lastlogin_ip" />
+	</resultMap>
+
+	<select id="getAdministratorByName"
+		parameterClass="java.lang.String" resultMap="Administrator">
+		select id,name,password,logintimes,lastlogin_date,lastlogin_ip
+		from w_administers where name = #name#
+	</select>
+	
+	<select id="getAdministratorById" parameterClass="java.lang.Long" resultMap="Administrator">
+		select id,name,password,logintimes,lastlogin_date,lastlogin_ip from w_administers where id = #id#
+	</select>
+
+	<insert id="createAdministrator" parameterClass="Administrator">
+		insert into w_administers ( id, name, password,logintimes,
+		lastlogin_date,lastlogin_ip ) values(
+		#id#,#name#,#password#,#loginCount#,#lastLoginDate#,#lastLoginIp#)
+		<selectKey keyProperty="id">select last_insert_id()</selectKey>
+	</insert>
+
+	<update id="updateAdministrator" parameterClass="Administrator">
+		update w_administers set name=#name#,
+		password=#password#,logintimes=#loginCount#,lastlogin_date=#lastLoginDate#,lastlogin_ip=#lastLoginIp#
+		where id=#id#
+	</update>
+
+	<delete id="deleteAdministrator" parameterClass="java.lang.Long">
+		delete from w_administers where id=#id#
+	</delete>
+
+	<select id="countAdministrator" resultClass="int">
+		select count(*) from w_administers
+	</select>
+
+	<select id="getAdministrators"
+		parameterClass="com.video.util.Pagination"
+		resultMap="Administrator">
+		select id,name,password,logintimes,lastlogin_date,lastlogin_ip
+		from w_administers limit #startIndex#,#size#
+	</select>
+	<select id="getAdministratorList" resultMap="Administrator">
+		select id,name,password,logintimes,lastlogin_date,lastlogin_ip
+		from w_administers
+	</select>
+
+
+</sqlMap>

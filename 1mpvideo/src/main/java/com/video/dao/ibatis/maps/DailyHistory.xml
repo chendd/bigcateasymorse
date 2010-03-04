@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="DailyHistory">
+	<typeAlias alias="DailyHistory" type="com.video.domain.DailyHistory" />
+
+<resultMap id="DailyHistory" class="DailyHistory" groupBy="id">
+	
+		<result property="visiter.id" column="visiter_id" />
+		<result property="daily.id" column="daily_id" />
+		
+	</resultMap>
+
+
+	<resultMap id="DailyHistoryJoinMap" class="DailyHistory" groupBy="id">
+	
+		<result property="visiter.id" column="u.id" />
+		<result property="visiter.realName" column="u.realname" />
+		<result property="visiter.face" column="u.face" />
+		<result property="visiter.signature" column="u.signature" />
+		<result property="visitDate" column="h.visit_date" />
+		
+	</resultMap>
+	<select id="countDailyHistory" parameterClass="com.video.util.Pagination" resultClass="int">
+	select count(*) from w_daily_history 
+	<dynamic prepend="where">
+		<isNotEmpty property="condition.daily.id" prepend="and">
+				daily_id = #condition.daily.id#
+			</isNotEmpty>
+		
+		
+		</dynamic>
+	
+	</select>
+	<select id="getDailyHistories" parameterClass="com.video.util.Pagination" resultMap="DailyHistoryJoinMap">
+	select h.visit_date,u.id,u.realname,u.signature,u.face from w_daily_history h left join users u on u.id = h.visiter_id 
+	 <dynamic prepend="where">
+		<isNotEmpty property="condition.daily.id" prepend="and">
+				h.daily_id = #condition.daily.id#
+			</isNotEmpty>
+		
+		
+		</dynamic>
+	order by h.visit_date desc 
+	limit #startIndex#,#size#
+	</select>
+	
+	<insert id="createDailyHistory" parameterClass="DailyHistory">
+	insert into w_daily_history(visit_date,daily_id,visiter_id) values(#visitDate#,#daily.id#,#visiter.id#)
+	</insert>
+	
+	<update id="updateDailyHistory" parameterClass="DailyHistory">
+	update w_daily_history set visit_date=#visitDate# where daily_id=#daily.id# and visiter_id=#visiter.id#
+	</update>
+	
+	<select id="getDailyHistory" parameterClass="DailyHistory" resultMap="DailyHistory">
+	select visiter_id,daily_id from w_daily_history where visiter_id = #visiter.id# and daily_id = #daily.id#
+	
+	</select>
+	
+	<delete id="deleteDailyHistoryByDailyId" parameterClass="java.lang.Long">
+	delete from w_daily_history where daily_id =#value#
+	</delete>
+
+</sqlMap>

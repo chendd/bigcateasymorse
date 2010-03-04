@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Event">
+	<typeAlias alias="Event" type="com.video.domain.Event" />
+	
+	<resultMap id="Event" class="Event">
+		<result property="id" column="id" />
+		<result property="description" column="description" />
+		<result property="user.id" column="user_id" />
+		<result property="url" column="url" />
+		<result property="addDate" column="add_date" />
+	</resultMap>
+	
+	<resultMap id="EventJoin" class="Event">
+		<result property="id" column="e.id" />
+		<result property="description" column="e.description" />
+		<result property="user.id" column="u.id" />
+		<result property="user.realName" column="u.realname" />
+		<result property="user.face" column="u.face" />
+		<result property="url" column="e.url" />
+		<result property="addDate" column="e.add_date" />
+	</resultMap>
+	
+	<insert id="createEvent" parameterClass="Event">
+	insert into w_events(description,url,user_id,add_date) values(#description#,#url#,#user.id#,#addDate#)
+	</insert>
+	
+	<delete id="deleteEventById" parameterClass="java.lang.Long">
+	delete from w_events where id = #value#
+	
+	</delete>
+	
+
+	
+	<select id="getLastEvents" resultMap="EventJoin">
+	
+	select e.id,e.description,e.url,e.add_date,u.id,u.realname,u.face from w_events e left join users u on e.user_id = u.id 
+	
+	order by add_date desc limit 10 
+	</select>
+	
+	
+	<select id="countEvents" parameterClass="com.video.util.Pagination" resultClass="int">
+	select count(*) from w_events 
+		<dynamic prepend="where">
+		<isNotEmpty property="condition.id" prepend="and">
+				user_id in (select passive_id from w_subscribes where user_id = #condition.id#)
+			</isNotEmpty>
+		
+
+		
+		</dynamic>
+	
+	</select>
+	
+	<select id="getEvents" parameterClass="com.video.util.Pagination" resultMap="EventJoin">
+		select e.id,e.description,e.url,e.add_date,u.id,u.realname,u.face from w_events  e left join users u on e.user_id = u.id 
+		<dynamic prepend="where">
+		<isNotEmpty property="condition.id" prepend="and">
+				e.user_id in (select passive_id from w_subscribes where user_id = #condition.id#)
+			</isNotEmpty>
+		
+		</dynamic>
+		
+		order by e.add_date desc 
+		
+		limit #startIndex#,#size# 
+	</select>
+	
+	
+	
+
+	
+	
+
+</sqlMap>

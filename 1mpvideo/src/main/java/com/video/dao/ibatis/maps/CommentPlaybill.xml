@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="CommentPlaybill">
+	<typeAlias alias="CommentPlaybill"
+		type="com.video.domain.PlaybillCommet" />
+	<typeAlias alias="Playbill" type="com.video.domain.Playbill" />
+	<resultMap id="CommentPlaybill" class="CommentPlaybill">
+		<result property="id" column="id" />
+		<result property="commentDate" column="comm_date" />
+		<result property="comment" column="comm" />
+		<result property="playbill.id" column="playbill_id" />
+		<result property="user.id" column="user_id" />
+		<result property="user.face" column="face" />
+		<result property="user.realName" column="realname" />
+	</resultMap>
+	<select id="getCommentPlaybillById" resultMap="CommentPlaybill"
+		parameterClass="java.lang.Long">
+		select id, comm_date, playbill_id, user_id, comm from
+		w_playbill_comment where id = #id:BIGINT#
+	</select>
+	<delete id="deleteCommentPlaybillById"
+		parameterClass="java.lang.Long">
+		delete from w_playbill_comment where id = #id:BIGINT#
+	</delete>
+	<delete id="deleteCommentPlaybillByIdAll"
+		parameterClass="java.lang.Long">
+		delete from w_playbill_comment where playbill_id=#id:BIGINT#
+	</delete>
+	<insert id="createCommentPlaybill"
+		parameterClass="CommentPlaybill">
+		insert into w_playbill_comment (comm_date, playbill_id, user_id,
+		comm) values (#commentDate:DATETIME#, #playbill.id:BIGINT#,
+		#user.id:BIGINT#, #comment:LONGVARCHAR#)
+		<selectKey keyProperty="id">select last_insert_id()</selectKey>
+	</insert>
+	<select id="countCommentPlaybillByPlaybillId"
+		parameterClass="com.video.util.Pagination" resultClass="int">
+		select count(id) from w_playbill_comment
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and"
+				property="condition.playbill.id">
+				playbill_id=#condition.playbill.id:BIGINT#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	<select id="getCommentPlaybillByPlaybillId"
+		resultMap="CommentPlaybill"
+		parameterClass="com.video.util.Pagination">
+		select pc.id id, pc.comm_date comm_date, pc.playbill_id
+		playbill_id, pc.user_id user_id, pc.comm comm,u.face
+		face,u.realname realname from w_playbill_comment pc left join
+		users u on pc.user_id = u.id
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and"
+				property="condition.playbill.id">
+				playbill_id = #condition.playbill.id:BIGINT#
+			</isNotEmpty>
+		</dynamic>
+		order by comm_date desc limit #startIndex#,#size#
+	</select>
+</sqlMap>

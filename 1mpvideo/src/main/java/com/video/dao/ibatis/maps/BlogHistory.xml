@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="BlogHistory">
+	<typeAlias alias="BlogHistory" type="com.video.domain.BlogHistory" />
+<resultMap id="BlogHistory" class="BlogHistory" groupBy="id">
+	
+		<result property="visiter.id" column="visiter_id" />
+		<result property="user.id" column="user_id" />
+	</resultMap>
+
+
+
+	<resultMap id="BlogHistoryJoinMap" class="BlogHistory" groupBy="id">
+	
+		<result property="visiter.id" column="u.id" />
+		<result property="visiter.realName" column="u.realname" />
+		<result property="visiter.face" column="u.face" />
+		<result property="visitDate" column="h.visit_date" />
+	</resultMap>
+	<select id="countBlogHistory" parameterClass="com.video.util.Pagination" resultClass="int">
+	select count(*) from w_blog_history 
+	<dynamic prepend="where">
+		<isNotEmpty property="condition.user.id" prepend="and">
+				user_id = #condition.user.id#
+			</isNotEmpty>
+		
+		
+		</dynamic>
+	
+	</select>
+	<select id="getBlogHistories" parameterClass="com.video.util.Pagination" resultMap="BlogHistoryJoinMap">
+	select h.visit_date,u.id,u.realname,u.face from w_blog_history h left join users u on u.id = h.visiter_id 
+	 <dynamic prepend="where">
+		<isNotEmpty property="condition.user.id" prepend="and">
+				h.user_id = #condition.user.id#
+			</isNotEmpty>
+		
+		
+		</dynamic>
+	order by h.visit_date desc 
+	limit #startIndex#,#size#
+	</select>
+	
+	<insert id="createBlogHistory" parameterClass="BlogHistory">
+	insert into w_blog_history(visit_date,user_id,visiter_id) values(#visitDate#,#user.id#,#visiter.id#)
+	</insert>
+	
+	<update id="updateBlogHistory" parameterClass="BlogHistory">
+	update w_blog_history set visit_date=#visitDate# where user_id=#user.id# and visiter_id=#visiter.id#
+	</update>
+	
+		<select id="getBlogHistory" parameterClass="BlogHistory" resultMap="BlogHistory">
+	select visiter_id,user_id from w_blog_history where visiter_id = #visiter.id# and user_id = #user.id#
+	
+	</select>
+	
+	
+
+</sqlMap>

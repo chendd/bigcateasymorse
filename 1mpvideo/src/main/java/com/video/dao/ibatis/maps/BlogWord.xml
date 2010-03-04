@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="BlogWord">
+	<typeAlias alias="BlogWord" type="com.video.domain.BlogWord" />
+	<resultMap id="BlogWord" class="BlogWord">
+		<result property="id" column="id" />
+		<result property="user.id" column="user_id" />
+		<result property="writer.id" column="writer_id" />
+		<result property="addDate" column="add_date" />
+		<result property="words" column="words" />
+		
+	</resultMap>
+	<resultMap id="BlogWordJoin" class="BlogWord">
+		<result property="id" column="b.id" />
+		<result property="user.id" column="b.user_id" />
+		<result property="writer.id" column="w.id" />
+		<result property="writer.realName" column="w.realname" />
+		<result property="writer.face" column="w.face" />
+		<result property="addDate" column="b.add_date" />
+		<result property="words" column="b.words" />
+		
+	</resultMap>
+	<insert id="createBlogWord" parameterClass="BlogWord">
+		insert into w_blogwords(user_id,writer_id,add_date,words) VALUES(#user.id#,#writer.id#,#addDate#,#words#)
+	</insert>
+	<delete id="deleteBlogWordById" parameterClass="java.lang.Long">
+delete from w_blogwords where id = #value#
+	</delete>
+	
+	<select id="countBlogWord" parameterClass="com.video.util.Pagination" resultClass="int">
+	select count(*) from w_blogwords 
+	<dynamic prepend="where">
+			<isNotEmpty property="condition.user.id" prepend="and"> user_id
+				= #condition.user.id#</isNotEmpty>
+			
+		</dynamic>
+	
+	</select>
+	
+	<select id="getBlogWords" parameterClass="com.video.util.Pagination" resultMap="BlogWordJoin">
+	select b.id,b.user_id,w.id,w.realname,w.face,b.add_date,b.words from w_blogwords b left join users w on b.writer_id = w.id 
+		<dynamic prepend="where">
+			<isNotEmpty property="condition.user.id" prepend="and"> b.user_id
+				= #condition.user.id#</isNotEmpty>
+			
+		</dynamic>
+		order by b.add_date desc
+	limit #startIndex#,#size#
+	</select>
+
+
+
+
+</sqlMap>

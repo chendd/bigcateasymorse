@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 2.6//EN"
+        "http://tuckey.org/res/dtds/urlrewrite2.6.dtd">
+
+<!--
+	
+	Configuration file for UrlRewriteFilter
+	http://tuckey.org/urlrewrite/
+	
+-->
+<urlrewrite>
+
+	<rule>
+		<note>
+			The rule means that requests to /test/status/ will be
+			redirected to /rewrite-status the url will be rewritten.
+		</note>
+		<from>/test/status/</from>
+		<to type="redirect">%{context-path}/rewrite-status</to>
+	</rule>
+	<rule>
+		<from>(.*).do</from>
+		<to>$1.do</to>
+	</rule>
+	
+	<rule>
+		<from>/css/(.*)</from>
+		<to>/css/$1</to>
+	</rule>
+	<rule>
+		<from>/upload/(.*)</from>
+		<to>/upload/$1</to>
+	</rule>
+	<rule>
+		<from>/images/(.*)</from>
+		<to>/images/$1</to>
+	</rule>
+	<rule>
+		<from>/js/(.*)</from>
+		<to>/js/$1</to>
+	</rule>
+	<rule>
+		<from>^/video/index([/]?)$</from>
+		<to>/getVideoIndex.do</to>
+	</rule>
+	<rule>
+		<from>^/home/([0-9]+)([/]?)$</from>
+		<to>/home.do?id=$1</to>
+	</rule>
+	<rule>
+		<from>^/search/index([/]?)$</from>
+		<to>/getSearchIndex.do</to>
+	</rule>
+	<rule>
+		<from>^/search/video/(.*)/(.*)/([0-9]+)([/]?)$</from>
+		<to>
+			/search.do?orders=$1&amp;key=$2&amp;type=video&amp;pageNo=$3
+		</to>
+	</rule>
+	<rule>
+		<from>^/search/playbill/(.*)/(.*)/([0-9]+)([/]?)$</from>
+		<to>
+			/search.do?orders=$1&amp;key=$2&amp;type=playbill&amp;pageNo=$3
+		</to>
+	</rule>
+	<rule>
+		<from>^/search/vblog/(.*)/(.*)/([0-9]+)([/]?)$</from>
+		<to>
+			/search.do?orders=$1&amp;key=$2&amp;type=vblog&amp;pageNo=$3
+		</to>
+	</rule>
+	<rule>
+		<from>^/tag/video/(.+)/([0-9]+)/(.+)/([0-9]+)([/]?)$</from>
+		<to>
+			/getVideoWithTagId.do?orderBy=$1&amp;id=$2&amp;name=$3&amp;pageNo=$4
+		</to>
+	</rule>
+	<rule>
+		<from>^/tag/index([/]?)$</from>
+		<to>/goVideoTagIndex.do</to>
+	</rule>
+
+	<rule>
+		<from>^/nosuchPlaybill/([0-9]+)/([0-9]+)/(.+)([/]?)$</from>
+		<to>/getPlaybill.do?nonsuchId=$1&amp;id=$2&amp;order=$3</to>
+	</rule>
+	<rule>
+		<from>^/playbill/add([/]?)$</from>
+		<to>/addPlaybill.do?action=new</to>
+	</rule>
+	<rule>
+		<from>^/playbill/([0-9]+)/play/([0-9]+)([/]?)$</from>
+		<to>/playPlaybill.do?id=$1&amp;videoId=$2</to>
+	</rule>
+	<rule>
+		<from>
+			^/playbill/myplaybilllist/([0-9]+)/(.*)/([0-9]+)([/]?)$
+		</from>
+		<to>/getMyPlaybillList.do?pageNo=$3&amp;order=$2</to>
+	</rule>
+	<rule>
+		<from>^/playbill/([0-9]+)/play([/]?)$</from>
+		<to>/playPlaybill.do?id=$1</to>
+	</rule>
+	<rule>
+		<from>^/playbill/index/(.+)/([0-9]+)([/]?)$</from>
+		<to>/getPlaybillIndex.do?orderBy=$1&amp;pageNo=$2</to>
+	</rule>
+	<rule>
+		<from>^/playbill/my/([0-9]+)/addvideo/([0-9]+)([/]?)$</from>
+		<to>/getMyPlaybill.do?pageNo=$1&amp;videoId=$2</to>
+	</rule>
+	<rule>
+		<from>^/playbill/index([/]?)$</from>
+		<to>/getPlaybillIndex.do</to>
+	</rule>
+	<rule>
+		<from>
+			^/playbill/modify/video/delete/([0-9]+)/([0-9]+)([/]?)$
+		</from>
+		<to>/modifyPlaybillDeleteVideo.do?id=$1&amp;videoId=$2</to>
+	</rule>
+	<rule>
+		<from>^/playbill/modify/video/([0-9]+)/([0-9]+)([/]?)$</from>
+		<to>/modifyPlaybillVideo.do?id=$1&amp;no=$2</to>
+	</rule>
+	<rule>
+		<from>^/playbill/modify/image/([0-9]+)([/]?)$</from>
+		<to>/modifyPlaybillImage.do?id=$1&amp;action=modify</to>
+	</rule>
+	<rule>
+		<from>^/playbill/modify/([0-9]+)([/]?)$</from>
+		<to>/modifyPlaybill.do?id=$1</to>
+	</rule>
+	<rule>
+		<from>^/playbill/([0-9]+)/(.+)/([0-9]+)([/]?)$</from>
+		<to>/getPlaybill.do?id=$1&amp;order=$2&amp;pageNo=$3</to>
+	</rule>
+	<rule>
+		<from>^/playbill/([0-9]+)/(.+)([/]?)$</from>
+		<to>/getPlaybill.do?id=$1&amp;order=$2</to>
+	</rule>
+	<rule>
+		<from>^/video/([0-9]+)([/]?)$</from>
+		<to>/getVideo.do?id=$1</to>
+	</rule>
+	<rule>
+		<from>^/blog/([0-9]+)([/]?)$</from>
+		<to>/showDaily.do?id=$1</to>
+	</rule>
+	<rule>
+		<from>^/blogList/([0-9]+)/([0-9]+)([/]?)$</from>
+		<to>/blogList.do?id=$1&amp;channelId=$2</to>
+	</rule>
+	<rule>
+		<from>^/blogList/([0-9]+)([/]?)$</from>
+		<to>/blogList.do?id=$1</to>
+	</rule>
+	<rule>
+		<from>^/vblog/sendmessage/([0-9]+)([/]?)$</from>
+		<to>/writeMessage.do?id=$1</to>
+	</rule>
+	<rule>
+		<from>^/vblog/mymessage/read/([0-9]+)([/]?)$</from>
+		<to>/readMessage.do?id=$1</to>
+	</rule>
+	<rule>
+		<from>^/vblog/mymessage/([0-9]+)([/]?)$</from>
+		<to>/myMessages.do?pageNo=$1</to>
+	</rule>
+	<rule>
+		<from>^/vblog/mymessage([/]?)$</from>
+		<to>/myMessages.do</to>
+	</rule>
+	<rule>
+		<from>^/vblog/systemmessage/read/([0-9]+)([/]?)$</from>
+		<to>/readSystemNotice.do?id=$1</to>
+	</rule>
+	<rule>
+		<from>^/vblog/systemmessage([/]?)$</from>
+		<to>/mySystemNotices.do</to>
+	</rule>
+	<rule>
+		<from>^/vblog/writedaily([/]?)$</from>
+		<to>/toCreateDaily.do</to>
+	</rule>
+	<rule>
+		<from>^/vblog/updatedaily/([0-9]+)([/]?)$</from>
+		<to>/toUpdateDaily.do?id=$1</to>
+	</rule>
+	<rule>
+		<from>^/vblog/friend/request/agree/([0-9]+)([/]?)$</from>
+		<to>/disposeUserRequst.do?id=$1</to>
+	</rule>
+	<rule>
+		<from>^/vblog/index([/]?)$</from>
+		<to>/vblog.do</to>
+	</rule>
+
+	<rule>
+		<from>
+			^/group/([0-9]+)/memberlist/([0-9]+)/(.+)/([0-9]+)([/]?)$
+		</from>
+		<to>
+			/groupMembers.do?id=$1&amp;pageSize=$2&amp;order=$3&amp;pageNo=$4
+		</to>
+	</rule>
+	<rule>
+		<from>^/group/([0-9]+)/memberlist([/]?)$</from>
+		<to>/groupMembers.do?id=$1</to>
+	</rule>
+	<rule>
+		<from>
+			^/group/([0-9]+)/topiclist/([0-9]+)/(.+)/([0-9]+)([/]?)$
+		</from>
+		<to>
+			/groupTopices.do?id=$1&amp;pageSize=$2&amp;order=$3&amp;pageNo=$4
+		</to>
+	</rule>
+	<rule>
+		<from>^/group/([0-9]+)/topiclist([/]?)$</from>
+		<to>/groupTopices.do?id=$1</to>
+	</rule>
+	<rule>
+		<from>
+			^/group/([0-9]+)/videolist/([0-9]+)/(.+)/([0-9]+)([/]?)$
+		</from>
+		<to>
+			/groupVideoes.do?id=$1&amp;pageSize=$2&amp;order=$3&amp;pageNo=$4
+		</to>
+	</rule>
+
+	<rule>
+		<from>^/group/([0-9]+)/videolist([/]?)$</from>
+		<to>/groupVideoes.do?id=$1&amp;</to>
+	</rule>
+	<rule>
+		<from>^/group/([0-9]+)/topic/create([/]?)$</from>
+		<to>/toCreateTopic.do?id=$1</to>
+	</rule>
+	<rule>
+		<from>^/group/topic/update/([0-9]+)([/]?)$</from>
+		<to>/toUpdateTopic.do?id=$1</to>
+	</rule>
+	<rule>
+		<from>^/group/sendinvite/([0-9]+)([/]?)$</from>
+		<to>/toWriteGroupInvite.do?id=$1</to>
+	</rule>
+	<rule>
+		<from>^/group/invite/agree/([0-9]+)([/]?)$</from>
+		<to>/agreeGroupInvite.do?id=$1</to>
+	</rule>
+	<rule>
+		<from>^/group/topic/([0-9]+)([/]?)$</from>
+		<to>/topic.do?id=$1</to>
+	</rule>
+	<rule>
+		<from>^/group/list([/]?)$</from>
+		<to>/group.do</to>
+	</rule>
+	<rule>
+		<from>^/group/create([/]?)$</from>
+		<to>/toCreateGroup.do</to>
+	</rule>
+	<rule>
+		<from>^/group/update/([0-9]+)([/]?)$</from>
+		<to>/toUpdateGroup.do?id=$1</to>
+	</rule>
+	<rule>
+		<from>^/group/([0-9]+)([/]?)$</from>
+		<to>/showGroup.do?id=$1</to>
+	</rule>
+	
+	<rule>
+		<from>^/myFans/([1-2]+)/([0-9]+)([/]?)$</from>
+		<to>/myFans.do?type=$1&amp;pageNo=$2</to>
+	</rule>
+	
+	<rule>
+		<from>^/myFriends/([1-2]+)/([0-9]+)([/]?)$</from>
+		<to>/myFriends.do?type=$1&amp;pageNo=$2</to>
+	</rule>
+	
+	<rule>
+		<from>^/mySubscibeUsers/([0-9]+)([/]?)$</from>
+		<to>/mySubscibeUsers.do?pageNo=$1</to>
+	</rule>
+	
+	<rule>
+		<from>^/groups/topices/(.+)/([0-9]+)([/]?)$</from>
+		<to>/getSelectTopices.do?keyword=$1&amp;no=$2</to>
+	</rule>
+
+	<rule>
+		<from>^/groups/topices/([0-9]+)([/]?)$</from>
+		<to>/getSelectTopices.do?no=$1</to>
+	</rule>
+	<rule>
+		<from>^/groups/(.+)/([0-9]+)([/]?)$</from>
+		<to>/getSelectGroups.do?keyword=$1&amp;no=$2</to>
+	</rule>
+	<rule>
+		<from>^/groups/([0-9]+)([/]?)$</from>
+		<to>/getSelectGroups.do?no=$1</to>
+	</rule>
+	<rule>
+		<from>^/group/index([/]?)$</from>
+		<to>/group.do</to>
+	</rule>
+
+
+
+	<rule>
+		<from>^/login/([\%]*.*]*)([\/]+)$</from>
+		<to>/toLogin.do?send=$1</to>
+	</rule>
+	<rule>
+		<from>^/login([/]?)$</from>
+		<to>/toLogin.do</to>
+	</rule>
+	<rule>
+		<from>^/register/(.*)([/]?)$</from>
+		<to>/registerUser.do?send=$1</to>
+	</rule>
+	<rule>
+		<from>^/notices([/]?)$</from>
+		<to>/getNotices.do</to>
+	</rule>
+	<rule>
+		<from>^/invite([/]?)$</from>
+		<to>/invite.do</to>
+	</rule>
+	<rule>
+		<from>^/invite_ok([/]?)$</from>
+		<to>/inviteOk.do</to>
+	</rule>
+	
+	<rule>
+		<from>^/vblog/mybox([/]?)$</from>
+		<to>/myBox.do</to>
+	</rule>
+	<rule>
+		<from>^/vblog/mySendBox/([0-9]+)([/]?)$</from>
+		<to>/mySendBox.do?no=$1</to>
+	</rule>
+	<rule>
+		<from>^/vblog/mySendBox/([/]?)$</from>
+		<to>/mySendBox.do</to>
+	</rule>
+	<rule>
+		<from>^/user/([0-9]+)/videoes/([0-9]+)([/]?)$</from>
+		<to>/userVideoes.do?id=$1&amp;no=$2</to>
+	</rule>
+	<rule>
+		<from>^/user/([0-9]+)/playbills/([0-9]+)([/]?)$</from>
+		<to>/userPlayBills.do?id=$1&amp;no=$2</to>
+	</rule>
+	<rule>
+		<from>^/user/signature([/]?)$</from>
+		<to>/signature.do</to>
+	</rule>
+	<rule>
+		<from>^/user/face([/]?)$</from>
+		<to>/face.do</to>
+	</rule>
+	<rule>
+		<from>^/user/info([/]?)$</from>
+		<to>/info.do</to>
+	</rule>
+	<rule>
+		<from>^/user/email([/]?)$</from>
+		<to>/email.do</to>
+	</rule>
+	<rule>
+		<from>^/video/myvideolist/([0-9]+)/(.+)/([0-9]+)([/]?)$</from>
+		<to>/getMyVideoList.do?order=$2&amp;pageNo=$3</to>
+	</rule>
+	<rule>
+		<from>^/user/password([/]?)$</from>
+		<to>/password.do</to>
+	</rule>
+	<rule>
+		<from>^/video/videoInfo([/]?)$</from>
+		<to>/createVideoInfo.do</to>
+	</rule>
+	<rule>
+		<from>^/video/modify/([0-9]+)([/]?)$</from>
+		<to>/getMyVideo.do?id=$1</to>
+	</rule>
+	<rule>
+		<from>^/video/upload([/]?)$</from>
+		<to>/toCreateVideo.do</to>
+	</rule>
+	<rule>
+		<from>^/index([/]?)$</from>
+		<to>/toIndex.do</to>
+	</rule>
+	<rule>
+		<from>^/exit([/]?)$</from>
+		<to>/exit.do</to>
+	</rule>
+	<rule>
+		<from>^/reset_password/(.+)([/]?)$</from>
+		<to>/resetPassword.do?c=$1</to>
+	</rule>
+	<rule>
+		<from>^/forgot_password([/]?)$</from>
+		<to>/forgotPassword.do</to>
+	</rule>
+	<rule>
+		<from>^/(.+)</from>
+		<to>/$1</to>
+	</rule>
+	<rule>
+		<from>^/</from>
+		<to>/toIndex.do</to>
+	</rule>
+
+
+
+	<!-- 
+		<rule>
+		<from>/.*/toLogin.do?(.*)</from>
+		<to>/toLogin.do?$1</to>
+		</rule>
+	-->
+	<outbound-rule>
+		<note>
+			The outbound-rule specifies that when response.encodeURL is
+			called (if you are using JSTL c:url) the url /rewrite-status
+			will be rewritten to /test/status/.
+
+			The above rule and this outbound-rule means that end users
+			should never see the url /rewrite-status only /test/status/
+			both in thier location bar and in hyperlinks in your pages.
+		</note>
+		<from>/rewrite-status</from>
+		<to>/test/status/</to>
+	</outbound-rule>
+	<!--
+		
+		INSTALLATION
+		
+		in your web.xml add...
+		
+		<filter>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+		<init-param>
+		<param-name>logLevel</param-name>
+		<param-value>WARN</param-value>
+		</init-param>
+		</filter>
+		<filter-mapping>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		</filter-mapping>
+		
+		EXAMPLES
+		
+		Redirect one url
+		<rule>
+		<from>/some/old/page.html</from>
+		<to type="redirect">/very/new/page.html</to>
+		</rule>
+		
+		Redirect a directory
+		<rule>
+		<from>/some/olddir/(.*)</from>
+		<to type="redirect">/very/newdir/$1</to>
+		</rule>
+		
+		Clean a url
+		<rule>
+		<from>/products/([0-9]+)</from>
+		<to>/products/index.jsp?product_id=$1</to>
+		</rule>
+		eg, /products/1234 will be passed on to /products/index.jsp?product_id=1234 without the user noticing.
+		
+		Browser detection
+		<rule>
+		<condition name="user-agent">Mozilla/[1-4]</condition>
+		<from>/some/page.html</from>
+		<to>/some/page-for-old-browsers.html</to>
+		</rule>
+		eg, will pass the request for /some/page.html on to /some/page-for-old-browsers.html only for older
+		browsers whose user agent srtings match Mozilla/1, Mozilla/2, Mozilla/3 or Mozilla/4.
+	-->
+</urlrewrite>
+

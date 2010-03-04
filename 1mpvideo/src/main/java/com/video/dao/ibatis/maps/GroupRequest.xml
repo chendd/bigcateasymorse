@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="GroupRequest">
+	<typeAlias alias="GroupRequest" type="com.video.domain.GroupRequest" />
+	<resultMap id="GroupRequest" class="GroupRequest">
+		<result property="id" column="id" />
+		<result property="group.id" column="group_id" />
+		<result property="user.id" column="user_id" />
+		<result property="word" column="word" />
+		<result property="addDate" column="add_date" />
+
+	</resultMap>
+	<resultMap id="GroupRequestJoin" class="GroupRequest">
+		<result property="id" column="r.id" />
+		<result property="group.id" column="r.group_id" />
+		<result property="user.id" column="u.id" />
+		<result property="user.realName" column="u.realname" />
+		<result property="user.face" column="u.face" />
+		<result property="word" column="r.word" />
+		<result property="addDate" column="r.add_date" />
+	</resultMap>
+	
+	<select id="countGroupRequestsByGroupId" parameterClass="java.lang.Long" resultClass="int">
+	select count(r.id) from w_group_requests r left join users  u on r.user_id = u.id where r.group_id=#value#
+	
+	</select>
+	
+	<select id="getGroupRequestsByGroupId" parameterClass="java.lang.Long" resultMap="GroupRequestJoin">
+	select r.id,r.group_id,u.id,u.realname,u.face,r.word,r.add_date from w_group_requests r left join users  u on r.user_id = u.id where r.group_id=#value#
+	
+	</select>
+	
+	<select id="getGroupRequest" parameterClass="GroupRequest" resultMap="GroupRequest">
+	select id,group_id,user_id,word,add_date from w_group_requests where group_id = #group.id# and user_id = #user.id#
+	</select>
+	
+	<delete id="deleteGroupRequest" parameterClass="java.lang.Long">
+	delete from w_group_requests where id = #value#
+	</delete>
+	
+	<insert id="createGroupRequest" parameterClass="GroupRequest">
+		insert into w_group_requests(group_id,user_id,word,add_date) values(#group.id#,#user.id#,#word#,#addDate#)
+	</insert>
+	<insert id="updateGroupRequest" parameterClass="GroupRequest">
+		update w_group_requests set group_id=#group.id#,user_id=#user.id#,word=#word#,add_date=#addDate# where id = #id#
+	</insert>
+	
+	
+
+
+
+</sqlMap>

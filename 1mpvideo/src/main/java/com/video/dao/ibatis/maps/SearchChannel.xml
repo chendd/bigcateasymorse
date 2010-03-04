@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="KeywordChannel">
+	<typeAlias alias="KeywordChannel"
+		type="com.video.domain.KeywordChannel" />
+	<resultMap id="KeywordChannel" class="KeywordChannel">
+		<result column="id" property="id" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="orders" jdbcType="INTEGER" property="orders" />
+	</resultMap>
+	<insert id="createKeywordChannel" parameterClass="KeywordChannel">
+		insert into w_keyword_channels (id, name, orders) values
+		(#id:BIGINT#, #name:VARCHAR#, #orders:INTEGER#)
+	</insert>
+	<update id="updateKeywordChannel" parameterClass="KeywordChannel">
+		update w_keyword_channels set name = #name:VARCHAR#, orders =
+		#orders:INTEGER# where id = #id:BIGINT#
+	</update>
+	<update id="updateKeywordChannelWithOrder"
+		parameterClass="KeywordChannel">
+		update w_keyword_channels set orders = #orders:INTEGER# where id
+		= #id:BIGINT#
+	</update>
+	<delete id="deleteKeywordChannel" parameterClass="java.lang.Long">
+		delete from w_keyword_channels where id = #id:BIGINT#
+	</delete>
+	<select id="getKeywordChannel" parameterClass="java.lang.Long"
+		resultMap="KeywordChannel">
+		select id, name, orders from w_keyword_channels where id =
+		#id:BIGINT#
+	</select>
+	<select id="getKeywordChannelByName"
+		parameterClass="java.lang.String" resultMap="KeywordChannel">
+		select id, name, orders from w_keyword_channels where name =
+		#name:VARCHAR#
+	</select>
+	<select id="getKeywordChannels" resultMap="KeywordChannel">
+		select id, name, orders from w_keyword_channels order by orders
+	</select>
+
+</sqlMap>

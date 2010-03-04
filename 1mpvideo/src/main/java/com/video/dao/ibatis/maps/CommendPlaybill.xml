@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="CommendPlaybill">
+	<typeAlias alias="commendPlaybill"
+		type="com.video.domain.CommendPlaybill" />
+	<typeAlias alias="PlayBill" type="com.video.domain.Playbill" />
+	<resultMap id="commendPlaybill" class="commendPlaybill">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="description" column="description" />
+		<result property="image" column="image" />
+		<result property="playbill" column="specialid"
+			select="getPlaybillByid" />
+		<result property="addDate" column="add_date" />
+		<result property="browseCount" column="browse_count" />
+	</resultMap>
+	<resultMap id="Playbill" class="Playbill">
+		<result property="id" column="p.id" />
+		<result property="user.id" column="p.user_id" />
+		<result property="user.realName" column="u.realName" />
+		<result property="videoSize" column="videosize" />
+	</resultMap>
+
+	<select id="getPlaybillByid" parameterClass="java.lang.Long"
+		resultMap="Playbill">
+		select p.ID,p.user_id,u.realname,count(v.video_id) videoSize
+		from w_specials p left join users u on p.user_id =u.id left join
+		w_video_special v on v.special_id=p.id where p.id = #id:BIGINT#
+		group by p.id
+	</select>
+	<insert id="createCommendPlaybill"
+		parameterClass="commendPlaybill">
+		insert into w_commend_playbill (id, name, image, specialid,
+		description) values (#id:INTEGER#, #name:VARCHAR#,
+		#image:VARCHAR#, #playbill.id:BIGINT#,
+		#description:LONGVARCHAR#)
+	</insert>
+	<delete id="deleteCommendPlaybill"
+		parameterClass="java.lang.Long">
+		delete from w_commend_playbill where id = #id:INTEGER#
+	</delete>
+	<update id="updateCommendPlaybill"
+		parameterClass="commendPlaybill">
+		update w_commend_playbill set name = #name:VARCHAR#, image =
+		#image:VARCHAR#, specialid = #playbill.id:BIGINT#, description =
+		#description:LONGVARCHAR# where id = #id:INTEGER#
+	</update>
+	<select id="getCommendPlaybill" resultMap="commendPlaybill">
+		select id, name, image, specialid, description,add_date,browse_count from
+		w_commend_playbill order by id
+	</select>
+	<update id="updateCommendPlaybillWithBrowseCount"
+		parameterClass="commendPlaybill">
+		update w_commend_playbill set browse_count=browse_count+1 where
+		id=#id:INTEGER# 
+	</update>
+</sqlMap>

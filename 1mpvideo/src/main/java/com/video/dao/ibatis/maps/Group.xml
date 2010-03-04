@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Group">
+	<typeAlias alias="Group" type="com.video.domain.Group" />
+	<resultMap id="Group" class="Group">
+		<result property="id" column="id" />
+		<result property="owner.id" column="user_id" />
+		<result property="descrption" column="description" />
+		<result property="image" column="image" />
+		<result property="addDate" column="adddate" />
+		<result property="flag" column="flag" />
+		<result property="name" column="name" />
+		<result property="activity" column="activity" />
+	</resultMap>
+	
+	<resultMap id="GroupList" class="Group">
+		<result property="id" column="g.id" />
+		<result property="name" column="g.name" />
+	</resultMap>
+	
+	<resultMap class="com.video.domain.User" id="GroupUser">
+		<result property="id" column="id" />
+		<result property="userName" column="username" />
+	
+	</resultMap>
+	
+	<resultMap id="GroupJoinMap" class="Group">
+		<result property="id" column="g.id" />
+		<result property="owner.id" column="u.id" />
+		<result property="owner.userName" column="u.username" />
+		<result property="owner.realName" column="u.realname" />
+		<result property="descrption" column="g.description" />
+		<result property="image" column="g.image" />
+		<result property="addDate" column="g.adddate" />
+		<result property="flag" column="g.flag" />
+		<result property="name" column="g.name" />
+		<result property="memberCount" column="membercount" />
+		<result property="activity" column="g.activity" />
+	
+	</resultMap>
+	<resultMap id="GroupJoinMap2" class="Group">
+		<result property="id" column="g.id" />
+		<result property="auditType" column="g.audit_type" />
+		<result property="owner.id" column="u.id" />
+		<result property="owner.realName" column="u.realname" />
+		<result property="descrption" column="g.description" />
+		<result property="image" column="g.image" />
+		<result property="addDate" column="g.adddate" />
+		<result property="flag" column="g.flag" />
+		<result property="name" column="g.name" />
+		<result property="recommendDate" column="g.recommend_date" />
+<result property="activity" column="g.activity" />
+	
+	</resultMap>
+	
+	<resultMap id="GroupSimple" class="Group">
+		<result property="id" column="g.id" />
+		<result property="name" column="g.name" />
+		<result property="memberCount" column="membercount" />
+		<result property="videoCount" column="videocount" />
+		<result property="topicCount" column="topiccount" />
+		<result property="activity" column="activity" />
+	
+	</resultMap>
+	
+	<insert id="createGroup" parameterClass="Group">
+	insert into w_groups(user_id,description,image,adddate,flag,name) values(#owner.id#,#descrption#,#image#,#addDate#,#flag#,#name#)
+	<selectKey keyProperty="id">select last_insert_id()</selectKey>
+	</insert>
+	
+	
+	
+	
+	<select id="getGroupSimpleById" parameterClass="java.lang.Long" resultMap="GroupSimple">
+	select g.activity,g.id,g.name,topiccount,membercount,count(v.id) videocount from (select b.activity activity,b.id id,b.name name,b.topiccount topiccount,count(w.user_id) membercount  from (select a.activity activity,a.id id,a.name name,count(t.id) topiccount  from w_groups a left join w_topices t on t.group_id =a.id where a.id = #value#  group by a.id) b left join w_group_user w on w.group_id = b.id group by b.id) g 
+
+left join w_video v on v.user_id in (select user_id from w_group_user where group_id = g.id) group by g.id
+ 
+	
+	
+	</select>
+	
+	
+	<select id="getMyGroupList" parameterClass="java.lang.Long" resultMap="GroupList">
+	select g.id,g.name  from w_group_user gu left join w_groups g on gu.group_id = g.id where gu.user_id = #value# 
+	</select>
+	
+	
+
+	
+	
+	
+	<select id="countGroup"  parameterClass="com.video.util.Pagination" resultClass="int">
+		select count(*) from w_groups where flag !=0 
+		<isNotEmpty property="condition.recommendDate" prepend="and">
+			recommend_date is not null
+		</isNotEmpty>
+		
+		<isNotEmpty property="condition.name" prepend="and">
+				name like #condition.name# escape '!' 
+				or description like #condition.name# escape '!' 
+			</isNotEmpty>
+			
+			
+		
+		
+		
+	</select>
+	
+	<select id="getGroups" parameterClass="com.video.util.Pagination" resultMap="GroupJoinMap">
+		select g.activity,g.id,g.image,g.name,g.flag,g.adddate,g.description,u.id,u.username,u.realname,count(w.user_id) membercount from w_groups g left join users u on g.user_id = u.id 
+		left join w_group_user w on w.group_id = g.id 
+		  where g.flag !=0 
+		  
+		  <isNotEmpty property="condition.recommendDate" prepend="and">
+			g.recommend_date is not null
+		</isNotEmpty>
+		
+			<isNotEmpty property="condition.name" prepend="and">
+				g.name like #condition.name# escape '!' 
+				or g.description like #condition.name# escape '!'
+			</isNotEmpty>
+	
+		group by g.id  
+		
+		<isNotEmpty   property="orderFieldName" >
+		order by $orderFieldName$  desc 
+		</isNotEmpty>
+	  limit #startIndex#,#size#
+		
+	</select>
+	
+	<update id="updateGroup" parameterClass="Group" >
+	update w_groups set activity=#activity#,description=#descrption#,image=#image#,flag=#flag#,name=#name#,audit_type=#auditType# where id=#id#
+	
+	</update>
+	
+	<select id="getGroupById" parameterClass="java.lang.Long" resultMap="GroupJoinMap2">
+	select g.activity,g.id,g.image,g.name,g.flag,g.adddate,g.audit_type,g.recommend_date,g.description,u.id,u.realname from w_groups g left join users u on g.user_id = u.id 
+		  where g.id = #value#
+	</select>
+	
+	<delete id="deleteGroupById" parameterClass="java.lang.Long">
+	delete from w_groups  where id = #value#
+	</delete>
+	
+
+	
+	
+	 
+
+	
+	 <select id="countUsersByGroupId"  parameterClass="com.video.util.Pagination" resultClass="int">
+		select count(*) from users where id  in(select user_id from w_group_user where group_id = #condition#  )
+	</select>
+	</sqlMap>

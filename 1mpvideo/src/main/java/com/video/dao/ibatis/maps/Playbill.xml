@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Playbill">
+	<typeAlias alias="PlayBill" type="com.video.domain.Playbill" />
+	<typeAlias alias="VideoAndPlayBill"
+		type="com.video.domain.VideoAndPlayBill" />
+	<resultMap id="Playbill" class="Playbill">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="user.id" column="user_id" />
+		<result property="description" column="description" />
+		<result property="imagesUrl" column="images" />
+		<result property="addDate" column="add_date" />
+		<result property="flag" column="flag" />
+		<result property="browseCount" column="browse_count" />
+		<result property="channel.id" column="channel_id" />
+	</resultMap>
+
+	<resultMap id="VideoAndPlayBill" class="VideoAndPlayBill">
+		<result property="videoId" column="video_id" />
+		<result property="playBillId" column="special_id" />
+	</resultMap>
+
+	<resultMap id="PlaybillVideo" class="com.video.domain.Video">
+		<result property="id" column="v.id" />
+		<result property="name" column="v.name" />
+	</resultMap>
+	<resultMap id="PlaybillJoinMap" class="Playbill">
+		<result property="id" column="P.ID" />
+		<result property="name" column="P.NAME" />
+		<result property="user.id" column="U.ID" />
+		<result property="user.userName" column="U.USERNAME" />
+		<result property="user.realName" column="U.REALNAME" />
+		<result property="user.face" column="U.FACE" />
+		<result property="description" column="P.DESCRIPTION" />
+		<result property="imagesUrl" column="P.IMAGES" />
+		<result property="addDate" column="P.ADD_DATE" />
+		<result property="flag" column="P.FLAG" />
+		<result property="browseCount" column="p.browse_count" />
+		<result property="channel.id" column="pc.id" />
+	</resultMap>
+	<resultMap id="PlaybillJoinMaps" class="Playbill">
+		<result property="id" column="P.ID" />
+		<result property="name" column="P.NAME" />
+		<result property="user.id" column="U.ID" />
+		<result property="user.userName" column="U.USERNAME" />
+		<result property="user.realName" column="U.REALNAME" />
+		<result property="description" column="P.DESCRIPTION" />
+		<result property="imagesUrl" column="P.IMAGES" />
+		<result property="videoes" resultMap="Playbill.PlaybillVideo" />
+		<result property="addDate" column="addDate" />
+		<result property="flag" column="P.FLAG" />
+		<result property="videoSize" column="playbillsize" />
+		<result property="browseCount" column="browseCount" />
+	</resultMap>
+
+	<resultMap id="subscribePlaybill" class="PlayBill">
+		<result property="id" column="P.ID" />
+		<result property="name" column="P.NAME" />
+		<result property="user.id" column="p.user_id" />
+		<result property="user.realName" column="U.realNAME" />
+		<result property="description" column="P.DESCRIPTION" />
+		<result property="imagesUrl" column="P.IMAGES" />
+		<result property="videoSize" column="playbillsize" />
+		<result property="browseCount" column="p.browse_count" />
+	</resultMap>
+
+	<resultMap id="myPlaybill" class="PlayBill">
+		<result property="id" column="p.ID" />
+		<result property="name" column="p.NAME" />
+		<result property="description" column="p.DESCRIPTION" />
+		<result property="imagesUrl" column="p.IMAGES" />
+		<result property="videoSize" column="playbillsize" />
+		<result property="browseCount" column="browseCount" />
+		<result property="channel.id" column="pc.id" />
+		<result property="channel.name" column="pc.name" />
+		<result property="subscribeCount" column="subscribecount" />
+		<result property="addDate" column="addDate" />
+		<result property="commentCount" column="commentCount" />
+		<result property="user.id" column="u.id" />
+		<result property="user.realName" column="u.realName" />
+	</resultMap>
+
+
+	<resultMap id="playbillSimple" class="PlayBill">
+		<result property="id" column="P.ID" />
+		<result property="name" column="P.NAME" />
+		<result property="description" column="P.DESCRIPTION" />
+		<result property="imagesUrl" column="P.IMAGES" />
+		<result property="user.id" column="U.ID" />
+		<result property="user.realName" column="U.REALNAME" />
+		<result property="videoSize" column="VIDEOCOUNT" />
+	</resultMap>
+
+	<select id="countPlayBillsByGroupId"
+		parameterClass="com.video.util.Pagination" resultClass="int">
+		select count(*) from w_specials
+		<dynamic prepend="where">
+			<isNotEmpty property="condition.id" prepend="and">
+				user_id in (select user_id from w_group_user where
+				group_id = #condition.id#)
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	<select id="getPlayBillsByGroupId"
+		parameterClass="com.video.util.Pagination"
+		resultMap="playbillSimple">
+		select
+		p.id,p.name,p.description,p.images,u.id,u.realname,count(v.video_id)
+		videocount from w_specials p left join users u on u.id =
+		p.user_id left join w_video_special v on p.id = v.special_id
+		group by p.id order by p.add_date desc limit #startIndex#,#size#
+	</select>
+	<resultMap id="otherPlaybill" class="PlayBill">
+		<result property="id" column="p.id" />
+		<result property="name" column="p.name" />
+		<result property="videoSize" column="playbillsize" />
+	</resultMap>
+	<select id="countOtherPlaybill"
+		parameterClass="com.video.util.Pagination" resultClass="int">
+		select count(id) from w_specials where flag != 0
+		<isNotEmpty prepend="and" property="condition.id">
+			id != #condition.id#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="condition.user.id">
+			user_id = #condition.user.id#;
+		</isNotEmpty>
+	</select>
+	<select id="getOtherPlaybill" resultMap="otherPlaybill"
+		parameterClass="com.video.util.Pagination">
+		select p.id,p.name,count(distinct(vs.video_id))
+		playbillsize,p.add_date adddate from w_specials p left join
+		w_video_special vs on p.id = vs.special_id where p.flag !=0
+		<isNotEmpty prepend="and" property="condition.id">
+			p.id != #condition.id#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="condition.user.id">
+			p.user_id = #condition.user.id#
+		</isNotEmpty>
+		group by p.id
+		<isNotEmpty prepend="order by" property="orderFieldName">
+			$orderFieldName$ desc
+		</isNotEmpty>
+		limit #startIndex#,#size#
+	</select>
+
+	<insert id="createPlayBill" parameterClass="Playbill">
+		insert into
+		w_specials(name,user_id,images,description,add_date,flag,channel_id)
+		values(#name#,#user.id#,#imagesUrl#,#description#,#addDate#,#flag#,#channel.id#)
+		<selectKey keyProperty="id">select last_insert_id()</selectKey>
+	</insert>
+
+	<select id="countMySubscribePlaybill" resultClass="int"
+		parameterClass="com.video.util.Pagination">
+		select count(distinct(special_id)) from w_spe_subscribe
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="condition.id">
+				user_id=#condition.id#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	<select id="getMySubscribePlaybill" resultMap="subscribePlaybill"
+		parameterClass="com.video.util.Pagination">
+		select p.id,p.name, p.user_id, u.realname, p.description,
+		p.images,count(distinct(vs.video_id))
+		playbillsize,p.browse_count from w_specials p left join
+		w_spe_subscribe s on s.special_id = p.id left join
+		w_video_special vs on p.id = vs.special_id left join users u on
+		p.user_id = u.id where p.flag !=0
+		<isNotEmpty prepend="and" property="condition.id">
+			s.user_id=#condition.id#
+		</isNotEmpty>
+		group by p.id limit #startIndex#,#size#
+	</select>
+
+	<select id="countMyPlaybill"
+		parameterClass="com.video.util.Pagination" resultClass="int">
+		select count(id) from w_specials where flag != 0
+		<isNotEmpty prepend="and" property="condition.id">
+			user_id=#condition.id#
+		</isNotEmpty>
+	</select>
+
+	<select id="getMyPlaybill"
+		parameterClass="com.video.util.Pagination" resultMap="myPlaybill">
+		select
+		p.id,p.name,p.description,p.images,count(distinct(v.video_id))
+		playbillsize,p.browse_count browsecount,pc.id,
+		pc.name,count(distinct (s.user_id)) subscribecount,p.add_date
+		adddate ,count(distinct(pco.user_id)) commentcount ,u.id,
+		u.realname from w_specials p left join w_video_special v on
+		v.special_id=p.id left join w_playbill_channel pc on
+		p.channel_id=pc.id left join w_spe_subscribe s on s.special_id =
+		p.id left join w_playbill_comment pco on pco.playbill_id = p.id
+		left join users u on u.id=p.user_id where p.flag !=0
+		<isNotEmpty prepend="and" property="condition.id">
+			p.user_id=#condition.id#
+		</isNotEmpty>
+		group by p.id
+		<isNotEmpty prepend="order by" property="orderFieldName">
+			$orderFieldName$ desc
+		</isNotEmpty>
+		limit #startIndex#,#size#
+	</select>
+
+	<select id="countPlaybillByKey"
+		parameterClass="com.video.util.Pagination" resultClass="int">
+		select count(id) from w_specials where flag != 0
+		<isNotEmpty property="condition.name" prepend="and">
+			name like #condition.name# escape '!'
+		</isNotEmpty>
+		<isNotEmpty property="condition.description" prepend="or">
+			description like #condition.description# escape '!'
+		</isNotEmpty>
+	</select>
+	<select id="getPlaybillByKey"
+		parameterClass="com.video.util.Pagination" resultMap="myPlaybill">
+		select
+		p.id,p.name,p.description,p.images,count(distinct(v.video_id))
+		playbillsize,p.browse_count browsecount,pc.id,
+		pc.name,count(distinct (s.user_id)) subscribecount,p.add_date
+		adddate ,count(distinct(pco.user_id)) commentcount ,u.id,
+		u.realname from w_specials p left join w_video_special v on
+		v.special_id=p.id left join w_playbill_channel pc on
+		p.channel_id=pc.id left join w_spe_subscribe s on s.special_id =
+		p.id left join w_playbill_comment pco on pco.playbill_id = p.id
+		left join users u on u.id=p.user_id where p.flag != 0
+		<isNotEmpty property="condition.name" prepend="and">
+			p.name like #condition.name# escape '!'
+		</isNotEmpty>
+		<isNotEmpty property="condition.description" prepend="or">
+			p.description like #condition.description# escape '!'
+		</isNotEmpty>
+		group by p.id
+		<isNotEmpty prepend="order by" property="orderFieldName">
+			$orderFieldName$ desc
+		</isNotEmpty>
+		limit #startIndex#,#size#
+	</select>
+
+	<select id="countPlayBill"
+		parameterClass="com.video.util.Pagination" resultClass="int">
+		select count(id) from w_specials where flag != 0
+	</select>
+
+	<select id="getPlayBills" parameterClass="com.video.util.Pagination"
+		resultMap="PlaybillJoinMaps">
+		select p.id, p.flag, p.name, u.id, u.username,u.realname,
+		p.description, p.images, v.id, v.name, p.add_date
+		adddate,p.browse_count browsecount, count(distinct(vs.video_id))
+		playbillsize, count(distinct (s.user_id)) subscribe,
+		count(distinct(pc.user_id)) comments from w_specials p left join
+		w_spe_subscribe s on s.special_id = p.id left join
+		w_video_special vs on p.id = vs.special_id left join w_video v
+		on v.id = vs.video_id left join users u on p.user_id = u.id left
+		join w_playbill_comment pc on pc.playbill_id = p.id where p.flag
+		!=0 group by p.id
+		<isNotEmpty prepend="order by" property="orderFieldName">
+			$orderFieldName$ desc
+		</isNotEmpty>
+		limit #startIndex#,#size#
+	</select>
+	<select id="isSubscribe"
+		parameterClass="com.video.domain.IsSubscribe" resultClass="int">
+		select count(user_id) from w_spe_subscribe where
+		user_id=#userId# and special_id=#playbillId#
+	</select>
+	<insert id="createSubscribePlaybill"
+		parameterClass="com.video.domain.IsSubscribe">
+		insert into w_spe_subscribe(user_id,SPECIAL_ID,add_date)
+		values(#userId#,#playbillId#,#addDate#)
+	</insert>
+	<delete id="deleteSubscribePlaybill"
+		parameterClass="com.video.domain.IsSubscribe">
+		delete from w_spe_subscribe where user_id=#userId# and
+		special_id = #playbillId#
+	</delete>
+	<delete id="deleteSubscribeWithPlaybillId"
+		parameterClass="java.lang.Long">
+		delete from w_spe_subscribe where special_id = #id#
+	</delete>
+	<delete id="deleteConnWithPlaybillId"
+		parameterClass="java.lang.Long">
+		delete from w_video_special where special_id = #id#
+	</delete>
+	<select id="getPlayBill" parameterClass="java.lang.Long"
+		resultMap="PlaybillJoinMap">
+		select
+		p.id,p.name,p.flag,u.id,u.username,u.realname,u.face,p.description,p.images,v.id,v.name,p.add_date,
+		p.name,p.flag,u.id,u.username,p.description,p.browse_count,p.images,p.add_date,pc.id
+		from w_specials p left join w_video_special vs on
+		p.id=vs.special_id left join users u on p.user_id = u.id left
+		join w_video v on v.id=vs.video_id left join w_playbill_channel
+		pc on p.channel_id=pc.id where p.id =#value# and p.flag != 0
+		group by p.id
+	</select>
+
+	<update id="updatePlayBill" parameterClass="Playbill">
+		update w_specials set
+		name=#name#,description=#description#,images=#imagesUrl#,flag=#flag#,channel_id=#channel.id#
+		where id = #id#
+	</update>
+
+	<select id="getVideoAndPlayBill" parameterClass="VideoAndPlayBill"
+		resultClass="VideoAndPlayBill">
+		select video_id,special_id from w_video_special where
+		video_id=#videoId# and special_id=#playBillId#
+	</select>
+
+	<insert id="createVideoAndPlayBill"
+		parameterClass="VideoAndPlayBill">
+		insert into w_video_special(video_id,special_id)
+		values(#videoId#,#playBillId#)
+	</insert>
+
+	<delete id="deleteVideoAndPlayBill"
+		parameterClass="VideoAndPlayBill">
+		delete from w_video_special where video_id=#videoId# and
+		special_id = #playBillId#
+	</delete>
+	<delete id="deletePlaybill" parameterClass="java.lang.Long">
+		delete from w_specials where id=#id#
+	</delete>
+
+	<update id="updatePlaybillWithBrowseCount"
+		parameterClass="Playbill">
+		update w_specials set browse_count = browse_count+1 where id =
+		#id#
+	</update>
+
+</sqlMap>
