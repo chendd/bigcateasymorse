@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Daily">
+	<typeAlias alias="Daily" type="com.video.domain.Daily" />
+
+	<resultMap class="Daily" id="Daily">
+		<result column="id" property="id" />
+		<result column="title" property="title"  />
+		<result column="add_date" property="addDate"
+			 />
+		<result column="update_date" property="updateDate"
+			 />
+		<result column="browse_times" property="browseTimes"
+			 />
+		<result column="top_date" property="topDate"
+			 />
+		<result column="hot_date" property="hotDate"
+			/>
+		<result column="expense" property="expense"  />
+		<result column="grade" property="grade"  />
+		<result column="recommend_date" property="recommendDate"
+			 />
+		<result column="point" property="point"  />
+		<result column="flag" property="flag" />
+		<result column="log" property="log"  />
+		<result column="user_id" property="userId"  />
+		<result column="channel_id" property="channelId"
+			 />
+		<result column="hot_date"  property="hotDate" />
+	</resultMap>
+		<resultMap class="com.video.domain.DailyTag" id="DailyTagsSimple">
+		<result property="id" column="T.ID"/>
+		<result property="name" column="T.NAME"/>
+	
+	</resultMap>
+	
+	<resultMap class="Daily" id="DailyJion" groupBy="id">
+	<result property="id" column="d.id"/>
+		<result property="title" column="d.title"/>
+		<result property="log" column="d.log"/>
+		<result property="addDate" column="d.add_date"/>
+		<result property="user.id" column="d.userid"/>
+		<result property="user.realName" column="d.realname"/>
+		<result property="browseTimes" column="d.browse_times"/>
+		<result property="channel.id" column="d.channelid"/>
+		<result property="channel.name" column="d.channelname"/>
+		<result property="point" column="d.point"/>
+		<result property="commentCount" column="d.commentcount"/>
+		<result property="tags" resultMap="Daily.DailyTagsSimple"/>
+	</resultMap>
+
+	<select id="countMyDaily" parameterClass="com.video.util.Pagination" resultClass="int">
+		select count(ID) from w_dailies 
+		<dynamic prepend="where">
+		<isNotEmpty property="condition.conditionId" prepend="and">
+				id in (select daily_id from w_daily_tag where tag_id =#condition.conditionId#)
+			</isNotEmpty>
+		
+			<isNotEmpty property="condition.user.id" prepend="and">
+				 user_id = #condition.user.id#
+			</isNotEmpty>
+			<isNotEmpty property="condition.channel.id" prepend="and">
+				channel_id = #condition.channel.id#
+			</isNotEmpty>
+		
+		</dynamic>
+		
+	</select>
+	<select id="getMyDailies" parameterClass="com.video.util.Pagination" resultMap="DailyJion">
+		select d.id,d.title,d.log,d.add_date,d.browse_times,d.commentcount,d.userid,d.realname,d.point,d.channelid,d.channelname,t.id,t.name from 
+		(select a.id id,a.title title,a.log log,a.add_date add_date,a.browse_times,a.point point,count(c.id)  commentcount,u.id userid,u.realname realname,g.id 
+		channelid,g.name channelname from w_dailies a left join w_daily_comments c on c.daily_id = a.id left join users u 
+		on u.id=a.user_id left join w_dailychannels g on g.id = a.channel_id 
+		<dynamic prepend="where">
+			<isNotEmpty property="condition.conditionId" prepend="and">
+				a.id in (select daily_id from w_daily_tag where tag_id =#condition.conditionId#)
+			</isNotEmpty>
+			
+		
+		</dynamic>
+		
+		group by a.id desc) d left join w_daily_tag e on d.id = e.daily_id 
+		left join w_dailytags t on t.id = e.tag_id  
+		<dynamic prepend="where">
+			<isNotEmpty property="condition.user.id" prepend="and">
+				 d.userid = #condition.user.id#
+			</isNotEmpty>
+			<isNotEmpty property="condition.channel.id" prepend="and">
+				 d.channelid = #condition.channel.id#
+			</isNotEmpty>
+			
+		
+		</dynamic>
+	
+	
+	</select>
+	
+	
+	
+	
+	<select id="getDailysByChannelId" resultMap="Daily"
+		parameterClass="java.lang.Long">
+		select id, title, add_date, update_date, browse_times,
+		top_date,hot_date, expense, grade, recommend_date, point,
+		user_id, channel_id, flag,log from w_dailies where
+		channel_id=#id#
+	</select>
+	<select id="getDailyById" resultMap="Daily"
+		parameterClass="java.lang.Long">
+		select id, title, add_date, update_date, browse_times,
+		top_date,hot_date, expense, grade, recommend_date, point,
+		user_id, channel_id, flag,log from w_dailies where id=#id#
+	</select>
+	<select id="countDailies" resultClass="int"
+		parameterClass="com.video.util.Pagination">
+		select count(id) from w_dailies
+		<dynamic prepend="where">
+			<isNotEmpty property="condition.title" prepend="and">
+				title like #condition.title# escape '!'
+			</isNotEmpty>
+			<isNotEmpty property="condition.log" prepend="and">
+				log like #condition.log# escape '!'
+			</isNotEmpty>
+			<isNotEmpty property="condition.channelId" prepend="and">
+				channel_id = #condition.channelId#
+			</isNotEmpty>
+			<isNotEmpty property="condition.userId" prepend="and">
+				channel_id = #condition.userId#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	<select id="getDailies" resultMap="Daily"
+		parameterClass="com.video.util.Pagination">
+		select id, title, add_date, update_date, browse_times,
+		top_date,hot_date, expense, grade, recommend_date, point,
+		user_id, channel_id, log,flag from w_dailies
+		<dynamic prepend="where">
+			<isNotEmpty property="condition.title" prepend="and">
+				title like #condition.title# escape '!'
+			</isNotEmpty>
+			<isNotEmpty property="condition.log" prepend="and">
+				log like #condition.log# escape '!'
+			</isNotEmpty>
+			<isNotEmpty property="condition.channelId" prepend="and">
+				channel_id = #condition.channelId#
+			</isNotEmpty>
+			<isNotEmpty property="condition.channelId" prepend="and">
+				user_id = #condition.userId#
+			</isNotEmpty>
+		</dynamic>
+		<isNotEmpty prepend="order by" property="orderFieldName">
+			$orderFieldName$
+		</isNotEmpty>
+		<isEqual compareValue="true" property="desc">desc</isEqual>
+		limit #startIndex#,#size#
+	</select>
+	<insert id="createDaily" parameterClass="Daily">
+		insert into w_dailies ( title, add_date, update_date,
+		browse_times, top_date, expense, grade, recommend_date, point,
+		user_id, channel_id, log,log2,hot_date) values (
+		#title#, #addDate#, #updateDate#,
+		#browseTimes#, #topDate#, #expense#,
+		#grade#, #recommendDate#, #point#,
+		#userId#, #channelId#,
+		#log#,#log2#,#hotDate#) 
+		<selectKey keyProperty="id">select last_insert_id()</selectKey>
+	</insert>
+	<update id="updateDailyChannelByChannelId" parameterClass="Daily">
+		update w_dailies set channel_id = #id:BIGINT# where id =
+		#channelId:BIGINT#
+	</update>
+	<update id="updateDailyWithChannelIdById" parameterClass="Daily">
+		update w_dailies set channel_id = #channelId:BIGINT# where id =
+		#id:BIGINT#
+	</update>
+	<update id="updateDailyCleanByChannelId"
+		parameterClass="java.lang.Long">
+		update w_dailies set flag = '-1' where channel_id =#id#
+	</update>
+	<update id="updateDailyTopById" parameterClass="Daily">
+		update w_dailies set top_date = #topDate:TIMESTAMP# where id
+		=#id#
+	</update>
+	<update id="updateDailyHotById" parameterClass="Daily">
+		update w_dailies set hot_date = #hotDate:TIMESTAMP# where id
+		=#id#
+	</update>
+	<update id="updateDailyRecommendById" parameterClass="Daily">
+		update w_dailies set recommend_date = #recommendDate:TIMESTAMP#
+		where id =#id#
+	</update>
+	<update id="updateDaily" parameterClass="Daily">
+		update w_dailies set title = #title#, add_date =
+		#addDate#, update_date = #updateDate#,
+		browse_times = #browseTimes#, top_date =
+		#topDate#, expense = #expense#, grade =
+		#grade#, recommend_date = #recommendDate#, point =
+		#point#, user_id = #userId#, channel_id =
+		#channelId#, flag = #flag#, hot_date =
+		#hotDate#, log = #log#,log2 = #log2# where id =
+		#id#
+	</update>
+	<delete id="deleteDailyByChannelId"
+		parameterClass="java.lang.Long">
+		delete from w_dailies where channel_id = #id:BIGINT#
+	</delete>
+	<delete id="deleteDaily" parameterClass="java.lang.Long">
+		delete from w_dailies where id = #id:BIGINT#
+	</delete>
+</sqlMap>

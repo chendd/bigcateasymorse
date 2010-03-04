@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="BrowseHistoryVideo">
+	<typeAlias alias="BrowseHistoryVideo" type="com.video.domain.BrowseHistoryVideo" />
+	
+	<resultMap class="com.video.domain.BrowseHistoryVideo"
+		id="BrowseHistoryVideo">
+		
+		<result column="video_id" property="video.id" />
+		<result column="user_id" property="user.id" />
+		<result column="add_date" property="addDate" />
+	</resultMap>
+	
+	<resultMap class="com.video.domain.BrowseHistoryVideo"
+		id="BrowseHistoryVideoJoin">
+		
+		<result column="v.id" property="video.channel.id" />
+		<result column="v.channel_id" property="video.id" />
+		<result column="h.user_id" property="user.id" />
+		<result column="h.add_date" property="addDate" />
+	</resultMap>
+	
+	
+	
+	
+
+
+</sqlMap>

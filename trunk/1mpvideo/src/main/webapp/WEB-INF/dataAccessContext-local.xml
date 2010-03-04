@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+
+<beans>
+
+	<!-- ========================= RESOURCE DEFINITIONS ========================= -->
+
+	<!-- Local Apache Commons DBCP DataSource that refers to a combined database -->
+	<!-- (see dataAccessContext-jta.xml for an alternative) -->
+	<!-- The placeholders are resolved from jdbc.properties through -->
+	<!-- the PropertyPlaceholderConfigurer in applicationContext.xml
+		<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName"
+		value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		</bean>
+	-->
+
+	<!--
+		<bean id="proxoolPool"
+		class="org.logicalcobwebs.proxool.ProxoolDataSource"
+		destroy-method="close">
+		<property name="driver" value="${jdbc.driverClassName}" />
+		<property name="driverUrl" value="${jdbc.url}" />
+		<property name="user" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<alias>是连接池的别名，proxoolPool连接池的一种，此外经常使用的连接池还有C3P0 
+		<property name="alias" value="db.proxoolPool" />
+		proxool自动侦察各个连接状态的时间间隔(毫秒),侦察到空闲的连接就马上回收,超时的销毁 （默认30秒）
+		<property name="houseKeepingSleepTime">
+		<value>60000</value>
+		</property>
+		最少保持的空闲连接数 （默认5个）
+		<property name="prototypeCount" value="20" />
+		设置连接池内生成的最大连接数/在连接池中所有数据库连接的最大数目（默认15个） 
+		<property name="maximumConnectionCount" value="40" />
+		设置连接池内生成的最小连接数/在连接池中可用的数据库连接的最少数目（默认5个）
+		<property name="minimumConnectionCount" value="10" />
+		在Consonl中显示sql 
+		<property name="trace" value="true" />
+		<property name="verbose" value="true" />
+		</bean>
+	-->
+	<!-- Transaction manager for a single JDBC DataSource -->
+	<!-- (see dataAccessContext-jta.xml for an alternative) -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- SqlMap setup for iBATIS Database Layer -->
+	<bean id="sqlMapClient"
+		class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation"
+			value="WEB-INF/sql-map-config.xml" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+
+	<!-- ========================= DAO DEFINITIONS: IBATIS IMPLEMENTATIONS ========================= -->
+	<!--
+		<bean id="demoDao" class="com.video.dao.ibatis.DemoDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+		</bean>
+	-->
+
+	<bean id="groupRequestDao"
+		class="com.video.dao.ibatis.GroupRequestDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+	<bean id="systemNoticeDao"
+		class="com.video.dao.ibatis.SystemNoticeDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+	<bean id="userRequestDao"
+		class="com.video.dao.ibatis.UserRequestDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+	<bean id="dailyChannelDao"
+		class="com.video.dao.ibatis.DailyChannelDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+	<bean id="blogWordDao"
+		class="com.video.dao.ibatis.BlogWordDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+	<bean id="dailyDao" class="com.video.dao.ibatis.DailyDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+	<bean id="administratorDao"
+		class="com.video.dao.ibatis.AdministratorDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+	<bean id="tagDao" class="com.video.dao.ibatis.TagDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="blogHistoryDao"
+		class="com.video.dao.ibatis.BlogHistoryDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="groupHistoryDao"
+		class="com.video.dao.ibatis.GroupHistoryDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	
+	<bean id="dailyHistoryDao"
+		class="com.video.dao.ibatis.DailyHistoryDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+	<bean id="dailyTagDao"
+		class="com.video.dao.ibatis.DailyTagDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+	<bean id="whisperDao" class="com.video.dao.ibatis.WhisperDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+	<bean id="userDao" class="com.video.dao.ibatis.UserDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+	<bean id="groupDao" class="com.video.dao.ibatis.GroupDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	
+	<bean id="eventDao" class="com.video.dao.ibatis.EventDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+	<bean id="groupAndUserDao"
+		class="com.video.dao.ibatis.GroupAndUserDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="topicDao" class="com.video.dao.ibatis.TopicDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="topicCommentDao"
+		class="com.video.dao.ibatis.TopicCommentDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+	<bean id="dailyAndTagDao"
+		class="com.video.dao.ibatis.DailyAndTagDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+	<bean id="dailyReplyDao"
+		class="com.video.dao.ibatis.DailyReplyDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="videoChannelDao"
+		class="com.video.dao.ibatis.VideoChannelDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="videoDao" class="com.video.dao.ibatis.VideoDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+	<bean id="candidateVideoDao"
+		class="com.video.dao.ibatis.CandidateVideoDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="commentDao" class="com.video.dao.ibatis.CommentDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="playbillDao"
+		class="com.video.dao.ibatis.PlaybillDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="indexRecommendVideoDao"
+		class="com.video.dao.ibatis.IndexRecommendVideoDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="mayLikeVideoDao"
+		class="com.video.dao.ibatis.MayLikeVideoDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="uploadVideoDao"
+		class="com.video.dao.ibatis.UploadVideoDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+
+	<bean id="keywordChannelDao"
+		class="com.video.dao.ibatis.KeywordChannelDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="systemKeywordDao"
+		class="com.video.dao.ibatis.SystemKeywordDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="userKeywordDao"
+		class="com.video.dao.ibatis.UserKeywordDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="commendPlaybillDao"
+		class="com.video.dao.ibatis.CommendPlaybillDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+	<bean id="collectionVideoDao"
+		class="com.video.dao.ibatis.CollectionVideoDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="playbillChannelDao"
+		class="com.video.dao.ibatis.PlaybillChannelDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	<bean id="safeCodeDao"
+		class="com.video.dao.ibatis.SafeCodeDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	
+	<bean id="noticeDao"
+		class="com.video.dao.ibatis.NoticeDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+
+	<!-- 
+		<bean id="categoryDao" class="org.springframework.samples.jpetstore.dao.ibatis.SqlMapCategoryDao">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+		</bean>
+		
+		<bean id="productDao" class="org.springframework.samples.jpetstore.dao.ibatis.SqlMapProductDao">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+		</bean>
+		
+		<bean id="itemDao" class="org.springframework.samples.jpetstore.dao.ibatis.SqlMapItemDao">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+		</bean>
+	-->
+	<!-- Refers to the combined database here -->
+	<!-- (see dataAccessContext-jta.xml for an alternative) -->
+	<!--
+		<bean id="orderDao" class="org.springframework.samples.jpetstore.dao.ibatis.SqlMapOrderDao">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+		<property name="sequenceDao" ref="sequenceDao"/>
+		</bean>
+	-->
+	<!-- OrderDao definition for MS SQL Server -->
+	<!-- (to be used instead of the default orderDao) -->
+	<!--
+		<bean id="orderDao" class="org.springframework.samples.jpetstore.dao.ibatis.MsSqlOrderDao">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+		<property name="sequenceDao" ref="sequenceDao"/>
+		</bean>
+	-->
+
+	<!-- Refers to the combined database here -->
+	<!-- (see dataAccessContext-jta.xml for an alternative) -->
+	<!--
+		<bean id="sequenceDao" class="org.springframework.samples.jpetstore.dao.ibatis.SqlMapSequenceDao">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+		</bean>
+	-->
+	<!-- SequenceDao definition for Oracle databases -->
+	<!-- (to be used instead of the default sequenceDao) -->
+	<!--
+		<bean id="sequenceDao" class="org.springframework.samples.jpetstore.dao.ibatis.OracleSequenceDao">
+		<property name="sqlMapClient" ref="sqlMapClient"/>
+		</bean>
+	-->
+
+</beans>

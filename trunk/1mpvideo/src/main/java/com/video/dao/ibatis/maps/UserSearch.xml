@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="usersearch">
+	<typeAlias alias="usersearch" type="com.video.domain.UserKeyword" />
+	<resultMap class="usersearch" id="usersearch">
+		<result column="id" property="id" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="add_date" property="addDate" />
+	</resultMap>
+
+	<select id="getUserSearchWithForeFront"
+		parameterClass="java.lang.Integer" resultMap="usersearch">
+		select id, name,add_date from w_prokeywords order by add_date desc limit
+		0,#size#
+	</select>
+	<insert id="createUserSearch" parameterClass="usersearch">
+		insert into w_prokeywords(name,add_date)
+		values(#name#,#addDate#)
+		<selectKey keyProperty="id">select last_insert_id()</selectKey>
+	</insert>
+	<select id="getUserSearchByName" parameterClass="usersearch"
+		resultMap="usersearch">
+		select id,name,add_date from w_prokeywords
+		<dynamic prepend="where">
+			<isNotEmpty property="name" prepend="and">
+				name = #name#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	<update id="updateUserSearch" parameterClass="usersearch">
+		update w_prokeywords set add_date=#addDate# where id = #id#
+	</update>
+</sqlMap>

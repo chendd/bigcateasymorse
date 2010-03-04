@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+       "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+<tiles-definitions>
+	<definition name="main" path="/WEB-INF/layout/mainLayout.jsp">
+		<put name="header" value="/header.jsp" />
+		<put name="body" value="/welcome.jsp" />
+		<put name="footer" value="/footer.jsp" />
+	</definition>
+	<definition name="userMain" path="/WEB-INF/layout/userLayout.jsp">
+		<put name="header" value="/header.jsp" />
+		<put name="body" value="/welcome.jsp" />
+		<put name="footer" value="/footer.jsp" />
+	</definition>
+	<definition name="main2" path="/WEB-INF/layout/mainLayout2.jsp">
+		<put name="header" value="/header.jsp" />
+		<put name="body" value="/welcome.jsp" />
+		<put name="footer" value="/footer.jsp" />
+	</definition>
+	<definition name="videoUpload" extends="main">
+		<put name="body" value="/WEB-INF/video/videoUpload.jsp" />
+	</definition>
+	<definition name="videoInfo" extends="main">
+		<put name="body" value="/WEB-INF/video/videoInfo.jsp" />
+	</definition>
+	<definition name="forgotPassword" extends="main">
+		<put name="body" value="/WEB-INF/user/forgot_password.jsp" />
+	</definition>
+	<definition name="resetPassword" extends="main">
+		<put name="body" value="/WEB-INF/user/reset_password.jsp" />
+	</definition>
+	
+	<definition name="groups" extends="main">
+		<put name="body" value="/WEB-INF/group/groups.jsp" />
+	</definition>
+	<definition name="topices" extends="main">
+		<put name="body" value="/WEB-INF/group/topices.jsp" />
+	</definition>
+	<definition name="updateInfo" extends="main">
+		<put name="body" value="/WEB-INF/user/update_info.jsp" />
+	</definition>
+	<definition name="updatePassword" extends="main">
+		<put name="body" value="/WEB-INF/user/update_password.jsp" />
+	</definition>
+	<definition name="updateEmail" extends="main">
+		<put name="body" value="/WEB-INF/user/update_email.jsp" />
+	</definition>
+	<definition name="updateFace" extends="main">
+		<put name="body" value="/WEB-INF/user/update_face.jsp" />
+	</definition>
+	<definition name="updateSignature" extends="main">
+		<put name="body" value="/WEB-INF/user/update_signature.jsp" />
+	</definition>
+	<definition name="createGroup" extends="main">
+		<put name="body" value="/WEB-INF/group/createGroup.jsp" />
+	</definition>
+	<definition name="updateGroup" extends="main">
+		<put name="body" value="/WEB-INF/group/updateGroup.jsp" />
+	</definition>
+	<definition name="toWriteGroupInvite" extends="main">
+		<put name="body" value="/WEB-INF/message/writeGroupInvite.jsp" />
+	</definition>
+
+	<definition name="createDaily" extends="main">
+		<put name="body" value="/WEB-INF/vblog/createDaily.jsp" />
+	</definition>
+	<definition name="updateDaily" extends="main">
+		<put name="body" value="/WEB-INF/vblog/updateDaily.jsp" />
+	</definition>
+
+	<definition name="blogList" extends="main">
+	<put name="header" value="/headerp.jsp" />
+		<put name="body" value="/WEB-INF/vblog/blogList.jsp" />
+	</definition>
+
+	<definition name="showDaily" extends="main">
+		<put name="body" value="/WEB-INF/vblog/showDaily.jsp" />
+	</definition>
+	<definition name="myBox" extends="main">
+		<put name="body" value="/WEB-INF/message/myBox.jsp" />
+	</definition>
+	<definition name="mySendBox" extends="main">
+		<put name="body" value="/WEB-INF/message/mySendBox.jsp" />
+	</definition>
+	<definition name="vblog" extends="main">
+		<put name="body" value="/WEB-INF/vblog/index.jsp" />
+	</definition>
+	<definition name="readSystemNotice" extends="main">
+		<put name="body" value="/WEB-INF/message/readSystemNotice.jsp" />
+	</definition>
+
+	<definition name="readMessage" extends="main">
+		<put name="body" value="/WEB-INF/message/readMessage.jsp" />
+	</definition>
+
+	<definition name="mySystemNotices" extends="main">
+		<put name="body" value="/WEB-INF/message/mySystemNotices.jsp" />
+	</definition>
+
+	<definition name="myMessages" extends="main">
+		<put name="body" value="/WEB-INF/message/myMessages.jsp" />
+	</definition>
+	<definition name="writeMessage" extends="main">
+		<put name="body" value="/WEB-INF/message/writeMessage.jsp" />
+	</definition>
+
+
+	<definition name="home" extends="userMain">
+	<put name="header" value="/headerp.jsp" />
+		<put name="body" value="/WEB-INF/vblog/home.jsp" />
+	</definition>
+
+
+	<definition name="topicUpdate" extends="main">
+		<put name="body" value="/WEB-INF/group/topicUpdate.jsp" />
+	</definition>
+	<definition name="topicAdd" extends="main">
+		<put name="body" value="/WEB-INF/group/topicAdd.jsp" />
+	</definition>
+	<definition name="groupNotFind" extends="main2">
+		<put name="body" value="/errorPage/groupNoFound.html" />
+	</definition>
+	<definition name="joinGroup" extends="main2">
+		<put name="body" value="/errorPage/groupNoJoin.html" />
+	</definition>
+	<definition name="topic" extends="main2">
+		<put name="body" value="/WEB-INF/group/topic.jsp" />
+	</definition>
+	<definition name="group" extends="main">
+		<put name="body" value="/WEB-INF/group/index.jsp" />
+	</definition>
+	<definition name="showGroup" extends="main2">
+		<put name="body" value="/WEB-INF/group/showGroup.jsp" />
+	</definition>
+
+	<definition name="groupMembers" extends="main2">
+		<put name="body" value="/WEB-INF/group/groupMembers.jsp" />
+	</definition>
+
+	<definition name="groupVideoes" extends="main2">
+		<put name="body" value="/WEB-INF/group/groupVideoes.jsp" />
+	</definition>
+
+	<definition name="groupTopices" extends="main2">
+		<put name="body" value="/WEB-INF/group/groupTopices.jsp" />
+	</definition>
+
+	<definition name="index" extends="main">
+		<put name="body" value="/WEB-INF/index.jsp" />
+	</definition>
+	<definition name="videotagindex" extends="main">
+		<put name="body" value="/WEB-INF/videotag/index.jsp" />
+	</definition>
+	<definition name="searchindex" extends="main">
+		<put name="body" value="/WEB-INF/search/index.jsp" />
+	</definition>
+	<definition name="searchplaybill" extends="main">
+		<put name="body" value="/WEB-INF/search/searchplaybill.jsp" />
+	</definition>
+	<definition name="searchvideo" extends="main">
+		<put name="body" value="/WEB-INF/search/searchvideo.jsp" />
+	</definition>
+	<definition name="searchvblog" extends="main">
+		<put name="body" value="/WEB-INF/search/searchvblog.jsp" />
+	</definition>
+	<definition name="searcherror" extends="main">
+		<put name="body" value="/WEB-INF/search/searcherror.jsp" />
+	</definition>
+	<definition name="videowithtagid" extends="main">
+		<put name="body" value="/WEB-INF/video/videowithtagid.jsp" />
+	</definition>
+	<definition name="videowithkey" extends="main">
+		<put name="body" value="/WEB-INF/video/videowithkey.jsp" />
+	</definition>
+	<definition name="playbillindex" extends="main">
+		<put name="body" value="/WEB-INF/playbill/index.jsp" />
+	</definition>
+	<definition name="playbilllist" extends="main">
+		<put name="body" value="/WEB-INF/playbill/playbilllist.jsp" />
+	</definition>
+	<definition name="videoindex" extends="main">
+		<put name="body" value="/WEB-INF/video/index.jsp" />
+	</definition>
+	<definition name="myvideolist" extends="main">
+		<put name="body" value="/WEB-INF/video/myvideolist.jsp" />
+	</definition>
+	<definition name="playvideo" extends="main">
+		<put name="body" value="/WEB-INF/video/playvideo.jsp" />
+	</definition>
+	<definition name="nofindvideo" extends="main">
+		<put name="body" value="/WEB-INF/video/nofindvideo.jsp" />
+	</definition>
+	<definition name="addvideotoplaybill" extends="main">
+		<put name="body"
+			value="/WEB-INF/playbill/addvideotoplaybill.jsp" />
+	</definition>
+	<definition name="playplaybill" extends="main">
+		<put name="body" value="/WEB-INF/playbill/playplaybill.jsp" />
+	</definition>
+	<definition name="newplaybill" extends="main">
+		<put name="body" value="/WEB-INF/playbill/newplaybill.jsp" />
+	</definition>
+	<definition name="myplaybilllist" extends="main">
+		<put name="body" value="/WEB-INF/playbill/myplaybilllist.jsp" />
+	</definition>
+	<definition name="modifyplaybill" extends="main">
+		<put name="body" value="/WEB-INF/playbill/modifyplaybill.jsp" />
+	</definition>
+	<definition name="modifyplaybillimage" extends="main">
+		<put name="body"
+			value="/WEB-INF/playbill/modifyplaybillimage.jsp" />
+	</definition>
+	<definition name="modifyPlaybillVideo" extends="main">
+		<put name="body"
+			value="/WEB-INF/playbill/modifyplaybillvideo.jsp" />
+	</definition>
+	<definition name="playbillerror" extends="main">
+		<put name="body" value="/WEB-INF/playbill/playbillerror.jsp" />
+	</definition>
+	<definition name="register" extends="main">
+		<put name="body" value="/register.jsp" />
+	</definition>
+	<definition name="login" extends="main">
+		<put name="body" value="/login.jsp" />
+	</definition>
+	
+	<definition name="myfans" extends="main">
+		<put name="body" value="/WEB-INF/vblog/myfans.jsp" />
+	</definition>
+	
+	
+	<definition name="myfriends" extends="main">
+		<put name="body" value="/WEB-INF/vblog/myfriends.jsp" />
+	</definition>
+	<definition name="userVideoes" extends="main">
+	<put name="header" value="/headerp.jsp" />
+		<put name="body" value="/WEB-INF/vblog/userVideoes.jsp" />
+	</definition>
+	<definition name="userPlayBills" extends="main">
+	<put name="header" value="/headerp.jsp" />
+		<put name="body" value="/WEB-INF/vblog/userPlayBills.jsp" />
+	</definition>
+	
+	<definition name="notices" extends="main">
+		<put name="body" value="/WEB-INF/notices.jsp" />
+	</definition>
+	
+		<definition name="invite" extends="main">
+		<put name="body" value="/WEB-INF/invite.jsp" />
+	</definition>
+		<definition name="invite_ok" extends="main">
+		<put name="body" value="/WEB-INF/invert_ok.jsp" />
+	</definition>
+	
+	
+	
+</tiles-definitions>

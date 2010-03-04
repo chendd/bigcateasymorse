@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="collectionVideo">
+	<typeAlias alias="collectionVideo"
+		type="com.video.domain.CollectionVideo" />
+	<resultMap class="collectionVideo" id="collectionVideo">
+		<result column="user_id" property="user.id" />
+		<result column="video_id" property="video.id" />
+		<result column="add_date" property="collectionDate" />
+	</resultMap>
+
+	<select id="countCollection" parameterClass="java.lang.Long"
+		resultClass="int">
+		select count(c.user_id) from w_collections c where
+		c.video_id=#value#
+	</select>
+
+	<insert id="createCollection" parameterClass="collectionVideo">
+		insert into w_collections(user_id,video_id,add_date) values
+		(#user.id#,#video.id#,#collectionDate#)
+	</insert>
+	<select id="getCollection" parameterClass="collectionVideo"
+		resultMap="collectionVideo">
+		select user_id,video_id,add_date from w_collections
+		<dynamic prepend="where">
+			<isNotEmpty property="user.id" prepend="and">
+				user_id = #user.id#
+			</isNotEmpty>
+			<isNotEmpty property="video.id" prepend="and">
+				video_id = #video.id#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+</sqlMap>

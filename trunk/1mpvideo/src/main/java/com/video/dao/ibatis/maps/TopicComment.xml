@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="TopicComment">
+	<typeAlias alias="TopicComment" type="com.video.domain.TopicComment" />
+	<resultMap id="TopicComment" class="TopicComment">
+		<result property="id" column="id" />
+		<result property="addDate" column="add_date" />
+		<result property="comment" column="comment" />
+		<result property="topic.id" column="topic_id" />
+		<result property="user.id" column="user_id" />
+
+	</resultMap>
+	<resultMap id="TopicCommentJoin" class="TopicComment">
+		<result property="id" column="c.id" />
+		<result property="addDate" column="c.add_date" />
+		<result property="comment" column="c.comment" />
+		<result property="user.id" column="u.id" />
+		<result property="user.realName" column="u.realname" />
+		<result property="user.face" column="u.face" />
+	</resultMap>
+	
+	<select id="countTopicComments" parameterClass="com.video.util.Pagination" resultClass="int">
+	select count(*) from w_topic_comments 
+	<dynamic prepend="where">
+			<isNotEmpty property="condition.topic.id" prepend="and">
+			topic_id = #condition.topic.id#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getTopicComments" parameterClass="com.video.util.Pagination" resultMap="TopicCommentJoin">
+	select c.id,c.add_date,c.comment,u.id,u.realname,u.face from w_topic_comments c left join users u on c.user_id = u.id 
+	<dynamic prepend="where">
+			<isNotEmpty property="condition.topic.id" prepend="and">
+			c.topic_id = #condition.topic.id#
+			</isNotEmpty>
+		</dynamic>
+	order by c.add_date desc 
+	limit #startIndex#,#size#
+	
+	</select>
+	
+	<select id="getTopicCommentById" parameterClass="java.lang.Long" resultMap="TopicComment">
+	select id,add_date,comment,topic_id,user_id  from w_topic_comments limit 1
+
+	</select>
+	
+	<insert id="createTopicComment" parameterClass="TopicComment" >
+	insert into w_topic_comments(add_date,comment,topic_id,user_id) values(#addDate#,#comment#,#topic.id#,#user.id#)
+	
+	</insert>
+	
+	<delete id="deleteTopicComment" parameterClass="java.lang.Long" >
+	delete from w_topic_comments where id = #value#
+	
+	</delete>
+	
+	<delete id="deleteTopicCommentByTopicId" parameterClass="java.lang.Long" >
+	delete from w_topic_comments where topic_id = #value#
+	
+	</delete>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	</sqlMap>

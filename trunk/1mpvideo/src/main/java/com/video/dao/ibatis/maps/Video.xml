@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="video">
+	<typeAlias alias="video" type="com.video.domain.Video" />
+	<typeAlias type="com.video.domain.BrowseHistoryVideo" alias="browseHistoryVideo" />
+	<typeAlias type="com.video.domain.connection.ChannelCount" alias="ChannelCount" />
+	<typeAlias alias="videoAndTag" type="com.video.domain.connection.VideoAndTag" />
+	<typeAlias alias="PointHistory" type="com.video.domain.PointHistory" />
+	<resultMap class="com.video.domain.connection.VideoAndTag"
+		id="videoAndTag">
+		<result column="tag_id" property="tagId" />
+		<result column="video_id" property="videoId" />
+	</resultMap>
+	<resultMap class="com.video.domain.connection.ChannelCount"
+		id="ChannelCount">
+		
+		<result column="channel_id" property="channel.id" />
+		<result column="count" property="count" />
+	
+	</resultMap>
+	
+	
+	<resultMap id="video" class="video">
+		<result column="id" property="id" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="add_date" property="addDate" jdbcType="TIMESTAMP" />
+		<result column="browse_count" property="browseCount" jdbcType="INTEGER" />
+		<result column="video_size" property="videoSize" jdbcType="INTEGER" />
+		<result column="time_length" property="videoTime" jdbcType="INTEGER" />
+		<result column="point" property="point" jdbcType="INTEGER" />
+		<result column="notify" property="notify" jdbcType="TINYINT" />
+		<result column="push_count" property="pushCount" jdbcType="INTEGER" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="flag" property="flag" jdbcType="INTEGER" />
+		<result column="channel_id" property="channelId" jdbcType="BIGINT" />
+		<result column="uploadvideo_id" property="uploadVideoId"
+			jdbcType="BIGINT" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="image" property="image" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	
+	<resultMap id="videoRand" class="video">
+		<result column="v.id" property="id" />
+		<result column="v.name" property="name"  />
+		<result column="v.browse_count" property="browseCount"  />
+		<result column="u.id" property="user.id" />
+		<result column="u.realname" property="user.realName" />
+		<result column="v.image" property="image"/>
+		<result column="v.description" property="description"  />
+		<result column="v.add_date" property="addDate"  />
+		<result column="commentcount" property="commentCount"  />
+	
+	</resultMap>
+	
+	<resultMap class="com.video.domain.Video" id="VideoJoin">
+		<result property="id" column="v.id" />
+		<result property="name" column="v.name" />
+		<result property="url" column="v.url" />
+		<result property="addDate" column="v.add_date" />
+		<result property="browseCount" column="v.browse_count" />
+		<result property="channel.id" column="v.channel_id" />
+		<result property="channel.name" column="c.name" />
+		<result property="user.id" column="u.id" />
+		<result property="user.userName" column="u.username" />
+		<result property="user.realName" column="u.realname" />
+		<result property="videoTime" column="v.time_length" />
+		<result property="videoSize" column="v.video_size" />
+		<result property="notify" column="v.notify" />
+		<result property="point" column="v.point" />
+		<result property="pushCount" column="v.push_count" />
+		<result property="password" column="v.password" />
+		<result property="description" column="v.description" />
+		<result property="flag" column="v.flag" />
+		<result property="image" column="v.image" />
+		<result property="commentCount" column="count(h.id)" />
+	</resultMap>
+	<resultMap class="com.video.domain.Video" id="VideoJoinUseTag">
+		<result property="id" column="v.id" />
+		<result property="name" column="v.name" />
+		<result property="url" column="v.url" />
+		<result property="addDate" column="v.add_date" />
+		<result property="browseCount" column="v.browse_count" />
+		<result property="channel.id" column="v.channel_id" />
+		<result property="user.id" column="u.id" />
+		<result property="user.userName" column="u.username" />
+		<result property="user.realName" column="u.realname" />
+		<result property="videoTime" column="v.time_length" />
+		<result property="videoSize" column="v.video_size" />
+		<result property="notify" column="v.notify" />
+		<result property="point" column="v.point" />
+		<result property="pushCount" column="v.push_count" />
+		<result property="password" column="v.password" />
+		<result property="description" column="v.description" />
+		<result property="flag" column="v.flag" />
+		<result property="image" column="v.image" />
+		<result property="commentCount" column="commentcount" />
+		<result property="collectionCount" column="v.id" select="countCollection" />
+	</resultMap>
+	<resultMap class="com.video.domain.Video" id="VideoJoinUseKey">
+		<result property="id" column="v.id" />
+		<result property="name" column="v.name" />
+		<result property="url" column="v.url" />
+		<result property="addDate" column="v.add_date" />
+		<result property="browseCount" column="v.browse_count" />
+		<result property="user.id" column="u.id" />
+		<result property="user.realName" column="u.realname" />
+		<result property="videoTime" column="v.time_length" />
+		<result property="videoSize" column="v.video_size" />
+		<result property="notify" column="v.notify" />
+		<result property="point" column="v.point" />
+		<result property="pushCount" column="v.push_count" />
+		<result property="password" column="v.password" />
+		<result property="description" column="v.description" />
+		<result property="flag" column="v.flag" />
+		<result property="image" column="v.image" />
+		<result property="commentCount" column="commentcount" />
+		<result property="collectionCount" column="v.id" select="countCollection" />
+	</resultMap>
+	<resultMap class="com.video.domain.Video" id="VideoSimple">
+		<result property="id" column="v.id" />
+		<result property="name" column="v.name" />
+		<result property="url" column="v.url" />
+		<result property="addDate" column="v.add_date" />
+		<result property="browseCount" column="v.browse_count" />
+		<result property="user.id" column="u.id" />
+		<result property="user.realName" column="u.realname" />
+		<result property="image" column="v.image" />
+		<result property="commentCount" column="commentcount" />
+	</resultMap>
+	<resultMap class="com.video.domain.PointHistory" id="PointHistory">
+		<result property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="videoId" column="video_id" />
+		<result property="addDate" column="add_date" />
+		<result property="point" column="point" />
+	</resultMap>
+	
+	<select id="getChannelTop" parameterClass="java.lang.Long" resultMap="ChannelCount">
+	select v.channel_id channel_id,count(v.id) count from w_play_history h left join w_video v on h.video_id = v.id 
+	where h.user_id = #value#  group by v.channel_id order by count desc limit 1
+	
+	</select>
+	
+	
+	<select id="countVideoesByGroupId" parameterClass="com.video.util.Pagination"
+		resultClass="int">
+		select count(*) from w_video where flag=1
+		<isNotEmpty property="condition.id" prepend="and"> USER_ID IN
+			(select user_id from w_group_user where group_id = #condition.id#)
+		</isNotEmpty>
+	</select>
+	<select id="getVideoesByGroupId" parameterClass="com.video.util.Pagination"
+		resultMap="VideoSimple">
+		select
+		v.id,v.name,v.url,v.add_date,v.browse_count,v.image,u.id,u.realname,count(h.id)
+		commentcount from w_video v left join users u on u.id = v.user_id left
+		join w_comments h on h.video_id = v.id where v.flag=1
+		<isNotEmpty property="condition.id" prepend="and"> v.user_id in 
+			(select user_id from w_group_user where group_id = #condition.id#)
+		</isNotEmpty>
+		GROUP BY v.id
+		<isNotEmpty prepend="order by" property="orderFieldName"> $orderFieldName$
+			DESC</isNotEmpty>
+		limit #startIndex#,#size#
+	</select>
+	<resultMap class="com.video.domain.Video" id="VideoWithPlaybill">
+		<result property="id" column="v.id" />
+		<result property="name" column="name" />
+		<result property="url" column="v.url" />
+		<result property="browseCount" column="browsecount" />
+		<result property="user.id" column="u.id" />
+		<result property="user.realName" column="u.realname" />
+		<result property="image" column="image" />
+		<result property="commentCount" column="commentcount" />
+	</resultMap>
+	<delete id="deleteVideoByChannelId" parameterClass="java.lang.Long"> delete from
+		w_video where channel_id = #channelId:BIGINT#</delete>
+	<update id="updateVideoByVideoChannelId" parameterClass="video"> update
+		w_video set flag = #flag:INTEGER# where channel_id =
+		#channelId:BIGINT#</update>
+	<update id="updateVideoWithChannelByVideoChannelId"
+		parameterClass="video"> update w_video set channel_id = #channelId:BIGINT#
+		where channel_id = #id:BIGINT#</update>
+	<select id="countVideoByTagId" parameterClass="com.video.util.Pagination"
+		resultClass="int">
+		select count(vt.video_id) from w_video v left join w_video_tag vt on
+		v.id = vt.video_id where v.flag = 1
+		<isNotEmpty property="condition.tagId" prepend="and"> vt.tag_id =
+			#condition.tagId#</isNotEmpty>
+	</select>
+	<select id="getVideoByTagId" parameterClass="com.video.util.Pagination"
+		resultMap="VideoJoinUseTag">
+		select count(h.id)
+		commentcount,v.id,v.name,v.url,v.add_date,v.browse_count,v.channel_id,u.realname,u.id,u.username,v.time_length,v.video_size,
+		v.notify,v.point,v.push_count,v.password,v.description,v.flag,v.image
+		from w_video v left join w_video_tag vt on v.id = vt.video_id left
+		join users u on v.user_id = u.id left join w_comments h on
+		h.video_id=v.id left join w_collections c on v.id=c.video_id where
+		v.flag = 1
+		<isNotEmpty property="condition.tagId" prepend="and"> vt.tag_id=
+			#condition.tagId#</isNotEmpty>
+		group by v.id
+		<isNotEmpty prepend="order by" property="orderFieldName">
+			<isEqual property="orderFieldName" compareValue="collectionCount"> (select
+				count(c.user_id) from w_collections c where c.video_id=v.id)
+			</isEqual>
+			<isNotEqual property="orderFieldName" compareValue="collectionCount">
+				$orderFieldName$</isNotEqual>
+			desc
+		</isNotEmpty>
+		limit #startIndex#,#size#
+	</select>
+	<select id="countVideoByKey" parameterClass="com.video.util.Pagination"
+		resultClass="int">
+		select count(id) from w_video where flag=1
+		<isNotEmpty property="condition.name" prepend="and"> name like
+			#condition.name# escape '!'</isNotEmpty>
+		<isNotEmpty property="condition.description" prepend="or">
+			description like #condition.description# escape '!'</isNotEmpty>
+	</select>
+	<select id="getVideoByKey" parameterClass="com.video.util.Pagination"
+		resultMap="VideoJoinUseKey">
+		select count(h.id)
+		commentcount,v.id,v.name,v.url,v.add_date,v.browse_count,u.id,u.realname,v.time_length,v.video_size,
+		v.notify,v.point,v.push_count,v.password,v.description,v.flag,v.image
+		from w_video v left join users u on v.user_id = u.id left join
+		w_comments h on h.video_id=v.id where v.flag = 1
+		<isNotEmpty property="condition.name" prepend="and"> v.name like
+			#condition.name# escape '!'</isNotEmpty>
+		<isNotEmpty property="condition.description" prepend="or">
+			v.description like #condition.description# escape '!'</isNotEmpty>
+		group by v.id
+		<isNotEmpty prepend="order by" property="orderFieldName">
+			<isEqual property="orderFieldName" compareValue="collectionCount"> (select
+				count(c.user_id) from w_collections c where c.video_id=v.id)
+			</isEqual>
+			<isNotEqual property="orderFieldName" compareValue="collectionCount">
+				$orderFieldName$</isNotEqual>
+			desc
+		</isNotEmpty>
+		limit #startIndex#,#size#
+	</select>
+	<select id="countVideoes" parameterClass="com.video.util.Pagination"
+		resultClass="int">
+		select count(id) from w_video where flag =1
+		<isNotEmpty property="condition.channel.id" prepend="and">
+			channel_id = #condition.channel.id#</isNotEmpty>
+		<isNotEmpty property="condition.user.id" prepend="and"> USER_ID =
+			#condition.user.id#</isNotEmpty>
+		<isNotEmpty property="condition.id" prepend="and"> ID !=
+			#condition.id#</isNotEmpty>
+	</select>
+	<select id="getVideoes" parameterClass="com.video.util.Pagination"
+		resultMap="VideoJoin">
+		select
+		count(h.id),v.id,v.name,v.channel_id,v.url,v.add_date,v.browse_count,c.id,c.name,u.id,u.username,u.realname,v.time_length,v.video_size,
+		v.notify,v.point,v.push_count,v.password,v.description,v.flag,v.image
+		from w_video v left join channels c on v.channel_id = c.id left join
+		users u on v.user_id = u.id left join w_comments h on h.video_id=v.id
+		where v.flag = 1
+		<isNotEmpty property="condition.channel.id" prepend="and"> c.id =
+			#condition.channel.id#</isNotEmpty>
+		<isNotEmpty property="condition.user.id" prepend="and"> v.user_id
+			= #condition.user.id#</isNotEmpty>
+		<isNotEmpty property="condition.id" prepend="and"> v.id !=
+			#condition.id#</isNotEmpty>
+		group by v.id
+		<isNotEmpty prepend="order by" property="orderFieldName"> $orderFieldName$
+			desc</isNotEmpty>
+		limit #startIndex#,#size#
+	</select>
+	<select id="countVideoByPlaybill" parameterClass="com.video.util.Pagination"
+		resultClass="int">
+		select count(vs.video_id) from w_video_special vs left join w_video v
+		on vs.video_id = v.id where v.flag =1
+		<dynamic prepend="and">
+			<isNotEmpty property="condition.id" prepend="and"> special_id =
+				#condition.id#</isNotEmpty>
+		</dynamic>
+	</select>
+	<select id="getVideoByPlaybill" parameterClass="com.video.util.Pagination"
+		resultMap="VideoWithPlaybill">
+		select v.id, v.name name, v.image image,v.url, u.id, u.realname,
+		count(distinct (c.id)) commentcount, v.browse_count
+		browsecount,v.add_date adddate from w_specials s left join
+		w_video_special vs on s.id = vs.special_id left join w_video v on
+		vs.video_id = v.id left join users u on v.user_id = u.id left join
+		w_comments c on c.video_id = v.id where v.flag =1
+		<isNotEmpty prepend="and" property="condition.id"> s.id=#condition.id#
+		</isNotEmpty>
+		group by v.id
+		<isNotEmpty prepend="order by" property="orderFieldName"> $orderFieldName$
+			desc</isNotEmpty>
+		limit #startIndex#,#size#
+	</select>
+	<select id="getPlaybillVideoList" parameterClass="java.lang.Long" resultMap="VideoWithPlaybill">
+		select v.id, v.name name, v.image image,v.url, u.id, u.realname,
+		COUNT(distinct (c.id)) commentcount, v.browse_count
+		browseCount,v.add_date addDate from w_specials s left join
+		w_video_special vs on s.id = vs.special_id left join w_video v on
+		vs.video_id = v.id left join users u on v.user_id = u.id left join
+		w_comments c on c.video_id = v.id where v.flag =1 and
+		 s.id=#value#
+		
+		group by v.id
+	
+	</select>
+	<select id="getVideoById" parameterClass="java.lang.Long"
+		resultMap="VideoJoin"> select
+		count(h.id),v.id,v.name,v.url,v.channel_id,v.add_date,v.browse_count,c.id,c.name,u.id,u.username,u.realname,v.time_length,v.video_size,
+		v.notify,v.point,v.push_count,v.password,v.description,v.flag,v.image
+		from w_video v left join channels c on v.channel_id = c.id left join
+		users u on v.user_id = u.id left join w_comments h on h.video_id=v.id
+		where v.id = #value# group by v.id</select>
+	<select id="getVideoIndex" parameterClass="com.video.util.Pagination"
+		resultMap="VideoWithPlaybill">
+		select v.id,v.name name,v.add_date adddate,v.url,v.browse_count
+		browsecount,u.id,u.realname,v.image image,count(distinct(c.id))
+		commentcount,count(distinct(co.user_id)) collectioncount,v.point point
+		from w_video v left join users u on v.user_id=u.id left join
+		w_comments c on c.video_id = v.id left join w_collections co on
+		v.id=co.video_id where v.flag=1 group by v.id
+		<isNotEmpty prepend="order by" property="orderFieldName"> $orderFieldName$
+			desc</isNotEmpty>
+		limit #startIndex#,#size#
+	</select>
+	<select id="countVideoByCommend" parameterClass="com.video.util.Pagination"
+		resultClass="int"> select count(distinct(video_id)) from w_index_recommend
+	</select>
+	<select id="getVideoIndexByCommend" parameterClass="com.video.util.Pagination"
+		resultMap="VideoWithPlaybill"> select v.id,ir.name name,v.add_date
+		addDate,v.url,v.browse_count browseCount,u.id,u.realname,ir.image
+		image,count(distinct(c.id)) commentcount,count(distinct(co.user_id))
+		collectionCount,v.point point from w_index_recommend ir left join
+		w_video v on ir.video_id=v.id left join users u on v.user_id=u.id left
+		join w_comments c on c.video_id = v.id left join w_collections co on
+		v.id=co.video_id where v.flag=1 group by v.id order by ord desc limit
+		#startIndex#,#size#</select>
+	<update id="updateVideo" parameterClass="video"> update w_video set
+		name=#name#,browse_count=#browseCount#,flag=#flag#,channel_id=#channel.id#,time_length=#videoTime#,video_size=#videoSize#,password=#password#,notify=#notify#,point=#point#,
+		push_count=#pushCount#,description=#description#,image=#image# where
+		id=#id#</update>
+	<select id="countBrowseHistoryByUserId" parameterClass="com.video.util.Pagination"
+		resultClass="int">
+		select count(video_id) from w_play_history ph left join w_video v on
+		ph.video_id=v.id where v.flag=1
+		<isNotEmpty property="condition.id" prepend="and"> ph.user_id =
+			#condition.id#</isNotEmpty>
+	</select>
+	<select id="getBrowseHistoryByUserId" parameterClass="com.video.util.Pagination"
+		resultMap="VideoWithPlaybill">
+		select v.id,v.name name,v.add_date addDate,v.url,v.browse_count
+		browseCount,u.id,u.realname,v.image image,count(distinct(c.id))
+		commentcount,count(distinct(co.user_id)) collectionCount,v.point point
+		from w_play_history p left join w_video v on p.video_id=v.id left join
+		users u on v.user_id=u.id left join w_comments c on c.video_id = v.id
+		left join w_collections co on v.id=co.video_id WHERE v.flag=1
+		<isNotEmpty property="condition.id" prepend="and"> p.user_id =
+			#condition.id#</isNotEmpty>
+		group by p.video_id order by p.add_date desc limit #startIndex#,#size#
+	</select>
+	<select id="countBrowseHistoryByGroupId" parameterClass="com.video.util.Pagination"
+		resultClass="int">
+		select count(a.video_id) from (select video_id from w_play_history
+		<dynamic prepend="where">
+			<isNotEmpty property="condition.id" prepend="and"> user_id in
+				(select user_id from w_group_user where group_id = #condition.id#)
+			</isNotEmpty>
+		</dynamic>
+		group by video_id) a
+	</select>
+	<select id="getBrowseHistoryByGroupId" parameterClass="com.video.util.Pagination"
+		resultMap="VideoWithPlaybill">
+		select v.id,v.name name,v.add_date addDate,v.url,v.browse_count
+		browseCount,u.id,u.realname,v.image image,count(distinct(c.id))
+		commentcount,count(distinct(co.user_id)) collectionCount,v.point point
+		from w_play_history p left join w_video v on p.video_id=v.id left join
+		users u on v.user_id=u.id left join w_comments c on c.video_id = v.id
+		left join w_collections co on v.id=co.video_id WHERE v.flag=1
+		<isNotEmpty property="condition.id" prepend="and"> p.user_id in
+			(select user_id from w_group_user where group_id = #condition.id#)
+		</isNotEmpty>
+		group by p.video_id order by p.add_date desc limit #startIndex#,#size#
+	</select>
+	<select id="getBrowseHistoryCountByUIdAndVId" parameterClass="browseHistoryVideo"
+		resultClass="int">
+		select count(user_id) from w_play_history
+		<dynamic prepend="where">
+			<isNotEmpty property="user.id" prepend="and"> user_id =
+				#user.id#</isNotEmpty>
+			<isNotEmpty property="video.id" prepend="and"> video_id =
+				#video.id#</isNotEmpty>
+		</dynamic>
+	</select>
+	<select id="countMyCommentVideo" parameterClass="com.video.util.Pagination"
+		resultClass="int">
+		select count(distinct(video_id)) from w_comments
+		<dynamic prepend="where">
+			<isNotEmpty property="condition.id" prepend="and"> user_id =
+				#condition.id#</isNotEmpty>
+		</dynamic>
+	</select>
+	<select id="getMyCommentVideo" parameterClass="com.video.util.Pagination"
+		resultMap="VideoWithPlaybill">
+		select v.id,v.name name,v.add_date addDate,v.url,v.browse_count
+		browseCount,u.id,u.realname,v.image image,count(distinct(c.id))
+		commentcount,count(distinct(co.user_id)) collectionCount,v.point point
+		from w_comments c left join w_video v on c.video_id = v.id left join
+		users u on v.user_id=u.id left join w_collections co on
+		v.id=co.video_id WHERE v.flag=1
+		<isNotEmpty property="condition.id" prepend="and"> c.user_id =
+			#condition.id#</isNotEmpty>
+		group by c.video_id order by c.comm_date desc limit
+		#startIndex#,#size#
+	</select>
+	<insert id="createBrowseHistory" parameterClass="browseHistoryVideo"> insert into
+		w_play_history (user_id,video_id,add_date)
+		values(#user.id#,#video.id#,#addDate#)</insert>
+	<update id="updateBrowseHistory" parameterClass="browseHistoryVideo"> update
+		w_play_history set add_date=#addDate# where user_id=#user.id# and
+		video_id=#video.id#</update>
+	<insert id="createVideo" parameterClass="video">
+		insert into
+		w_video(name,url,add_date,video_size,channel_id,user_id,image)
+		values(#name#,#url#,#addDate#,#videoSize#,#channel.id#,#user.id#,#image#)
+		<selectKey keyProperty="id">select last_insert_id()
+		</selectKey>
+	</insert>
+	<update id="updateVideoFlag" parameterClass="video"> update w_video set
+		flag = #flag# where id = #id#</update>
+	<select id="getVideoAndTag" parameterClass="videoAndTag"
+		resultMap="videoAndTag"> select tag_id,video_id from w_video_tag where tag_id =
+		#tagId# and video_id= #videoId#</select>
+	<insert id="createVideoAndTag" parameterClass="videoAndTag"> insert into
+		w_video_tag(tag_id,video_id) values(#tagId#,#videoId#)</insert>
+	<delete id="deleteVideoAndTagByVideoId" parameterClass="java.lang.Long"> delete
+		from w_video_tag where video_id = #value#</delete>
+	<insert id="createPointHistory" parameterClass="PointHistory">
+		insert into w_grade_history (user_id,video_id,add_date,point)
+		values(#userId#,#videoId#,#addDate#,#point#)
+		<selectKey keyProperty="id">select last_insert_id()
+		</selectKey>
+	</insert>
+	<update id="updatePointHistory" parameterClass="PointHistory"> update
+		w_grade_history set add_date=#addDate# where id=#id#</update>
+	<select id="getPointHistory" parameterClass="PointHistory"
+		resultMap="PointHistory">
+		select id,user_id,video_id,add_date,point from w_grade_history
+		<dynamic prepend="where">
+			<isNotEmpty property="id" prepend="and"> id = #id#</isNotEmpty>
+			<isNotEmpty property="userId" prepend="and"> user_id = #userId#
+			</isNotEmpty>
+			<isNotEmpty property="videoId" prepend="and"> video_id =
+				#videoId#</isNotEmpty>
+			<isNotEmpty property="addDate" prepend="and"> add_date =
+				#addDate#</isNotEmpty>
+		</dynamic>
+	</select>
+	<delete id="deletePointHistory" parameterClass="PointHistory">
+		delete from w_grade_history
+		<dynamic prepend="where">
+			<isNotEmpty property="id" prepend="and"> id = #id#</isNotEmpty>
+			<isNotEmpty property="userId" prepend="and"> user_id = #userId#
+			</isNotEmpty>
+			<isNotEmpty property="videoId" prepend="and"> video_id =
+				#videoId#</isNotEmpty>
+			<isNotEmpty property="addDate" prepend="and"> add_date =
+				#addDate#</isNotEmpty>
+		</dynamic>
+	</delete>
+	
+	
+	<select id="getVideoRand" parameterClass="com.video.domain.connection.Condition" resultMap="videoRand">
+		select count(distinct(c.id)) commentcount,v.id,v.add_date,v.name,u.id,u.realname,v.browse_count,v.image,v.description from w_video v left join users u on v.user_id = u.id 
+		 left join w_comments c on c.video_id = v.id 
+		<dynamic prepend="where">
+			<isNotEmpty property="channelId" prepend="and"> v.channel_id = #channelId#</isNotEmpty>
+			<isNotEmpty property="ids" prepend="and"> 
+			v.id not in(#ids#)
+			</isNotEmpty>
+		 
+		</dynamic>
+		  group by v.id 
+		order by rand() limit 5 
+	</select>
+	
+	<select id="getPlayHistoryVideoIds" parameterClass="java.lang.Long" resultClass="java.lang.Long">
+	select video_id from w_play_history where user_id = #value#
+	</select>
+	
+	
+</sqlMap>

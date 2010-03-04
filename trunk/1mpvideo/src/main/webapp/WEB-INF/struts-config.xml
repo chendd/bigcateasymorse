@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+<struts-config>
+	<form-beans>
+		<form-bean name="userForm"
+			type="com.video.web.formbean.UserForm" />
+		<form-bean name="uploadForm"
+			type="com.video.web.formbean.UploadForm" />
+
+	</form-beans>
+	<global-forwards>
+
+
+	</global-forwards>
+	<action-mappings>
+	<action path="/myFans"
+			 type="com.video.web.struts.user.MyFansAction">
+			<forward name="success" path="myfans"  />
+
+		</action>	
+		
+		<action path="/myFriends"
+			 type="com.video.web.struts.user.MyFriendsAction">
+			<forward name="success" path="myfriends"  />
+
+		</action>
+		
+	
+	<action path="/deleteFriend"
+			 type="com.video.web.struts.vblog.DeleteFriendAction"/>
+	
+	
+	<action path="/forgotPassword" forward="forgotPassword"/>
+	
+	<action path="/getMessageCount"
+			 type="com.video.web.struts.message.GetNewMessageCountAction"/>
+	
+	<action path="/subscribeUser2"
+			 type="com.video.web.struts.vblog.SubscribeUserAction"/>
+			 
+			 <action path="/getEvents"
+			 type="com.video.web.struts.vblog.GetEventsAction"/>
+	
+	<action path="/resetPassword"
+			 type="com.video.web.struts.user.ResetPasswordAction">
+			<forward name="success" path="resetPassword"  />
+
+		</action>	
+	
+	
+	<action path="/getGroupBrowseHistory"
+			type="com.video.web.struts.video.GetGroupBrowseHistoryAction"/>
+		<action path="/sendPassword"
+			 type="com.video.web.struts.message.SendPasswordAction">
+			<forward name="success" path="/forgotPassword.do"  />
+
+		</action>	
+		
+		<action path="/getStars" type="com.video.web.struts.vblog.GetStarsAction"/>
+
+		<action path="/finishUpload"
+			type="com.video.web.struts.video.FinishUploadAction">
+			<forward name="success" path="/home/" />
+
+		</action>
+
+		<action path="/uploadFile" scope="request"
+			type="com.video.web.struts.video.UploadFilesAction">
+			<forward name="success" path="videoUpload"></forward>
+		</action>
+
+		<action path="/mySendBox"
+			type="com.video.web.struts.message.MySendBoxAction">
+			<forward name="success" path="mySendBox" />
+
+		</action>
+
+		<action path="/deleteTopicComment"
+			type="com.video.web.struts.group.DeleteTopicCommentAction" />
+		<action path="/getSelectGroups"
+			type="com.video.web.struts.group.GetSelectGroupsAction">
+			<forward name="success" path="groups" />
+
+		</action>
+		<action path="/toCreateVideo"
+			type="com.video.web.struts.video.ToCreateVideoAction">
+			<forward name="success" path="videoUpload" />
+
+		</action>
+
+		<action path="/createVideoInfo"
+			type="com.video.web.struts.video.ToCreateVideoInfoAction">
+			<forward name="success" path="videoInfo" />
+
+		</action>
+
+		<action path="/getSelectTopices"
+			type="com.video.web.struts.group.GetSelectTopicsAction">
+			<forward name="success" path="topices" />
+
+		</action>
+
+		<action path="/updateGroup"
+			type="com.video.web.struts.group.UpdateGroupAction">
+			<forward name="success" path="/group/" redirect="true" />
+			<forward name="error" path="/group/index/" redirect="true" />
+		</action>
+
+
+		<action path="/toUpdateGroup"
+			type="com.video.web.struts.group.ToUpdateGoupAction">
+			<forward name="success" path="updateGroup" />
+			<forward name="error" path="/group/index/" redirect="true" />
+		</action>
+
+
+		<action path="/toUpdateTopic"
+			type="com.video.web.struts.group.ToUpdateTopicAction">
+			<forward name="success" path="topicUpdate" />
+		</action>
+
+
+		<action path="/updateTopic"
+			type="com.video.web.struts.group.UpdateTopicAction">
+			<forward name="success" path="/group/topic/"
+				redirect="true" />
+		</action>
+
+		<action path="/deleteDailyComment"
+			type="com.video.web.struts.vblog.DeleteDailyCommentAction" />
+		<action path="/deleteBlogWord"
+			type="com.video.web.struts.vblog.DeleteBlogWordAction" />
+		<action path="/deleteGroup"
+			type="com.video.web.struts.group.DeleteGroupAction">
+			<forward name="success" path="/group/index/"
+				redirect="true" />
+		</action>
+		<action path="/updateInfo"
+			type="com.video.web.struts.user.UpdateInfoAction">
+			<forward name="success" path="/info.do" />
+		</action>
+		<action path="/updatePassword"
+			type="com.video.web.struts.user.UpdatePasswordAction">
+			<forward name="success" path="/password.do" />
+		</action>
+		<action path="/updateEmail"
+			type="com.video.web.struts.user.UpdateEmailAction">
+			<forward name="success" path="/email.do" />
+		</action>
+		<action path="/updateSignature"
+			type="com.video.web.struts.user.UpdateSignatureAction">
+			<forward name="success" path="/signature.do" />
+		</action>
+		<action path="/uploadFace"
+			type="com.video.web.struts.user.UploadFaceAction">
+		</action>
+		<action path="/saveFace"
+			type="com.video.web.struts.user.SaveFaceAction">
+			<forward name="success" path="/user/face/" redirect="true" />
+		</action>
+		<action path="/face" forward="updateFace" />
+		<action path="/info" forward="updateInfo" />
+		<action path="/signature" forward="updateSignature" />
+		<action path="/email" forward="updateEmail" />
+		<action path="/password" forward="updatePassword" />
+		<action path="/myBox"
+			type="com.video.web.struts.message.MyBoxAction">
+			<forward name="success" path="myBox" />
+		</action>
+		<action path="/createGroup"
+			type="com.video.web.struts.group.CreateGroupAction">
+			<forward name="success" path="/group/index/"
+				redirect="true" />
+			<forward name="error" path="/group/create/" redirect="true" />
+		</action>
+		<action path="/toCreateGroup" forward="createGroup" />
+		<action path="/createDaily"
+			type="com.video.web.struts.vblog.CreateDailyAction">
+			<forward name="success" path="/blogList/" />
+			<forward name="error" path="/vblog/writedaily/" />
+		</action>
+
+		<action path="/updateDaily"
+			type="com.video.web.struts.vblog.UpdateDailyAction">
+			<forward name="success" path="/blogList/" />
+			<forward name="error" path="/vblog/updatedaily/" />
+		</action>
+
+		<action path="/createGroupInvite"
+			type="com.video.web.struts.message.CreateGroupInviteAction">
+			<forward name="success" path="/vblog/systemmessage/"
+				redirect="true" />
+			<forward name="error" path="/group/sendinvite/" />
+		</action>
+
+		<action path="/toWriteGroupInvite"
+			type="com.video.web.struts.message.ToWirteGroupInviteAction">
+			<forward name="success" path="toWriteGroupInvite" />
+		</action>
+
+		<action path="/disposeUserRequst"
+			type="com.video.web.struts.vblog.DisposeUserRequstAction">
+			<forward name="success" path="/vblog/systemmessage/read/"
+				redirect="true" />
+		</action>
+		<action path="/agreeGroupInvite"
+			type="com.video.web.struts.message.AgreeGroupInviteAction">
+			<forward name="success" path="/vblog/systemmessage/read/" redirect="true" />
+		</action>
+
+		<action path="/toCreateDaily"
+			type="com.video.web.struts.vblog.ToCreateDailyAction">
+
+			<forward name="success" path="createDaily" />
+		</action>
+		<action path="/toUpdateDaily"
+			type="com.video.web.struts.vblog.ToUpdateDailyAction">
+
+			<forward name="success" path="updateDaily" />
+		</action>
+		<action path="/readSystemNotice"
+			type="com.video.web.struts.message.ReadSystemNoticeAction">
+			<forward name="success" path="readSystemNotice" />
+			<forward name="error" path="/mybox/" redirect="true" />
+		</action>
+
+
+		<action path="/readMessage"
+			type="com.video.web.struts.message.ReadMessageAction">
+			<forward name="success" path="readMessage" />
+		</action>
+
+		<action path="/mySystemNotices"
+			type="com.video.web.struts.message.GetMySystemNoticesAction">
+			<forward name="success" path="mySystemNotices" />
+		</action>
+
+		<action path="/myMessages"
+			type="com.video.web.struts.message.GetMyMessagesAction">
+			<forward name="success" path="myMessages" />
+		</action>
+		<action path="/createWhisper"
+			type="com.video.web.struts.message.CreateWhisperAction">
+			<forward name="success" path="/vblog/mybox/"
+				redirect="true" />
+		</action>
+
+		<action path="/writeMessage"
+			type="com.video.web.struts.vblog.ToWriteMessageAction">
+			<forward name="success" path="writeMessage" />
+		</action>
+
+		<action path="/createUserRequest"
+			type="com.video.web.struts.vblog.CreateUserRequestAction" />
+		<action path="/createFriend"
+			type="com.video.web.struts.vblog.CreateFriendAction" />
+		<action path="/checkRelation"
+			type="com.video.web.struts.vblog.CheckRelationAction" />
+		<action path="/weedGroupMember"
+			type="com.video.web.struts.group.WeedGroupMembserAction" />
+		<action path="/groupMembers"
+			type="com.video.web.struts.group.GetGroupMembersAction">
+			<forward name="success" path="groupMembers" />
+		</action>
+		<action path="/deleteTopic"
+			type="com.video.web.struts.group.DeleteTopicAction">
+			<forward name="success" path="/group/" />
+		</action>
+		<action path="/createTopic"
+			type="com.video.web.struts.group.CreateTopicAction">
+			<forward name="success" path="/group/topic" />
+
+		</action>
+
+
+		<action path="/toCreateTopic"
+			type="com.video.web.struts.group.ToCreateTopicAction">
+			<forward name="success" path="topicAdd" />
+			<forward name="login" path="/" redirect="true" />
+			<forward name="join" path="joinGroup" />
+			<forward name="groupError" path="groupNotFind" />
+		</action>
+
+		<action path="/createGroupAndUser"
+			type="com.video.web.struts.group.CreateGroupAndUserAction" />
+		<action path="/createGroupRequest"
+			type="com.video.web.struts.group.CreateGroupRequestAction" />
+		<action path="/groupTopices"
+			type="com.video.web.struts.group.GetGroupTopicesAction">
+			<forward name="success" path="groupTopices" />
+		</action>
+		<action path="/groupVideoes"
+			type="com.video.web.struts.group.GetGroupVideoesAction">
+			<forward name="success" path="groupVideoes" />
+		</action>
+		<action path="/getMyGroupTopices"
+			type="com.video.web.struts.group.GetMyGroupTopicesAction" />
+		<action path="/showGroup"
+			type="com.video.web.struts.group.ToShowGroupAction">
+			<forward name="success" path="showGroup" />
+		</action>
+		<action path="/createTopicComment"
+			type="com.video.web.struts.group.CreateTopicCommentAction" />
+		<action path="/getTopicComments"
+			type="com.video.web.struts.group.GetTopicCommentsAction" />
+		<action path="/topic"
+			type="com.video.web.struts.group.ToShowTopicAction">
+			<forward name="success" path="topic" />
+		</action>
+		<action path="/deleteDaily"
+			type="com.video.web.struts.vblog.DeleteDailyAction">
+			<forward name="success" path="/blogList/" redirect="true" />
+		</action>
+
+		<action path="/group"
+			type="com.video.web.struts.group.ToGroupIndexAction">
+			<forward name="success" path="group" />
+		</action>
+		<action path="/getBlogHistories"
+			type="com.video.web.struts.vblog.GetBlogHistoriesAction" />
+		<action path="/getDailyHistories"
+			type="com.video.web.struts.vblog.GetDailyHistoriesAction" />
+		<action path="/createDailyComment"
+			type="com.video.web.struts.vblog.CreateDailyCommentAction" />
+		<action path="/getDailyComments"
+			type="com.video.web.struts.vblog.GetDailyCommentsAction" />
+		<action path="/showDaily"
+			type="com.video.web.struts.vblog.ShowDailyAction">
+			<forward name="success" path="showDaily" />
+		</action>
+		
+		<action path="/getDaily" type="com.video.web.struts.vblog.GetDailyAction"/>
+		<action path="/getTopic" type="com.video.web.struts.group.GetTopicAction"/>
+		<action path="/getSignature" type="com.video.web.struts.user.GetSignatureAction"/>
+		<action path="/getDailyTags"
+			type="com.video.web.struts.vblog.GetDailyTagsAction" />
+		<action path="/getDailyChannels"
+			type="com.video.web.struts.vblog.GetDailyChannelsAction" />
+		<action path="/createBlogWord"
+			type="com.video.web.struts.vblog.CreateBlogWordAction" />
+		<action path="/getMyDailies"
+			type="com.video.web.struts.vblog.GetMyDailiesAction" />
+		<action path="/getMyBlogWords"
+			type="com.video.web.struts.vblog.GetMyBlogWordsAction" />
+		<action path="/getMyPlayBills"
+			type="com.video.web.struts.vblog.GetMyPlayBillsAction" />
+		<action path="/getMyFriends"
+			type="com.video.web.struts.vblog.GetMyFriendsAction" />
+		<action path="/getMySubscribeUsers"
+			type="com.video.web.struts.vblog.GetMySubscribeUsersAction" />
+
+		<action path="/getMyFans"
+			type="com.video.web.struts.vblog.GetMyfansAction" />
+
+		<action path="/getMyVideoes"
+			type="com.video.web.struts.vblog.GetMyVideoesAction" />
+			
+			<action path="/userVideoes"
+			type="com.video.web.struts.vblog.UserVideoesAction" >
+			<forward name="success" path="userVideoes"/>
+			
+			</action>
+			
+			<action path="/userPlayBills"
+			type="com.video.web.struts.vblog.UserPlayBillsAction" >
+			<forward name="success" path="userPlayBills"/>
+			
+			</action>
+			
+			<action path="/getMsnFriends"
+			type="com.video.web.struts.GetMsnFriendsAction" />
+
+
+		<action path="/getTopUsersAjax"
+			type="com.video.web.struts.vblog.GetTopUsersAjaxAction" />
+
+		<action path="/getUsersOrderByNewVideo"
+			type="com.video.web.struts.vblog.GetUsersOrderByNewVideoAction" />
+
+
+		<action path="/getUsersOrderByBrowseTimes"
+			type="com.video.web.struts.vblog.GetUsersOrderByBrowseTimesAction" />
+
+
+		<action path="/getUsersOrderByCommentCount"
+			type="com.video.web.struts.vblog.GetUsersOrderByCommentCountAction" />
+
+
+
+		<action path="/home"
+			type="com.video.web.struts.vblog.ToHomeAction">
+			<forward name="success" path="home" />
+		</action>
+
+		<action path="/blogList"
+			type="com.video.web.struts.vblog.BlogListAction">
+			<forward name="success" path="blogList" />
+		</action>
+		<action path="/vblog" forward="vblog" />
+		<action path="/toIndex"
+			type="com.video.web.struts.ToIndexAction">
+			<forward name="success" path="/WEB-INF/index.jsp" />
+		</action>
+		<action path="/indexLayoutSave"
+			type="com.video.web.struts.index.IndexLayoutSaveAction" />
+		<action path="/getIndexModule"
+			type="com.video.web.struts.index.GetIndexModuleAction" />
+
+
+		<action path="/goVideoTagIndex"
+			type="com.video.web.struts.videotag.GoIndexAction">
+			<forward name="success" path="videotagindex" />
+		</action>
+		<action path="/getNewVideoTag"
+			type="com.video.web.struts.videotag.GetNewVideoTagAction" />
+		<action path="/getHotVideoTag"
+			type="com.video.web.struts.videotag.GetHotVideoTagAction" />
+		<action path="/getMyVideoTag"
+			type="com.video.web.struts.videotag.GetMyVideoTagAction" />
+		<action path="/getLikeVideoTag"
+			type="com.video.web.struts.videotag.GetLikeVideoTagAction" />
+		<action path="/getMayLikeVideo"
+			type="com.video.web.struts.video.GetMayLikeVideoAction" />
+		<action path="/getTagStrongUser"
+			type="com.video.web.struts.videotag.GetTagStrongUserAction" />
+		<action path="/getSearchIndex"
+			type="com.video.web.struts.search.GetIndexAction">
+			<forward name="success" path="searchindex" />
+		</action>
+		<action path="/getVideoWithTagId"
+			type="com.video.web.struts.video.GetVideoWithTagIdAction">
+			<forward name="success" path="videowithtagid" />
+		</action>
+		<action path="/getVideoWithKey"
+			type="com.video.web.struts.video.GetVideoWithKeyAction">
+			<forward name="success" path="videowithkey" />
+		</action>
+		<action path="/getPlaybillIndex"
+			type="com.video.web.struts.playbill.GetPlaybillIndexAction">
+			<forward name="success" path="playbillindex"></forward>
+		</action>
+
+		<action path="/getNonsuchPlaybill"
+			type="com.video.web.struts.playbill.GetNonsuchPlaybillAction" />
+		<action path="/getMySubscribePlaybill"
+			type="com.video.web.struts.playbill.GetMySubscribePlaybillAction" />
+		<action path="/getMyPlaybillAjax"
+			type="com.video.web.struts.playbill.GetMyPlaybillAjaxAction" />
+		<action path="/subscribePlaybill"
+			type="com.video.web.struts.playbill.SubscribePlaybillAction" />
+		<action path="/getPlaybill"
+			type="com.video.web.struts.playbill.GetPlaybillAction">
+			<forward name="success" path="playbilllist"></forward>
+		</action>
+		<action path="/addCommentWithPlaybill"
+			type="com.video.web.struts.playbill.AddCommentWithPlaybillAction" />
+		<action path="/getPlaybillCommentList"
+			type="com.video.web.struts.playbill.GetPlaybillCommentList" />
+		<action path="/getUserUsePlaybill"
+			type="com.video.web.struts.playbill.GetUserUsePlaybill" />
+		<action path="/getOtherPlaybill"
+			type="com.video.web.struts.playbill.GetOtherPlaybillAction" />
+		<action path="/getNewPlaybill"
+			type="com.video.web.struts.playbill.GetNewPlaybillAction" />
+
+		<action path="/getVideoIndex"
+			type="com.video.web.struts.video.GetVideoIndexAction">
+			<forward name="success" path="videoindex" />
+		</action>
+		<action path="/getVideoList"
+			type="com.video.web.struts.video.GetVideoListAction" />
+		<action path="/getMyBrowseHistory"
+			type="com.video.web.struts.video.GetMyBrowseHistoryAction" />
+		<action path="/getMyCommentVideo"
+			type="com.video.web.struts.video.GetMyCommentVideoAction" />
+		<action path="/getVideo"
+			type="com.video.web.struts.video.GetVideoAction">
+			<forward name="success" path="playvideo" />
+			<forward name="notFind" path="nofindvideo" />
+		</action>
+		<action path="/getVideoCommentList"
+			type="com.video.web.struts.video.GetVideoCommentListAction" />
+		<action path="/addCommentWithVideo"
+			type="com.video.web.struts.video.AddCommentWithVideoAction" />
+		<action path="/sendMessage"
+			type="com.video.web.struts.user.SendMessageAction" />
+		<action path="/getOtherVideo"
+			type="com.video.web.struts.video.GetOtherVideoAction" />
+		<action path="/getOtherUser"
+			type="com.video.web.struts.video.GetOtherUserAction" />
+		<action path="/updateVideo"
+			type="com.video.web.struts.video.UpdateVideoAction" />
+		<action path="/getMyPlaybill"
+			type="com.video.web.struts.playbill.GetMyPlaybillsAction">
+			<forward name="success" path="addvideotoplaybill" />
+		</action>
+		<action path="/addVideoToPlaybill"
+			type="com.video.web.struts.playbill.AddVideoToPlaybillAction" />
+		<action path="/playPlaybill"
+			type="com.video.web.struts.playbill.PlayPlaybillAction">
+			<forward name="success" path="playplaybill" />
+		</action>
+		<action path="/subscribeUser"
+			type="com.video.web.struts.user.SubscribeUserAction" />
+		<action path="/getUser"
+			type="com.video.web.struts.user.GetUserAction" />
+		<action path="/register" name="userForm" input="register"
+			type="com.video.web.struts.user.RegisterAction" validate="true">
+			<forward name="success" path="/index" redirect="true" />
+		</action>
+		<action path="/registerUser"
+			type="com.video.web.struts.user.RegisterUserAction">
+			<forward name="success" path="register" />
+		</action>
+		<action path="/login"
+			type="com.video.web.struts.user.LoginAction">
+			<forward name="success" path="/index/" redirect="true" />
+			<forward name="error" path="login" />
+		</action>
+		
+		<action path="/invite" forward="invite"/>
+		
+		<action path="/toLogin"
+			type="com.video.web.struts.user.ToLoginAction">
+			<forward name="success" path="login" />
+		</action>
+		<action path="/exit"
+			type="com.video.web.struts.user.ExitAction">
+			<forward name="success" path="/index/" redirect="true" />
+		</action>
+		<action path="/addPlaybill"
+			type="com.video.web.struts.playbill.AddPlaybillAction">
+			<forward name="success" path="/playbill/myplaybilllist/"
+				redirect="true" />
+			<forward name="error" path="newplaybill" />
+		</action>
+		<action path="/getMyPlaybillList"
+			type="com.video.web.struts.playbill.GetMyPlaybillListAction">
+			<forward name="success" path="myplaybilllist" />
+		</action>
+		<action path="/modifyPlaybill"
+			type="com.video.web.struts.playbill.ModifyPlaybillAction">
+			<forward name="success" path="/playbill/myplaybilllist/" redirect="true" />
+			<forward name="error" path="playbillerror" />
+			<forward name="modify" path="modifyplaybill" />
+		</action>
+		<action path="/modifyPlaybillImage"
+			type="com.video.web.struts.playbill.ModifyPlaybillImageAction">
+			<forward name="su" path="/playbill/myplaybilllist/"
+				redirect="true" />
+			<forward name="modify" path="modifyplaybillimage" />
+		</action>
+		<action path="/deletePlaybill"
+			type="com.video.web.struts.playbill.DeletePlaybillAction">
+			<forward name="success" path="/playbill/myplaybilllist/"
+				redirect="true" />
+		</action>
+		<action path="/modifyPlaybillVideo"
+			type="com.video.web.struts.playbill.ModifyPlaybillVideoAction">
+			<forward name="success" path="modifyPlaybillVideo" />
+			<forward name="error" path="playbillerror" />
+		</action>
+		<action path="/modifyPlaybillDeleteVideo"
+			type="com.video.web.struts.playbill.ModifyPlaybillDeleteVideoAction">
+			<forward name="success" path="/playbill/modify/video/"
+				redirect="true" />
+			<forward name="error" path="playbillerror" />
+		</action>
+		<action path="/search"
+			type="com.video.web.struts.search.SearchAction">
+			<forward name="error" path="searcherror" />
+			<forward name="video" path="searchvideo" />
+			<forward name="vblog" path="searchvblog" />
+			<forward name="playbill" path="searchplaybill" />
+		</action>
+		<action path="/getMyVideoPage"
+			type="com.video.web.struts.video.GetMyVideoPageAction" />
+		<action path="/getMyVideoList"
+			type="com.video.web.struts.video.GetMyVideoListAction">
+			<forward name="success" path="myvideolist" />
+		</action>
+		<action path="/modifyMyVideo"
+			type="com.video.web.struts.video.ModifyMyVideoAction">
+			<forward name="success" path="/video/myvideolist/" />
+		</action>
+		<action path="/getMyVideo"
+			type="com.video.web.struts.video.GetMyVideoByIdAction">
+			<forward name="success" path="videoInfo" />
+			<forward name="error" path="login" />
+		</action>
+		<action path="/modifyVideo"
+			type="com.video.web.struts.video.ModifyMyVideoAction">
+			<forward name="success" path="/video/myvideolist/"
+				redirect="true" />
+			<forward name="error" path="/login/" />
+		</action>
+		<action path="/deleteMyVideo"
+			type="com.video.web.struts.video.DeleteMyVideoAction">
+			<forward name="success" path="/video/myvideolist/"
+				redirect="true" />
+			<forward name="error" path="/login/" />
+		</action>
+		<action path="/pointVideo"
+			type="com.video.web.struts.video.PointVideoAction" />
+			
+			<action path="/inviteOk" forward="invite_ok"/>
+			
+			<action path="/sendMail"
+			type="com.video.web.struts.SendMessageAction">
+			<forward name="success" redirect="true" path="/invite_ok/" />
+		</action>
+		
+		<action path="/getNotices"
+			type="com.video.web.struts.getNoticesAction">
+			<forward name="success"  path="notices" />
+		</action>
+	</action-mappings>
+	<message-resources parameter="ApplicationResources" />
+	<plug-in className="org.apache.struts.tiles.TilesPlugin">
+		<set-property property="definitions-config"
+			value="/WEB-INF/tiles-config.xml" />
+		<set-property property="moduleAware" value="true" />
+	</plug-in>
+</struts-config>

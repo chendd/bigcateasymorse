@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="GroupAndUser">
+	<typeAlias alias="GroupAndUser" type="com.video.domain.GroupAndUser" />
+	<resultMap id="GroupAndUser" class="GroupAndUser">
+		<result property="rate" column="rate" />
+		<result property="addDate" column="add_date" />
+		<result property="group.id" column="group_id" />
+		<result property="user.id" column="user_id" />
+	</resultMap>
+	<resultMap id="MyGroupAndUser" class="GroupAndUser">
+		<result property="addDate" column="w.add_date" />
+		<result property="group.id" column="g.id" />
+		<result property="rate" column="w.rate" />
+		<result property="group.name" column="g.name" />
+		<result property="group.image" column="g.image" />
+	</resultMap>
+	<resultMap id="Group2" class="com.video.domain.Group">
+		<result property="id" column="g.id" />
+		<result property="name" column="g.name" />
+	</resultMap>
+	<resultMap id="GroupAndUserJoin" class="GroupAndUser">
+		<result property="rate" column="x.rate" />
+		<result property="addDate" column="x.add_date" />
+		<result property="user.id" column="u.id" />
+		<result property="user.realName" column="u.realname" />
+		<result property="user.face" column="u.face" />
+	</resultMap>
+	<select id="countMyGroupMembers" parameterClass="com.video.util.Pagination"
+		resultClass="int">
+			select count(*) from w_group_user
+		<dynamic prepend="where">
+			<isNotEmpty property="condition.group.id" prepend="and"> group_id =
+				#condition.group.id#</isNotEmpty>
+				<isNotEmpty property="condition.rate" prepend="and"> rate =
+				#condition.rate#</isNotEmpty>
+		</dynamic>
+	</select>
+	<select id="getMyGroupMembers" parameterClass="com.video.util.Pagination"
+		resultMap="GroupAndUserJoin">
+		select x.rate,x.add_date,u.id,u.realname,u.face from w_group_user x
+		left join users u on x.user_id = u.id
+		<dynamic prepend="where">
+			<isNotEmpty property="condition.group.id" prepend="and"> x.group_id =
+				#condition.group.id#</isNotEmpty>
+				<isNotEmpty property="condition.rate" prepend="and"> x.rate =
+				#condition.rate#</isNotEmpty>
+		</dynamic>
+		<isNotEmpty prepend="order by" property="orderFieldName"> $orderFieldName$
+			desc</isNotEmpty>
+		limit #startIndex#,#size#
+	</select>
+	<insert id="createGroupAndUser" parameterClass="GroupAndUser"> insert into
+		w_group_user(rate,add_date,group_id,user_id)
+		values(#rate#,#addDate#,#group.id#,#user.id#)</insert>
+	<delete id="deleteGroupAndUser" parameterClass="GroupAndUser"> delete from
+		w_group_user where group_id=#group.id# and USER_ID=#user.id#</delete>
+	<select id="countMyJoinGroup" parameterClass="com.video.util.Pagination"
+		resultClass="int">
+		select count(*) from w_group_user w left join w_groups g on w.group_id
+		= g.id where g.flag!=0
+		<isNotEmpty property="condition.user.id" prepend="and"> w.user_id
+			= #condition.user.id#</isNotEmpty>
+		<isNotEmpty property="condition.group.id" prepend="and">
+			w.group_id = #condition.group.id#</isNotEmpty>
+		<isNotEmpty property="condition.rate" prepend="and"> w.rate =
+			#condition.rate#</isNotEmpty>
+	</select>
+	<select id="getMyJoinGroups" parameterClass="com.video.util.Pagination"
+		resultMap="MyGroupAndUser">
+		select w.add_date,w.rate,g.id,g.name,g.image from w_group_user w left
+		join w_groups g on w.group_id = g.id where g.flag !=0
+		<isNotEmpty property="condition.user.id" prepend="and"> w.user_id
+			= #condition.user.id#</isNotEmpty>
+		<isNotEmpty property="condition.group.id" prepend="and">
+			w.group_id = #condition.group.id#</isNotEmpty>
+		<isNotEmpty property="condition.rate" prepend="and"> w.rate =
+			#condition.rate#</isNotEmpty>
+		group by g.id
+	</select>
+	<select id="getMyGroups" parameterClass="java.lang.Long"
+		resultMap="Group2"> select g.id,g.name from w_group_user w left join w_groups g
+		on w.group_id = g.id where g.flag !=0 and w.user_id=#value#</select>
+		
+		
+		<select id="getGroupAndUser" parameterClass="GroupAndUser" resultMap="GroupAndUser">
+			select rate,add_date,user_id,group_id from w_group_user where user_id = #user.id# and group_id = #group.id#
+		</select>
+		
+		<delete id="deleteGroupAndUserByGoupId" parameterClass="java.lang.Long"> delete from
+		w_group_user where group_id=#value# </delete>
+		
+		
+		<select id="countGroupAdmins" parameterClass="com.video.util.Pagination"
+		resultClass="int">
+		select count(*) from w_group_user where rate =2 or rate = 3 
+			<isNotEmpty property="condition.group.id" prepend="and"> group_id =
+				#condition.group.id#</isNotEmpty>
+		order by rate desc ,add_date desc 
+	</select>
+	<select id="getGroupAdmins" parameterClass="com.video.util.Pagination"
+		resultMap="GroupAndUserJoin">
+		select x.rate,x.add_date,u.id,u.realname,u.face from w_group_user x
+		left join users u on x.user_id = u.id where (x.rate = 2 or x.rate = 3 )
+			<isNotEmpty property="condition.group.id" prepend="and"> x.group_id =
+				#condition.group.id#</isNotEmpty>
+			
+			order by x.rate desc ,x.add_date desc 
+		limit #startIndex#,#size#
+	</select>
+		
+		
+</sqlMap>

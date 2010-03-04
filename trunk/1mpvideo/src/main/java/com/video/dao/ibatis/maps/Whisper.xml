@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Whisper">
+	<typeAlias alias="Whisper" type="com.video.domain.Whisper" />
+	<resultMap id="Whisper" class="Whisper">
+		<result property="id" column="gid" />
+		<result property="toUser.id" column="touid" />
+		<result property="fromUser.id" column="fromuid" />
+		<result property="message" column="message" />
+		<result property="status" column="status" />
+		<result property="sendDate" column="regdate" />
+
+
+	</resultMap>
+	
+	<resultMap id="WhisperJoinMap" class="Whisper">
+		<result property="id" column="w.gid" />
+		<result property="toUser.id" column="t.id" />
+		<result property="fromUser.id" column="f.id" />
+		<result property="toUser.userName" column="t.username" />
+				<result property="toUser.realName" column="t.realname" />
+		<result property="fromUser.userName" column="f.username" />
+		<result property="fromUser.realName" column="f.realname" />
+		<result property="message" column="w.message" />
+		<result property="status" column="w.status" />
+		<result property="sendDate" column="w.regdate" />
+	
+
+	</resultMap>
+	
+	<insert id="createWhisper" parameterClass="Whisper">
+		insert into guestbook(touid,fromuid,message,status,regdate) values(#toUser.id#,#fromUser.id#,#message#,#status#,#sendDate#)
+	<selectKey keyProperty="id">select last_insert_id()
+		</selectKey>
+	</insert>
+	
+	<delete id="deleteWhisperByGrade" parameterClass="com.video.domain.User">
+		delete from guestbook where touid in ( select id from users 
+		<dynamic prepend="where">
+			<isNotEmpty property="grade" prepend="and">
+				grade = #grade# 
+			</isNotEmpty>
+		</dynamic>
+	)
+	</delete>
+	
+	<delete id="deleteWhisperByDate" parameterClass="int">
+	<![CDATA[
+		delete from guestbook where to_days(now())-to_days(regdate)>#dateNum#
+	]]>
+	</delete>
+	
+	
+	<select id="countWhisper"  parameterClass="com.video.util.Pagination" resultClass="int">
+		select count(*) from guestbook
+		<dynamic prepend="where">
+		
+			<isNotEmpty property="condition.message" prepend="and">
+				message like #condition.message# escape '!'
+			</isNotEmpty>
+			
+			<isNotEmpty property="condition.toUser.id" prepend="and">
+				touid = #condition.toUser.id# 
+			</isNotEmpty>
+		<isNotEmpty property="condition.fromUser.id" prepend="and">
+				fromuid = #condition.fromUser.id# 
+			</isNotEmpty>
+		
+		<isNotEmpty property="condition.sendDate" prepend="and">
+				TO_DAYS(#condition.sendDate#) - TO_DAYS(REGDATE)=0
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getWhispers" parameterClass="com.video.util.Pagination" resultMap="WhisperJoinMap">
+		select w.gid,w.message,w.status,w.regdate,t.id,t.username,t.realname,f.realname,f.id,f.username from guestbook w left join users t on w.touid = t.id left join users f on w.fromuid = f.id 
+		<dynamic prepend="where">
+		
+		<isNotEmpty property="condition.message" prepend="and">
+				w.message like #condition.message# escape '!'
+			</isNotEmpty>
+	<isNotEmpty property="condition.toUser.id" prepend="and">
+				w.touid = #condition.toUser.id# 
+			</isNotEmpty>
+	<isNotEmpty property="condition.fromUser.id" prepend="and">
+				w.fromuid = #condition.fromUser.id# 
+			</isNotEmpty>
+		
+		<isNotEmpty property="condition.sendDate" prepend="and">
+				TO_DAYS(#condition.sendDate#) - TO_DAYS(w.regdate)=0
+			</isNotEmpty>
+		</dynamic>
+		order by w.regdate desc
+	 limit #startIndex#,#size#
+		
+	</select>
+	
+	<delete id="deleteWhisperById" parameterClass="java.lang.Long">
+		delete from guestbook where gid = #value#
+	</delete>
+	
+	<select id="getWhisperById" parameterClass="java.lang.Long" resultMap="WhisperJoinMap">
+	select w.gid,w.message,w.status,w.regdate,t.id,t.realname,t.username,f.realname,f.id,f.username from guestbook w left join users t on w.touid = t.id left join users f on w.fromuid = f.id 
+	where w.gid=#value#
+	
+	</select>
+	
+	<select id="countNewWhisper" parameterClass="java.lang.Long" resultClass="int">
+	select count(gid) from guestbook where touid = #value# and status = 0
+	
+	</select>
+	
+	<update id="updateWhisperById" parameterClass="Whisper">
+update guestbook set status=#status# where gid = #id#
+</update>
+	
+	
+	</sqlMap>

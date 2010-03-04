@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="videoChannel">
+	<typeAlias alias="videoChannel"
+		type="com.video.domain.VideoChannel" />
+	<resultMap id="videoChannel"
+		class="com.video.domain.VideoChannel">
+		<result column="id" property="id" jdbcType="BIGINT" />
+		<result column="parentid" property="parentId" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="grade" property="grade" jdbcType="INTEGER" />
+		<result column="comm" property="description" jdbcType="VARCHAR" />
+		<result column="cover_image" property="imageUrl"
+			jdbcType="VARCHAR" />
+		<result column="menu_active" property="activeImageUrl"
+			jdbcType="VARCHAR" />
+		<result column="menu_deactivate" property="deactivateImageUrl"
+			jdbcType="VARCHAR" />
+		<result column="name2" property="wapName" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="getVideoChannelById" resultMap="videoChannel"
+		parameterClass="java.lang.Long">
+		select id, parentid, name, grade, comm, cover_image,
+		menu_active, menu_deactivate, name2 from channels where id =
+		#id:BIGINT#
+	</select>
+	<select id="getChildVideoChannelList" resultMap="videoChannel"
+		parameterClass="java.lang.Long">
+		select id, parentid, name, grade, comm, cover_image,
+		menu_active, menu_deactivate, name2 from channels where parentid
+		= #parentId:BIGINT#
+	</select>
+
+	<select id="getVideoChannelList" resultMap="videoChannel">
+		select id, parentid, name, grade, comm, cover_image,
+		menu_active, menu_deactivate, name2 from channels
+	</select>
+	<!-- 
+		<select id="countVideoChannel" resultClass="int"
+		parameterClass="com.video.util.Pagination">
+		select count(id) from channels
+		<dynamic prepend="where">
+		<isNotEmpty property="condition.comment" prepend="and">
+		comment like #condition.comment# escape '!'
+		</isNotEmpty>
+		</dynamic>
+		</select>
+		<select id="getDailyReplies" resultMap="DailyReply"
+		parameterClass="com.video.util.Pagination">
+		select id, add_date, point, flag, user_id, daily_id, comment
+		from w_replyies
+		<dynamic prepend="where">
+		<isNotEmpty property="condition.comment" prepend="and">
+		comment like #condition.comment# escape '!'
+		</isNotEmpty>
+		</dynamic>
+		limit #startIndex#,#size#
+		</select>
+	-->
+	<delete id="deleteVideoChannel" parameterClass="java.lang.Long">
+		delete from channels where id = #id:BIGINT#
+	</delete>
+	<insert id="createVideoChannel" parameterClass="videoChannel">
+		insert into channels (id, parentid, name, grade, comm,
+		cover_image, menu_active, menu_deactivate, name2) values
+		(#id:BIGINT#, #parentId:BIGINT#, #name:VARCHAR#,
+		#grade:INTEGER#, #description:VARCHAR#, #imageUrl:VARCHAR#,
+		#activeImageUrl:VARCHAR#, #deactivateImageUrl:VARCHAR#,
+		#wapName:VARCHAR#)
+	</insert>
+	<update id="updateVideoChannel" parameterClass="videoChannel">
+		update channels set parentid = #parentId:BIGINT#, name =
+		#name:VARCHAR#, grade = #grade:INTEGER#, comm =
+		#description:VARCHAR#, cover_image = #imageUrl:VARCHAR#,
+		menu_active = #activeImageUrl:VARCHAR#, menu_deactivate =
+		#deactivateImageUrl:VARCHAR#, name2 = #wapName:VARCHAR# where id
+		= #id:BIGINT#
+	</update>
+	<update id="updateVideoChannelWithParent"
+		parameterClass="videoChannel">
+		update channels set parentid = #parentId:BIGINT# where id =
+		#id:BIGINT#
+	</update>
+	<update id="updateVideoChannelWithParentByParent"
+		parameterClass="videoChannel">
+		update channels set parentid = #parentId:BIGINT# where parentid
+		= #id:BIGINT#
+	</update>
+</sqlMap>
