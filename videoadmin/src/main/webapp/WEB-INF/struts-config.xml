@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+<struts-config>
+	<form-beans>
+		<form-bean name="dailyForm"
+			type="com.video.web.formbean.DailyFormBean" />
+		<form-bean name="videoChannelForm"
+			type="com.video.web.formbean.VideoChannelFormBean" />
+	</form-beans>
+	<global-forwards>
+		<forward name="failure" path="/WEB-INF/jsp/struts/Error.jsp"
+			redirect="false" />
+		<forward name="unknown-error"
+			path="/WEB-INF/jsp/struts/Error.jsp" />
+		<forward name="global-signon"
+			path="/WEB-INF/jsp/struts/SignonForm.jsp" />
+	
+	</global-forwards>
+	<action-mappings>
+	
+	<action path="/showNotice" type="com.video.web.struts.whisper.GetSystemNoticeByIdAction">
+			<forward name="success" path="/WEB-INF/whisper/showNotice.jsp"  />
+		
+		</action>
+		<action path="/mail" forward="sendMail"/>
+		
+		<action path="/sendMail" type="com.video.web.struts.whisper.SendMailAction">
+			<forward name="success" path="/mail.do"  />
+		
+		</action>
+		
+		<action path="/priview" type="com.video.web.struts.videomanage.PriviewVideoAction">
+			<forward name="real" path="/WEB-INF/videomanage/preview/priviewReal.jsp"  />
+			<forward name="wmp" path="/WEB-INF/videomanage/preview/priviewWMP.jsp"  />
+			<forward name="flv" path="/WEB-INF/videomanage/preview/priviewFlv.jsp"  />
+		</action>
+		
+		<action path="/login" type="com.video.web.struts.LoginAction">
+			<forward name="success" path="welcome" redirect="true" />
+		</action>
+		<action path="/addDailyInit"
+			type="com.video.web.struts.videospacemanage.dailymanage.AddDailyInitAction">
+			<forward name="addDaily" path="dailyManageIndex" />
+		</action>
+		<action name="dailyForm" path="/addDaily" scope="request"
+			input="dailyManageIndex" validate="true"
+			type="com.video.web.struts.videospacemanage.dailymanage.AddDailyAction">
+			<forward name="addSuccess" path="addDailyInit.do"
+				redirect="true" />
+		</action>
+		<action path="/initUpdateDaily" scope="request"
+			type="com.video.web.struts.videospacemanage.dailymanage.InitUpdateDailyAction">
+			<forward name="init" path="dailyManageUpdate" />
+		</action>
+		<action name="dailyForm" path="/updateDaily" scope="request"
+			input="dailyManageUpdate" validate="true"
+			type="com.video.web.struts.videospacemanage.dailymanage.UpdateDailyAction">
+			<forward name="updateSuccess" path="dailyList.do"
+				redirect="true" />
+		</action>
+
+		<action path="/toAdminCreate" forward="toAdminCreate" />
+		
+		<action path="/toChooseStar" type="com.video.web.struts.userandadmin.ToChooseStarAction"  >
+		<forward name="success" path="toChooseStar"/>
+		</action>
+		
+		<action path="/starUpdate" type="com.video.web.struts.userandadmin.UpdateStarAction"  >
+		<forward redirect="true" name="success" path="/toChooseStar.do"/>
+		</action>
+
+
+		<action path="/adminCreate"
+			type="com.video.web.struts.userandadmin.AdminCreateAction">
+			<forward name="success" path="/getAdmins.do" />
+		</action>
+
+		<action path="/getAdmins"
+			type="com.video.web.struts.userandadmin.GetAdminsAction">
+			<forward name="success" path="adminList" />
+		</action>
+
+		<action path="/updateAdmin"
+			type="com.video.web.struts.userandadmin.UpdateAdminAction">
+			<forward name="success" path="" />
+		</action>
+
+		<action path="/deleteAdmin"
+			type="com.video.web.struts.userandadmin.DeleteAdminAction">
+			<forward name="success" path="/getAdmins.do"
+				redirect="true" />
+		</action>
+		<action path="/toUserCreate" forward="toUserCreate" />
+
+		<action path="/userCreate"
+			type="com.video.web.struts.userandadmin.UserCreateAction">
+			<forward name="success" path="/getUsers.do" redirect="true" />
+		</action>
+
+		<action path="/getUsers"
+			type="com.video.web.struts.userandadmin.GetUsersAction">
+			<forward name="success" path="userList" />
+		</action>
+
+		<action path="/deleteUser"
+			type="com.video.web.struts.userandadmin.DeleteUserAction">
+			<forward name="success" path="/getUsers.do" redirect="true" />
+		</action>
+		<action path="/updateUser"
+			type="com.video.web.struts.userandadmin.UpdateUserAction">
+			<forward name="success" path="/getUsers.do" redirect="true" />
+			<forward name="error" path="/getUser.do" />
+		</action>
+
+		<action path="/getUser"
+			type="com.video.web.struts.userandadmin.GetUserAction">
+			<forward name="success" path="toUserUpdate" />
+		</action>
+
+		<action path="/updateUserFace" type="com.video.web.struts.group.UpdateUserFaceAction">
+		
+		</action>
+		
+		<action path="/getTags" type="com.video.web.struts.tag.GetTagsAction">
+			<forward name="success" path="tagList"  />
+		</action>
+		<action path="/updateTag"
+			type="com.video.web.struts.tag.UpdateTagAction">
+			<forward name="success" path="/getTags.do" redirect="true" />
+
+		</action>
+		<action path="/createTag"
+			type="com.video.web.struts.tag.CreateTagAction">
+			<forward name="success" path="/getTags.do" redirect="true" />
+
+		</action>
+
+		<action path="/getDailyTags"
+			type="com.video.web.struts.tag.GetDailyTagsAction">
+			<forward name="success" path="dailyTagList" />
+		</action>
+		<action path="/updateDailyTag"
+			type="com.video.web.struts.tag.UpdateDailyTagAction">
+			<forward name="success" path="/getDailyTags.do"
+				redirect="true" />
+
+		</action>
+		<action path="/createDailyTag"
+			type="com.video.web.struts.tag.CreateDailyTagAction">
+			<forward name="success" path="/getDailyTags.do"
+				redirect="true" />
+
+		</action>
+
+		<action path="/getGroups" type="com.video.web.struts.group.GetGroupsAction">
+			<forward name="success" path="groupList"  />
+		
+		</action>
+		
+		<action path="/updateGroup" type="com.video.web.struts.group.UpdateGroupAction">
+			<forward name="success" path="/getGroups.do"  />
+		
+		</action>
+		<action path="/getGroupUsers" type="com.video.web.struts.group.GetGroupUsersAction" />
+		<action path="/updateGroupAndUser" type="com.video.web.struts.group.UpdateGroupAndUserAction" />
+		
+		<action path="/toGroupUpdate" type="com.video.web.struts.group.toGroupUpdateAction">
+		<forward name="success" path="toGroupUpdate" />
+		</action>
+		
+		<action path="/toUpdateRecommendGroups" type="com.video.web.struts.group.ToUpdateRecommendGroupsAction">
+		<forward name="success" path="toUpdateRecommendGroups" />
+		</action>
+		
+		<action path="/updateRecommendGroups" type="com.video.web.struts.group.UpdateRecommendGroupsAction">
+		<forward name="success" redirect="true" path="/toUpdateRecommendGroups.do" />
+		</action>
+	
+
+
+		<action path="/whisper"
+			type="com.video.web.struts.whisper.WhisperAction">
+			<forward name="success" path="/sendMessage.do"
+				redirect="true" />
+
+		</action>
+		<action path="/sendMessage"
+			type="com.video.web.struts.whisper.SendMessageAction">
+
+			<forward name="success" path="sendMessage" />
+		</action>
+		<action path="/whisper"
+			type="com.video.web.struts.whisper.WhisperAction">
+			<forward name="success" path="/sendMessage.do"
+				redirect="true" />
+			<forward name="search" path="getWhispers"></forward>
+			<forward name="list1" path="/whisper.do" redirect="true"></forward>
+			<forward name="list2" path="/getWhispers.do"
+				redirect="true">
+			</forward>
+		</action>
+
+		<action path="/getWhispers"
+			type="com.video.web.struts.whisper.GetWhispersAction">
+			<forward name="success" path="getWhispers" />
+		</action>
+		
+		<action path="/getTopices" type="com.video.web.struts.group.GetTopicesAction">
+			<forward name="success" path="topicList"  />
+		
+		</action>
+		<action path="/updateTopic" type="com.video.web.struts.group.UpdateTopicAction">
+			<forward name="success" path="/getTopices.do"  />
+		
+		</action>
+		<action path="/getTopic" type="com.video.web.struts.group.GetTopicAction">
+			
+		<forward name="success" path="toTopicUpdate"/>
+		<forward name="text" path="/WEB-INF/group/showText.jsp"/>
+		</action>
+		
+		<action path="/getVideoes" type="com.video.web.struts.videomanage.GetVideoesAction">
+			
+		<forward name="success" path="videoList"/>
+		
+		</action>
+<action path="/getVideo" type="com.video.web.struts.videomanage.GetVideoAction">
+			
+		<forward name="success" path="toVideoUpdate"/>
+		
+		</action>
+		<action path="/createCandidateVideo" type="com.video.web.struts.videomanage.CreateCandidateVideoAction">
+			
+		<forward name="createOk" path="/getVideo.do"/>
+		
+		</action>
+		
+		<action path="/getComments" type="com.video.web.struts.videomanage.GetCommentsAction">
+			<forward name="success" path="commentList" />
+	
+		
+		</action>
+		
+		<action path="/updateVideo" type="com.video.web.struts.videomanage.UpdateVideoAction">
+			
+		<forward name="success" path="/getVideoes.do"/>
+		
+		</action>
+		
+		<action path="/getPlayBills" type="com.video.web.struts.videomanage.GetPlayBillsAction">
+			
+		<forward name="success" path="playBillList"/>
+		
+		</action>
+		<action path="/getPlayBill" type="com.video.web.struts.videomanage.GetPlayBillAction">
+			
+		<forward name="success" path="toPlayBillUpdate"/>
+		
+		</action>
+		<action path="/updatePlayBill" type="com.video.web.struts.videomanage.UpdatePlayBillAction">
+			
+		<forward name="success" path="/getPlayBills.do"/>
+		
+		</action>
+		<action path="/createPlayBill" type="com.video.web.struts.videomanage.CreatePlayBillAction">
+			
+		<forward name="success" path="/getPlayBills.do" redirect="true"/>
+		<forward name="error" path="/toPlayBillCreate.do"></forward>
+		
+		</action>
+		<action path="/createUploadVideo" type="com.video.web.struts.videomanage.CreateUploadVideoAction">
+			
+		<forward name="success" path="/getUploadVideoes.do" redirect="true"/>
+		<forward name="error" path="/toUploadVideoCreate.do"></forward>
+		
+		</action>
+		<action path="/toPlayBillCreate" forward="toPlayBillCreate"/>
+		<action path="/toUploadVideoCreate" type="com.video.web.struts.videomanage.ToUploadVideoCreateAction">
+		<forward name="success" path="toUploadVideoCreate"></forward>
+		</action>
+		
+		<action path="/deleteComment" type="com.video.web.struts.videomanage.DeleteCommentAction">
+			
+		<forward name="success" path="/getComments.do"/>
+		
+		</action>
+		<action path="/getIndexRecommendVideoes" type="com.video.web.struts.videomanage.GetIndexRecommendVideoesAction">
+			
+		<forward name="success" path="indexRecommendVideoList"/>
+		
+		</action>
+		
+			<action path="/updateIndexRecommendVideo" type="com.video.web.struts.videomanage.UpdateIndexRecommendVideoAction">
+			
+		<forward name="success" path="/getIndexRecommendVideoes.do"/>
+		
+		</action>
+		
+		<action path="/getCandidateVideoes" type="com.video.web.struts.videomanage.GetCandidateVideoesAction">
+			
+		<forward name="success" path="candidateVideoesList"/>
+		
+		</action>
+		
+		<action path="/getIndexRecommendVideo" type="com.video.web.struts.videomanage.GetIndexRecommendVideoAction">
+			
+		<forward name="success" path="toUpdateIndexRecommendVideo"/>
+		
+		</action>
+		
+		
+		
+		
+	
+			<action path="/getMayLikeVideoes" type="com.video.web.struts.videomanage.GetMayLikeVideoesAction">
+			
+		<forward name="success" path="mayLikeVideoList"/>
+		
+		</action>
+		
+			<action path="/updateMayLikeVideo" type="com.video.web.struts.videomanage.UpdateMayLikeVideoAction">
+			
+		<forward name="success" path="/getMayLikeVideoes.do"/>
+		
+		</action>
+		<action path="/getMayLikeVideo" type="com.video.web.struts.videomanage.GetMayLikeVideoAction">
+			
+		<forward name="success" path="toUpdateMayLikeVideo"/>
+		
+		</action>
+		<action path="/getUploadVideoes" type="com.video.web.struts.videomanage.GetUploadVideoesAction">
+			
+		<forward name="success" path="uploadVideoList"/>
+		
+		</action>
+		<action path="/getUploadVideo" type="com.video.web.struts.videomanage.GetUploadVideoAction">
+			
+		<forward name="success" path="toUploadVideoUpdate"/>
+		
+		</action>
+		
+		<action path="/deleteUploadVideo" type="com.video.web.struts.videomanage.DeleteUploadVideoAction">
+			
+		<forward name="success" path="/getUploadVideoes.do"/>
+		
+		</action>
+		
+		<action path="/updateUploadVideo" type="com.video.web.struts.videomanage.UpdateUploadVideoAction">
+			
+		<forward name="success" path="/getUploadVideoes.do" redirect="true"/>
+		
+		</action>
+		
+		
+		<action path="/deleteCandidateVideo" type="com.video.web.struts.videomanage.DeleteCandidateVideoAction">
+			
+		<forward name="success" path="/getCandidateVideoes.do"/>
+		
+		</action>
+
+		<action path="/dailyChannelManage"
+			type="com.video.web.struts.videospacemanage.dailychannelmanage.DailyChannelManageAction">
+			<forward name="index" path="dailyChannelManageIndex" />
+			<forward name="add" path="dailyChannelManageAdd" />
+			<forward name="addSuccess" path="dailyChannelManage.do"
+				redirect="true" />
+			<forward name="rootManage"
+				path="dailyChannelManageRootManage" />
+			<forward name="rootOrderSuccess"
+				path="dailyChannelManageRootManage" />
+			<forward name="childManage"
+				path="dailyChannelManageChildManage" />
+			<forward name="initReposition"
+				path="dailyChannelManageReposition" />
+			<forward name="unite" path="dailyChannelManageUnite" />
+			<forward name="uniteSuccess" path="dailyChannelManage.do"
+				redirect="true" />
+			<forward name="move" path="dailyChannelManageMove" />
+			<forward name="moveSuccess" path="dailyChannelManage.do"
+				redirect="true" />
+			<forward name="cleanSuccess" path="dailyChannelManage.do"
+				redirect="true" />
+			<forward name="deleteSuccess" path="dailyChannelManage.do"
+				redirect="true" />
+		</action>
+		<action path="/dailyList"
+			type="com.video.web.struts.videospacemanage.dailymanage.DailyListAction">
+			<forward name="success" path="dailyManageDailyList"></forward>
+		</action>
+		<action path="/moveDaily"
+			type="com.video.web.struts.videospacemanage.dailymanage.MoveDailyAction">
+			<forward name="move" path="dailyManageMoveDaily" />
+			<forward name="success" path="dailyList.do" redirect="true" />
+		</action>
+		<action path="/dailyReplyList"
+			type="com.video.web.struts.videospacemanage.dailyreply.DailyReplyList">
+			<forward name="success" path="dailyReplyManageList" />
+		</action>
+		<action path="/updateDailyReply"
+			type="com.video.web.struts.videospacemanage.dailyreply.UpdateDailyReplyAction">
+			<forward name="init" path="dailyReplyManageUpdate" />
+			<forward name="success" path="dailyReplyList.do"
+				redirect="true" />
+		</action>
+		<action path="/deleteDailyReply"
+			type="com.video.web.struts.videospacemanage.dailyreply.DeleteDailyReplyAction">
+			<forward name="success" path="dailyReplyList.do"
+				redirect="true" />
+		</action>
+		<action path="/videoChannelIndex"
+			type="com.video.web.struts.videomanage.VideoChannelIndexAction">
+			<forward name="success" path="videoChannelIndex" />
+		</action>
+		<action path="/addVideoChannel" name="videoChannelForm"
+			type="com.video.web.struts.videomanage.AddVideoChannelAction">
+			<forward name="init" path="addVideoChannel" />
+			<forward name="success" path="videoChannelIndex.do"
+				redirect="true" />
+		</action>
+
+		<action path="/cleanVideoChannel"
+			type="com.video.web.struts.videomanage.CleanVideoChannelAction">
+			<forward name="success" path="videoChannelIndex.do"
+				redirect="true" />
+		</action>
+		<action path="/deleteVideoChannel"
+			type="com.video.web.struts.videomanage.DeleteVideoChannelAction">
+			<forward name="success" path="videoChannelIndex.do"
+				redirect="true" />
+			<forward name="error" path="videoChannelIndex" />
+		</action>
+		<action path="/updateVideoChannel"
+			type="com.video.web.struts.videomanage.UpdateVideoChannelAction">
+			<forward name="success" path="videoChannelIndex.do"
+				redirect="true" />
+			<forward name="init" path="updateVideoChannel" />
+		</action>
+		<action path="/moveVideoChannel"
+			type="com.video.web.struts.videomanage.MoveVideoChannelAction">
+			<forward name="success" path="videoChannelIndex.do"
+				redirect="true" />
+			<forward name="init" path="moveVideoChannel" />
+		</action>
+		<action path="/uniteVideoChannel"
+			type="com.video.web.struts.videomanage.UniteVideoChannelAction">
+			<forward name="success" path="videoChannelIndex.do"
+				redirect="true" />
+			<forward name="init" path="uniteVideoChannel" />
+		</action>
+		<action path="/indexSearchChannel"
+			type="com.video.web.struts.search.IndexSearchChannelAction">
+			<forward name="success" path="indexSearchManage" />
+		</action>
+		<action path="/addSearchChannel"
+			type="com.video.web.struts.search.AddSearchChannelAction">
+			<forward name="success" path="indexSearchChannel.do"
+				redirect="true" />
+			<forward name="init" path="addSearchChannel" />
+			<forward name="error" path="addSearchChannel" />
+		</action>
+		<action path="/updateSearchChannel"
+			type="com.video.web.struts.search.UpdateSearchChannelAction">
+			<forward name="success" path="indexSearchChannel.do"
+				redirect="true" />
+			<forward name="init" path="updateSearchChannel" />
+		</action>
+		<action path="/cleanSearchChannel"
+			type="com.video.web.struts.search.CleanSearchChannelAction">
+			<forward name="success" path="indexSearchChannel.do"
+				redirect="true" />
+		</action>
+		<action path="/deleteSearchChannel"
+			type="com.video.web.struts.search.DeleteSearchChannelAction">
+			<forward name="success" path="indexSearchChannel.do"
+				redirect="true" />
+		</action>
+		<action path="/addSystemKeyword"
+			type="com.video.web.struts.search.AddKeywordAction">
+			<forward name="success" path="indexSearchChannel.do"
+				redirect="true" />
+			<forward name="init" path="addSystemKeyword" />
+			<forward name="keywordIndex" path="getKeyword.do"
+				redirect="true" />
+		</action>
+		<action path="/keywordChannelOrder"
+			type="com.video.web.struts.search.KeywordChannelOrderAction">
+			<forward name="success" path="indexSearchChannel.do"
+				redirect="true" />
+			<forward name="init" path="keywordChannelOrder" />
+		</action>
+		<action path="/getKeyword"
+			type="com.video.web.struts.search.GetKeywordAction">
+			<forward name="success" path="keywordIndex" />
+		</action>
+		<action path="/deleteKeyword"
+			type="com.video.web.struts.search.DeleteKeywordAction">
+			<forward name="success" path="getKeyword.do"
+				redirect="true" />
+		</action>
+		<action path="/updateSystemKeyword"
+			type="com.video.web.struts.search.UpdateSystemKeywordAction">
+			<forward name="success" path="getKeyword.do"
+				redirect="true" />
+			<forward name="init" path="updateKeyword" />
+		</action>
+		
+		<action path="/getNotices" type="com.video.web.struts.notice.GetNoticesAction">
+		<forward name="success" path="notices"/>
+		</action>
+		
+		<action path="/toUpdateNotice" type="com.video.web.struts.notice.ToUpdateNoticeAction">
+		<forward name="success" path="toUpdateNotice"/>
+		</action>
+		
+		<action path="/toAddNotice" forward="toAddNotice"/>
+		
+	
+		
+		<action path="/updateNotice" type="com.video.web.struts.notice.UpdateNoticeAction">
+		<forward name="success" redirect="true" path="/getNotices.do"/>
+		</action>
+		
+		<action path="/deleteNotice" type="com.video.web.struts.notice.deleteNoticeAction">
+		<forward name="success" redirect="true" path="/getNotices.do"/>
+		</action>
+	</action-mappings>
+	<message-resources parameter="ApplicationResources" />
+	<plug-in className="org.apache.struts.tiles.TilesPlugin">
+		<set-property property="definitions-config"
+			value="/WEB-INF/tiles-config.xml" />
+		<set-property property="moduleAware" value="true" />
+	</plug-in>
+
+</struts-config>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="UploadVideo">
+	<typeAlias alias="UploadVideo" type="com.video.domain.UploadVideo" />
+	<resultMap id="UploadVideo" class="UploadVideo">
+		<result property="id" column="id" />
+		<result property="url" column="path" />
+		<result property="videoType" column="video_type" />
+		<result property="videoTime" column="time_length" />
+		<result property="num3gp" column="num_3gp" />
+		<result property="stauts" column="status" />
+		<result property="convertStatus" column="convert_status" />
+		<result property="video.id" column="video_id" />
+	</resultMap>
+	
+	
+	
+	
+	
+
+	
+	
+	<select id="countUploadVideoes" parameterClass="com.video.util.Pagination" resultClass="int">
+		select count(*) from w_uploadvideoes  where status != -1  
+			<isNotEmpty property="condition.stauts" prepend="and">
+			status = #condition.stauts#
+			</isNotEmpty>
+			
+		
+	</select>
+	
+	<select id="getUploadVideoes" parameterClass="com.video.util.Pagination" resultMap="UploadVideo">
+		select id,status,path,video_id,video_type,time_length,num_3gp,convert_status
+		from w_uploadvideoes  where status != -1 
+			
+			<isNotEmpty property="condition.stauts" prepend="and">
+			status = #condition.stauts#
+			</isNotEmpty>
+			
+			order by id desc 
+
+		
+		 limit #startIndex#,#size#
+	
+	</select>
+	
+	<select id="getUploadVideoById" parameterClass="java.lang.Long" resultMap="UploadVideo">
+		select id,status,path,video_id,video_type,time_length,num_3gp,convert_status 
+		from w_uploadvideoes 
+	    where id = #value#
+		
+	
+	</select>
+	
+	<update id="updateUploadVideo" parameterClass="UploadVideo">
+		update w_uploadvideoes set status=#stauts#,path=#url#,video_type=#videoType#,time_length=#videoTime#,num_3gp=#num3gp#,convert_status=#convertStatus#
+		where id = #id#
+	
+	</update>
+	<delete id="deleteUploadVideo" parameterClass="java.lang.Long">
+	delete from w_uploadvideoes where id = #value#
+	
+	</delete>
+</sqlMap>

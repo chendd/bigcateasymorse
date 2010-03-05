@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="GroupAndUser">
+	<typeAlias alias="GroupAndUser" type="com.video.domain.GroupAndUser" />
+	<resultMap id="GroupAndUser" class="GroupAndUser">
+		<result property="rate" column="rate" />
+		<result property="addDate" column="add_date" />
+		<result property="group.id" column="group_id" />
+		<result property="user.id" column="user_id" />
+
+	</resultMap>
+	
+	<insert id="createGroupAndUser" parameterClass="GroupAndUser">
+	insert into w_group_user(rate,add_date,group_id,user_id) values(#rate#,#addDate#,#group.id#,#user.id#)
+	</insert>
+	
+	<delete id="deleteGroupAndUser" parameterClass="GroupAndUser">
+	delete from w_group_user where group_id=#group.id# and user_id=#user.id#
+	</delete>
+	
+
+	
+	
+	</sqlMap>

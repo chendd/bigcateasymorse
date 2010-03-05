@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="CandidateVideo">
+	<typeAlias alias="CandidateVideo" type="com.video.domain.CandidateVideo" />
+	<resultMap id="CandidateVideo" class="CandidateVideo">
+		<result property="id" column="id" />
+		<result property="video.id" column="video_id" />
+		<result property="sake" column="sake" />
+		<result property="recommender.id" column="recommend_user_id" />
+		<result property="recommendDate" column="recommend_date" />
+
+	</resultMap>
+	<resultMap id="CandidateVideoJoin" class="CandidateVideo">
+		<result property="id" column="c.id" />
+		<result property="video.id" column="v.id" />
+		<result property="video.name" column="v.name" />
+		<result property="sake" column="c.sake" />
+		<result property="recommender.id" column="a.id" />
+		<result property="recommender.name" column="a.name" />
+		<result property="recommendDate" column="c.recommend_date" />
+
+	</resultMap>
+	
+	<insert id="createCandidateVideo" parameterClass="CandidateVideo">
+		insert into w_video_recommend(video_id,sake,recommend_user_id,recommend_date) values(#video.id#,#sake#,#recommender.id#,#recommendDate#)
+	
+	</insert>
+	
+	<select id="getCandidateVideoesList" resultMap="CandidateVideoJoin">
+	
+		select c.id,v.id,v.name,c.sake,a.id,a.name,c.recommend_date from w_video_recommend c left join w_video v on c.video_id = v.id 
+		left join w_administers a on c.recommend_user_id = a.id order by c.recommend_date desc
+	</select>
+	
+	<select id="getCandidateVideoByVideoId" parameterClass="java.lang.Long" resultClass="CandidateVideo">
+	select id,video_id,sake,recommend_user_id,recommend_date from w_video_recommend where video_id=#value#
+	
+	</select>
+	
+	<update id="updateCandidateVideo" parameterClass="CandidateVideo">
+	update w_video_recommend set video_id=#video.id#,sake=#sake#,recommend_user_id=#recommender.id#,recommend_date=#recommendDate# where id=#id#
+	
+	</update>
+	<select id="countCandidateVideo"  parameterClass="com.video.util.Pagination" resultClass="int">
+		select count(*) from w_video_recommend
+	</select>
+	
+	<select id="getCandidateVideoes" parameterClass="com.video.util.Pagination" resultMap="CandidateVideoJoin">
+	select c.id,v.id,v.name,c.sake,a.id,a.name,c.recommend_date from w_video_recommend c left join w_video v on c.video_id = v.id 
+		left join w_administers a on c.recommend_user_id = a.id order by c.recommend_date desc 
+		limit #startIndex#,#size#
+	</select>
+	<delete id="deleteCandidateVideo" parameterClass="java.lang.Long">
+	delete from w_video_recommend where ID = #value#
+	</delete>
+	</sqlMap>

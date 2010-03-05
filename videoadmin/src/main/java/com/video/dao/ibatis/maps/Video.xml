@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="video">
+	<typeAlias alias="video" type="com.video.domain.Video" />
+	<resultMap id="video" class="video">
+		<result column="id" property="id" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="add_date" property="addDate"
+			jdbcType="TIMESTAMP" />
+		<result column="browse_count" property="browseCount"
+			jdbcType="INTEGER" />
+		<result column="video_size" property="videoSize"
+			jdbcType="INTEGER" />
+		<result column="time_length" property="videoTime"
+			jdbcType="INTEGER" />
+		<result column="point" property="point" jdbcType="INTEGER" />
+		<result column="notify" property="notify" jdbcType="TINYINT" />
+		<result column="push_count" property="pushCount"
+			jdbcType="INTEGER" />
+		<result column="password" property="password"
+			jdbcType="VARCHAR" />
+		<result column="flag" property="flag" jdbcType="INTEGER" />
+		<result column="channel_id" property="channelId"
+			jdbcType="BIGINT" />
+		<result column="uploadvideo_id" property="uploadVideoId"
+			jdbcType="BIGINT" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="image" property="image" jdbcType="VARCHAR" />
+		<result column="description" property="description"
+			jdbcType="LONGVARCHAR" />
+	</resultMap>
+	
+	<resultMap class="com.video.domain.Video" id="VideoJoin">
+		<result property="id" column="v.id" />
+		<result property="name" column="v.name" />
+		<result property="url" column="v.url" />
+		<result property="addDate" column="v.add_date" />
+		<result property="browseCount" column="v.browse_count" />
+		<result property="channel.id" column="c.id" />
+		<result property="channel.name" column="c.name" />
+		<result property="user.id" column="u.id" />
+		<result property="user.realName" column="u.realname" />
+		<result property="videoTime" column="v.time_length" />
+		<result property="videoSize" column="v.video_size" />
+		<result property="notify" column="v.notify" />
+		<result property="point" column="v.point" />
+		<result property="pushCount" column="v.push_count" />
+		<result property="password" column="v.password" />
+		<result property="description" column="v.description" />
+		<result property="flag" column="v.flag" />
+		<result property="image" column="v.image" />
+	</resultMap>
+	<delete id="deleteVideoByChannelId"
+		parameterClass="java.lang.Long">
+		delete from w_video where channel_id = #channelId:BIGINT#
+	</delete>
+	<update id="updateVideoByVideoChannelId" parameterClass="video">
+		update w_video set flag = #flag:INTEGER# where channel_id =
+		#channelId:BIGINT#
+	</update>
+	<update id="updateVideoWithChannelByVideoChannelId"
+		parameterClass="video">
+		update w_video set channel_id = #channelId:BIGINT# where
+		channel_id = #id:BIGINT#
+	</update>
+	
+	<select id="countVideoes" parameterClass="com.video.util.Pagination" resultClass="int">
+		select count(*) from w_video
+		<dynamic prepend="where">
+		
+			<isNotEmpty property="condition.channel.id" prepend="and">
+				channel_id =  #condition.channel.id# 
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getVideoes" parameterClass="com.video.util.Pagination" resultMap="VideoJoin">
+		select v.id,v.name,v.url,v.add_date,v.browse_count,c.id,c.name,u.id,u.realname,v.time_length,v.video_size,
+		v.notify,v.point,v.push_count,v.password,v.description,v.flag,v.image from w_video v left join channels c on v.channel_id = c.id 
+		left join users u on v.user_id = u.id 
+		where v.flag != 0 
+			<isNotEmpty property="condition.channel.id" prepend="and">
+				c.id =  #condition.channel.id# 
+			</isNotEmpty>
+			
+			 order by v.id desc
+			
+
+		
+		 limit #startIndex#,#size#
+	
+	</select>
+	
+	<select id="getVideoById" parameterClass="java.lang.Long" resultMap="VideoJoin">
+		select v.id,v.name,v.url,v.add_date,v.browse_count,c.id,c.name,u.id,u.realname,v.time_length,v.video_size,
+		v.notify,v.point,v.push_count,v.password,v.description,v.flag,v.image from w_video v left join channels c on v.channel_id = c.id 
+		left join users u on v.user_id = u.id  where v.id = #value#
+		
+	
+	</select>
+	
+	<update id="updateVideo" parameterClass="video">
+		update w_video set name=#name#,browse_count=#browseCount#,flag=#flag#,channel_id=#channel.id#,time_length=#videoTime#,video_size=#videoSize#,password=#password#,notify=#notify#,point=#point#,
+		push_count=#pushCount#,description=#description#,image=#image# where id=#id#
+	
+	</update>
+</sqlMap>

@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="js/player/swfobject.js"></script>
+</head>
+
+<body>
+
+<script type="text/javascript">
+	var s1 = new SWFObject("js/player/flvplayer.swf","single","500","400","7");
+	s1.addParam("allowfullscreen","true");
+	s1.addVariable("file","rtmp://192.168.0.227/oflaDemo");
+	s1.addVariable("id","1");
+	s1.addVariable("type","rtmp");
+	s1.addVariable("image","preview.jpg");
+	s1.addVariable("width","500");
+	s1.addVariable("height","400");
+	s1.write("player1");
+</script>
+</body>
+</html>

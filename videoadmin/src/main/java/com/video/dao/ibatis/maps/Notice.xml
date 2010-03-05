@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Notice">
+	<typeAlias alias="Notice" type="com.video.domain.Notice" />
+	
+	<resultMap id="Notice" class="Notice">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="notice" column="notice" />
+		<result property="date" column="date" />
+	</resultMap>
+	
+	<select id="getNotices" resultMap="Notice">
+	select id,name,notice,date from w_notices order by id  desc
+	
+	</select>
+	
+	<select id="getNoticeById" parameterClass="java.lang.Long" resultMap="Notice">
+	select id,name,notice,date from w_notices where id = #value#
+	
+	</select>
+	
+	
+	<insert id="createNotice" parameterClass="Notice">
+	insert into w_notices(name,notice,date) values(#name#,#notice#,#date#)
+	</insert>
+	
+	
+	<update id="updateNotice" parameterClass="Notice">
+	
+	update w_notices set name = #name#,notice=#notice# where id = #id#
+	</update>
+	
+	<delete id="deleteNoticeById" parameterClass="java.lang.Long">
+	delete from w_notices where id = #value#
+	</delete>
+	
+	
+
+	
+
+</sqlMap>
