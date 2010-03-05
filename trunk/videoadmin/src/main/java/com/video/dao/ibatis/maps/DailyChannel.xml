@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="DailyChannel">
+	<typeAlias alias="DailyChannel"
+		type="com.video.domain.DailyChannel" />
+	<typeAlias alias="parent" type="com.video.domain.DailyChannel" />
+	<typeAlias alias="Manage" type="com.video.domain.Administrator" />
+
+	<resultMap class="DailyChannel" id="DailyChannel">
+		<result property="id" column="ID" />
+		<result property="parent" column="parentid" jdbcType="BIGINT"
+			select="getDailyChannelById" />
+		<result property="name" column="name" />
+		<result property="image" column="image" />
+		<result column="description" property="description" />
+		<result column="recommend" property="recommend" />
+		<result column="betop" property="beTop" />
+		<result column="url" property="url" />
+		<result column="readgrade" property="readGrade" />
+		<result column="publishgrade" property="publishGrade" />
+		<result column="manageid" property="manage"
+			select="getDailyChannelManageByManageId" />
+		<result column="orders" property="orders" />
+	</resultMap>
+	<resultMap id="Manage" class="Manage">
+		<result property="id" column="ID" />
+		<result property="name" column="NAME" />
+		<result property="password" column="PASSWORD" />
+		<result property="loginCount" column="LOGINTIMES" />
+		<result property="lastLoginDate" column="LASTLOGIN_DATE" />
+		<result property="lastLoginIp" column="LASTLOGIN_IP" />
+	</resultMap>
+
+	<select id="getDailyChannelById" parameterClass="java.lang.Long"
+		resultMap="DailyChannel">
+		select id, name, image, recommend, betop, url, readgrade,
+		publishgrade, parentid, description,manageid,orders from
+		w_dailychannels where id = #id:BIGINT#
+	</select>
+	<select id="countDailyChannel" resultClass="int">
+		select count(id) from w_dailychannels
+	</select>
+	<select id="getDailyChannelManageByManageId"
+		parameterClass="java.lang.Long" resultMap="Manage">
+		select ID,NAME,PASSWORD,LOGINTIMES,LASTLOGIN_DATE,LASTLOGIN_IP
+		from W_ADMINISTERS where id = #value#
+	</select>
+	<select id="getDailyChannels" resultMap="DailyChannel">
+		select id, name, image, recommend, betop, url, readgrade,
+		publishgrade ,parentid,description,manageid,orders from
+		w_dailychannels
+	</select>
+	<select id="getRootDailyChannels" resultMap="DailyChannel">
+		select id, name, image, recommend, betop, url, readgrade,
+		publishgrade, parentid ,description,manageid,orders from
+		w_dailychannels where parentid=0 order by orders
+	</select>
+	<select id="getDailyChannelsByParentId"
+		parameterClass="java.lang.Long" resultMap="DailyChannel">
+		select id, name, image, recommend, betop, url, readgrade,
+		publishgrade, parentid ,description,manageid,orders from
+		w_dailychannels where parentid=#id:BIGINT# order by orders
+	</select>
+	<select id="getParentDailyChannel" parameterClass="DailyChannel"
+		resultMap="DailyChannel">
+		select id, name, image, recommend, betop, url, readgrade,
+		publishgrade, parentid ,description,manageid,orders from
+		w_dailychannels where id=#parentId:BIGINT#
+	</select>
+	<select id="getOtherDailyChannelByDailyId"
+		parameterClass="java.lang.Long" resultMap="DailyChannel">
+		select id, name, image, recommend, betop, url, readgrade,
+		publishgrade, parentid ,description,manageid,orders from
+		w_dailychannels where id &lt;&gt; #id:BIGINT#
+	</select>
+	<select id="getDailyChannelPage"
+		parameterClass="com.video.util.Pagination" resultMap="DailyChannel">
+		select id, name, image, recommend, betop, url, readgrade,
+		publishgrade, parentid ,description,manageid,orders from
+		w_dailychannels limit #startIndex#,#size#
+	</select>
+	<insert id="createDailyChannel" parameterClass="DailyChannel">
+		insert into w_dailychannels (id, name, image, recommend, betop,
+		url, readgrade, publishgrade, parentid,
+		description,manageid,orders) values (#id:BIGINT#,
+		#name:VARCHAR#, #image:VARCHAR#, #recommend:BIT#, #beTop:BIT#,
+		#url:VARCHAR#, #readGrade:TINYINT#, #publishGrade:TINYINT#,
+		#parentId:BIGINT#, #description:LONGVARCHAR#
+		,#manageId#,#orders#)
+		<selectKey keyProperty="id">select last_insert_id()</selectKey>
+	</insert>
+	<delete id="deleteDailyChannel" parameterClass="java.lang.Long">
+		delete from w_dailychannels where id = #id:BIGINT#
+	</delete>
+	<update id="updateDailyChannel" parameterClass="DailyChannel">
+		update w_dailychannels set name = #name:VARCHAR#, image =
+		#image:VARCHAR#, recommend = #recommend:BIT#, betop =
+		#beTop:BIT#, url = #url:VARCHAR#, readgrade =
+		#readGrade:TINYINT#, publishgrade = #publishGrade:TINYINT#,
+		parentid = #parentId:BIGINT#, description =
+		#description:LONGVARCHAR# ,manageid=#manageId#,orders=#orders#
+		where id = #id:BIGINT#
+	</update>
+	<update id="updateDailyChannelOrders"
+		parameterClass="DailyChannel">
+		update w_dailychannels set orders=#orders# where id =#id:BIGINT#
+	</update>
+	<update id="updateUniteDailyChannel"
+		parameterClass="DailyChannel">
+		update w_dailychannels set parentid=#parentId# where parentid
+		=#id:BIGINT#
+	</update>
+	<update id="repositionDailyChannelOrders"
+		parameterClass="DailyChannel">
+		update w_dailychannels set orders=id where id=id
+	</update>
+</sqlMap>

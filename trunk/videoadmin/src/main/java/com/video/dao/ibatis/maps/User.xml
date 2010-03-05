@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="User">
+
+	<typeAlias alias="User" type="com.video.domain.User"/>
+	
+	<resultMap id="User" class="User">
+	<result property="id" column="id"/>
+	<result property="userName" column="username"/>
+	<result property="password" column="password"/>
+	<result property="realName" column="realname"/>
+	<result property="email" column="email"/>
+	<result property="passwordHint" column="passwordhint"/>
+	<result property="hintAns" column="hintans"/>
+	<result property="mobilePhone" column="mobilephone"/>
+	<result property="qq" column="qq"/>
+	<result property="postCode" column="postcode"/>
+	<result property="address" column="address"/>
+	<result property="regDate" column="regdate"/>
+	<result property="lastLoginDate" column="lastlogin_date"/>
+	<result property="gender" column="gender"/>
+	<result property="birthday" column="birthday"/>
+	<result property="area" column="area"/>
+	<result property="marriage" column="marriage"/>
+	<result property="hobby" column="hobby"/>
+	<result property="signature" column="signature"/>
+	<result property="level" column="level"/>
+	<result property="score" column="score"/>
+	<result property="fortune" column="fortune"/>
+	<result property="loginTimes" column="login_times"/>
+	<result property="face" column="face"/>
+	<result property="education" column="education"/>
+	<result property="side" column="side"/>
+	<result property="layout" column="layout"/>
+	<result property="lastLoginIp" column="lastlogin_ip"/>
+	<result property="grade" column="grade"/>
+		<result property="status" column="status"/>
+
+	</resultMap>
+	
+	<insert id="createUser" parameterClass="User">
+		insert into users ( username, password,realname,email,passwordhint,hintans,mobilephone,qq,postcode,address,regdate,
+		lastlogin_date,gender,birthday,area,marriage,hobby,signature,level,score,fortune,login_times,face,education,side,layout,lastlogin_ip,grade,status) values(
+		#userName#,#password#,#realName#,#email#,#passwordHint#,#hintAns#,#mobilePhone#,#qq#,#postCode#,#address#,#regDate#,#lastLoginDate#,
+		#gender#,#birthday#,#area#,#marriage#,#hobby#,#signature#,#level#,#score#,#fortune#,#loginTimes#,#face#,#education#,#side#,#layout#,#lastLoginIp#,#grade#,#status#)
+		<selectKey keyProperty="id">select last_insert_id()</selectKey>
+	</insert>
+	
+	<select id="getUserById" parameterClass="java.lang.Long" resultMap="User">
+		select id, username, password,realname,email,passwordhint,hintans,mobilephone,qq,postcode,address,regdate,
+		lastlogin_date,gender,birthday,area,marriage,hobby,signature,level,score,fortune,login_times,face,education,side,layout,lastlogin_ip,grade,status from users where id = #id#
+	</select>
+	
+	<select id="getUserByName" parameterClass="java.lang.String" resultMap="User">
+		select id, username, password,realname,email,passwordhint,hintans,mobilephone,qq,postcode,address,regdate,
+		lastlogin_date,gender,birthday,area,marriage,hobby,signature,level,score,fortune,login_times,face,education,side,layout,lastlogin_ip,grade,status from users where username = #userName#
+	</select>
+	
+	<select id="getUserByEmail" parameterClass="java.lang.String" resultMap="User">
+		select id, username, password,realname,email,passwordhint,hintans,mobilephone,qq,postcode,address,regdate,
+		lastlogin_date,gender,birthday,area,marriage,hobby,signature,level,score,fortune,login_times,face,education,side,layout,lastlogin_ip,grade,status from users where email = #email#
+	</select>
+	
+	<select id="getUserByRealName" parameterClass="java.lang.String" resultMap="User">
+		select id, username, password,realname,email,passwordhint,hintans,mobilephone,qq,postcode,address,regdate,
+		lastlogin_date,gender,birthday,area,marriage,hobby,signature,level,score,fortune,login_times,face,education,side,layout,lastlogin_ip,grade,status from users where realname = #realName#
+	</select>
+	
+	<select id="countUser" parameterClass="com.video.util.Pagination" resultClass="int">
+		select count(*) from users
+		<dynamic prepend="where">
+		
+			<isNotEmpty property="condition.userName" prepend="and">
+				username like #condition.userName# escape '!'
+			</isNotEmpty>
+			<isNotEmpty property="condition.realName" prepend="and">
+				realname like #condition.realName# escape '!'
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getUsers" parameterClass="com.video.util.Pagination" resultMap="User">
+		select id, username, password,realname,email,passwordhint,hintans,mobilephone,qq,postcode,address,regdate,
+		lastlogin_date,gender,birthday,area,marriage,hobby,signature,level,score,fortune,login_times,face,education,side,layout,lastlogin_ip,grade,status from users  
+		where id !=0 
+			<isNotEmpty property="condition.userName" prepend="and">
+				username like #condition.userName# escape '!'
+			</isNotEmpty>
+			<isNotEmpty property="condition.realName" prepend="and">
+				realname like #condition.realName# escape '!'
+			</isNotEmpty>
+		
+		
+		<isNotEmpty prepend="order by"  property="orderFieldName" >
+		$orderFieldName$
+		</isNotEmpty>
+		
+		<isEqual compareValue="true" property="desc">desc</isEqual>
+		
+		   limit #startIndex#,#size#
+	</select>
+	
+	<update id="updateUser" parameterClass="User">
+		update users set username=#userName#, password=#password#,realname=#realName#,email=#email#,passwordhint=#passwordHint#,hintans=#hintAns#,
+		mobilephone=#mobilePhone#,qq=#qq#,postcode=#postCode#,address=#address#,regdate=#regDate#,
+		lastlogin_date=#lastLoginDate#,gender=#gender#,birthday=#birthday#,area=#area#,marriage=#marriage#,hobby=#hobby#,signature=#signature#,level=#level#,score=#score#,
+		fortune=#fortune#,login_times=#loginTimes#,face=#face#,education=#education#,side=#side#,layout=#layout#,lastlogin_ip=#lastLoginIp#,grade=#grade#,status=#status# where id=#id#
+	</update>
+	
+	<delete id="deleteUser" parameterClass="java.lang.Long">
+		delete from users where ID = #id#
+	</delete>
+	
+	<select id="listUsers" parameterClass="com.video.util.Pagination" resultMap="User">
+		select id, username, password,realname,email,passwordhint,hintans,mobilephone,qq,postcode,address,regdate,
+		lastlogin_date,gender,birthday,area,marriage,hobby,signature,level,score,fortune,login_times,face,education,side,layout,lastlogin_ip,grade,status from users 
+		where id != 0  
+			<isNotEmpty property="condition.grade" prepend="and">
+				grade = #condition.grade# 
+			</isNotEmpty>
+		
+	</select>
+	
+	<select id="getStarIds" resultClass="java.lang.Long">
+	select user_id from w_stars order by id  limit 2
+	</select>
+	
+	<update id="updateStar" parameterClass="com.video.domain.connection.Star">
+	update w_stars set user_id = #user_id# where id =#id#
+	</update>
+
+
+</sqlMap>

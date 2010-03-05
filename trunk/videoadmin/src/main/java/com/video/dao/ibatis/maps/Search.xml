@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="keyword">
+	<typeAlias alias="keyword" type="com.video.domain.SystemKeyword" />
+	<resultMap id="keyword" class="keyword">
+		<result column="id" property="id" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="before_yesterday" property="beforeYesterday"
+			jdbcType="INTEGER" />
+		<result column="yesterday" property="yesterday"
+			jdbcType="INTEGER" />
+		<result column="today" property="today" jdbcType="INTEGER" />
+		<result column="view_times" property="viewTimes"
+			jdbcType="INTEGER" />
+		<result column="channel_id" property="channelId"
+			jdbcType="BIGINT" />
+	</resultMap>
+	<select id="getSystemKeywordById" resultMap="keyword"
+		parameterClass="java.lang.Long">
+		select id, name, before_yesterday, yesterday, today, view_times,
+		channel_id from w_keywords where id = #id:INTEGER#
+	</select>
+	<select id="getSystemKeywordByChannelId" resultMap="keyword"
+		parameterClass="java.lang.Long">
+		select id, name, before_yesterday, yesterday, today, view_times,
+		channel_id from w_keywords where channel_id = #id:INTEGER#
+	</select>
+	<delete id="deleteSystemKeyword" parameterClass="java.lang.Long">
+		delete from w_keywords where id = #id:INTEGER#
+	</delete>
+	<delete id="deleteSystemKeywordByChannelId"
+		parameterClass="java.lang.Long">
+		delete from w_keywords where channel_id = #channelId#;
+	</delete>
+	<insert id="createSystemKeyword" parameterClass="keyword">
+		insert into w_keywords (id, name, before_yesterday, yesterday,
+		today, view_times, channel_id) values (#id:INTEGER#,
+		#name:VARCHAR#, #beforeYesterday:INTEGER#, #yesterday:INTEGER#,
+		#today:INTEGER#, #viewTimes:INTEGER#, #channelId:BIGINT#)
+	</insert>
+	<update id="updateSystemKeyword" parameterClass="keyword">
+		update w_keywords set name = #name:VARCHAR#, before_yesterday =
+		#beforeYesterday:INTEGER#, yesterday = #yesterday:INTEGER#,
+		today = #today:INTEGER#, view_times = #viewTimes:INTEGER#,
+		channel_id = #channelId:BIGINT# where id = #id:INTEGER#
+	</update>
+</sqlMap>

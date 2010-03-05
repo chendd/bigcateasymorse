@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Daily">
+	<typeAlias alias="Daily" type="com.video.domain.Daily" />
+
+	<resultMap class="Daily" id="Daily">
+		<result column="id" property="id" jdbcType="BIGINT" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="add_date" property="addDate"
+			jdbcType="TIMESTAMP" />
+		<result column="update_date" property="updateDate"
+			jdbcType="TIMESTAMP" />
+		<result column="browse_times" property="browseTimes"
+			jdbcType="INTEGER" />
+		<result column="top_date" property="topDate"
+			jdbcType="TIMESTAMP" />
+		<result column="hot_date" property="hotDate"
+			jdbcType="TIMESTAMP" />
+		<result column="expense" property="expense" jdbcType="INTEGER" />
+		<result column="grade" property="grade" jdbcType="BIT" />
+		<result column="recommend_date" property="recommendDate"
+			jdbcType="TIMESTAMP" />
+		<result column="point" property="point" jdbcType="INTEGER" />
+		<result column="flag" property="flag" jdbcType="VARCHAR" />
+		<result column="log" property="log" jdbcType="VARCHAR" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="channel_id" property="channelId"
+			jdbcType="BIGINT" />
+		<result column="hot_date" jdbcType="TIMESTAMP" property="hotDate" />
+	</resultMap>
+	<select id="getDailysByChannelId" resultMap="Daily"
+		parameterClass="java.lang.Long">
+		select id, title, add_date, update_date, browse_times,
+		top_date,hot_date, expense, grade, recommend_date, point,
+		user_id, channel_id, flag,log from w_dailies where
+		channel_id=#id#
+	</select>
+	<select id="getDailyById" resultMap="Daily"
+		parameterClass="java.lang.Long">
+		select id, title, add_date, update_date, browse_times,
+		top_date,hot_date, expense, grade, recommend_date, point,
+		user_id, channel_id, flag,log from w_dailies where id=#id#
+	</select>
+	<select id="countDailies" resultClass="int"
+		parameterClass="com.video.util.Pagination">
+		select count(id) from w_dailies
+		<dynamic prepend="where">
+			<isNotEmpty property="condition.title" prepend="and">
+				title like #condition.title# escape '!'
+			</isNotEmpty>
+			<isNotEmpty property="condition.log" prepend="and">
+				log like #condition.log# escape '!'
+			</isNotEmpty>
+			<isNotEmpty property="condition.channelId" prepend="and">
+				channel_id = #condition.channelId#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	<select id="getDailies" resultMap="Daily"
+		parameterClass="com.video.util.Pagination">
+		select id, title, add_date, update_date, browse_times,
+		top_date,hot_date, expense, grade, recommend_date, point,
+		user_id, channel_id, log,flag from w_dailies
+		<dynamic prepend="where">
+			<isNotEmpty property="condition.title" prepend="and">
+				title like #condition.title# escape '!'
+			</isNotEmpty>
+			<isNotEmpty property="condition.log" prepend="and">
+				log like #condition.log# escape '!'
+			</isNotEmpty>
+			<isNotEmpty property="condition.channelId" prepend="and">
+				channel_id = #condition.channelId#
+			</isNotEmpty>
+			<isNotEmpty property="condition.channelId" prepend="and">
+				channel_id = #condition.channelId#
+			</isNotEmpty>
+		</dynamic>
+		<isNotEmpty prepend="order by" property="orderFieldName">
+			$orderFieldName$
+		</isNotEmpty>
+		<isEqual compareValue="true" property="desc">desc</isEqual>
+		limit #startIndex#,#size#
+	</select>
+	<insert id="createDaily" parameterClass="Daily">
+		insert into w_dailies (id, title, add_date, update_date,
+		browse_times, top_date, expense, grade, recommend_date, point,
+		user_id, channel_id, log,hot_date) values (#id:BIGINT#,
+		#title:VARCHAR#, #addDate:TIMESTAMP#, #updateDate:TIMESTAMP#,
+		#browseTimes:INTEGER#, #topDate:TIMESTAMP#, #expense:INTEGER#,
+		#grade:BIT#, #recommendDate:TIMESTAMP#, #point:INTEGER#,
+		#userId:BIGINT#, #channelId:BIGINT#,
+		#log:LONGVARCHAR#,#hotDate:TIMESTAMP#)
+		<selectKey keyProperty="id">select last_insert_id()</selectKey>
+	</insert>
+	<update id="updateDailyChannelByChannelId" parameterClass="Daily">
+		update w_dailies set channel_id = #id:BIGINT# where id =
+		#channelId:BIGINT#
+	</update>
+	<update id="updateDailyWithChannelIdById" parameterClass="Daily">
+		update w_dailies set channel_id = #channelId:BIGINT# where id =
+		#id:BIGINT#
+	</update>
+	<update id="updateDailyCleanByChannelId"
+		parameterClass="java.lang.Long">
+		update w_dailies set flag = '-1' where channel_id =#id#
+	</update>
+	<update id="updateDailyTopById" parameterClass="Daily">
+		update w_dailies set top_date = #topDate:TIMESTAMP# where id
+		=#id#
+	</update>
+	<update id="updateDailyHotById" parameterClass="Daily">
+		update w_dailies set hot_date = #hotDate:TIMESTAMP# where id
+		=#id#
+	</update>
+	<update id="updateDailyRecommendById" parameterClass="Daily">
+		update w_dailies set recommend_date = #recommendDate:TIMESTAMP#
+		where id =#id#
+	</update>
+	<update id="updateDaily" parameterClass="Daily">
+		update w_dailies set title = #title:VARCHAR#, add_date =
+		#addDate:TIMESTAMP#, update_date = #updateDate:TIMESTAMP#,
+		browse_times = #browseTimes:INTEGER#, top_date =
+		#topDate:TIMESTAMP#, expense = #expense:INTEGER#, grade =
+		#grade:BIT#, recommend_date = #recommendDate:TIMESTAMP#, point =
+		#point:INTEGER#, user_id = #userId:BIGINT#, channel_id =
+		#channelId:BIGINT#, flag = #flag:VARCHAR#, hot_date =
+		#hotDate:TIMESTAMP#, log = #log:LONGVARCHAR# where id =
+		#id:BIGINT#
+	</update>
+	<delete id="deleteDailyByChannelId"
+		parameterClass="java.lang.Long">
+		delete from w_dailies where channel_id = #id:BIGINT#
+	</delete>
+	<delete id="deleteDaily" parameterClass="java.lang.Long">
+		delete from w_dailies where id = #id:BIGINT#
+	</delete>
+</sqlMap>

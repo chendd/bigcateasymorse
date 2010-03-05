@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+       "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+<tiles-definitions>
+	<definition name="main" path="/WEB-INF/layout/mainLayout.jsp">
+		<put name="header" value="/header.jsp" />
+		<put name="menu" value="/menu.jsp" />
+		<put name="footer" value="/footer.jsp" />
+	</definition>
+
+	<definition name="videoSpaceManage"
+		path="/WEB-INF/layout/manageVideoSpaceLayout.jsp">
+
+		<put name="header" value="/header.jsp" />
+		<put name="menu" value="/menu.jsp" />
+		<put name="footer" value="/footer.jsp" />
+	</definition>
+	<definition name="sendMail" extends="main">
+		<put name="body"
+			value="/WEB-INF/whisper/sendMail.jsp" />
+	</definition>
+
+	<definition name="dailyManage" extends="videoSpaceManage">
+		<put name="bodyheader"
+			value="/WEB-INF/VideoSpaceManage/DailyManage/header.jsp" />
+	</definition>
+	<definition name="searchManage" extends="videoSpaceManage">
+		<put name="bodyheader" value="/WEB-INF/searchmanage/header.jsp" />
+	</definition>
+	<definition name="videoChannelManage" extends="videoSpaceManage">
+		<put name="bodyheader"
+			value="/WEB-INF/videomanage/videochannelmanage/header.jsp" />
+	</definition>
+
+	<definition name="dailyChannelManage" extends="videoSpaceManage">
+		<put name="bodyheader"
+			value="/WEB-INF/VideoSpaceManage/DailyChannelManage/header.jsp" />
+
+	</definition>
+	<definition name="welcome" extends="main">
+		<put name="body" value="/welcome.jsp" />
+	</definition>
+
+	<definition name="dailyManageIndex" extends="dailyManage">
+		<put name="bodybody"
+			value="/WEB-INF/VideoSpaceManage/DailyManage/addDaily.jsp" />
+	</definition>
+	<definition name="dailyManageUpdate" extends="dailyManage">
+		<put name="bodybody"
+			value="/WEB-INF/VideoSpaceManage/DailyManage/updateDaily.jsp" />
+	</definition>
+	<definition name="dailyManageDailyList" extends="dailyManage">
+		<put name="bodybody"
+			value="/WEB-INF/VideoSpaceManage/DailyManage/dailyList.jsp" />
+	</definition>
+	<definition name="dailyManageMoveDaily" extends="dailyManage">
+		<put name="bodybody"
+			value="/WEB-INF/VideoSpaceManage/DailyManage/moveDaily.jsp" />
+	</definition>
+	<definition name="dailyChannelManageIndex"
+		extends="dailyChannelManage">
+		<put name="bodybody"
+			value="/WEB-INF/VideoSpaceManage/DailyChannelManage/index.jsp" />
+
+	</definition>
+	<definition name="dailyChannelManageAdd"
+		extends="dailyChannelManage">
+		<put name="bodybody"
+			value="/WEB-INF/VideoSpaceManage/DailyChannelManage/addDailyChannel.jsp" />
+	</definition>
+	<definition name="dailyChannelManageRootManage"
+		extends="dailyChannelManage">
+		<put name="bodybody"
+			value="/WEB-INF/VideoSpaceManage/DailyChannelManage/rootDailyChannel.jsp" />
+	</definition>
+	<definition name="dailyChannelManageChildManage"
+		extends="dailyChannelManage">
+		<put name="bodybody"
+			value="/WEB-INF/VideoSpaceManage/DailyChannelManage/childDailyChannel.jsp" />
+	</definition>
+	<definition name="dailyChannelManageReposition"
+		extends="dailyChannelManage">
+		<put name="bodybody"
+			value="/WEB-INF/VideoSpaceManage/DailyChannelManage/repositionDailyChannel.jsp" />
+	</definition>
+	<definition name="dailyChannelManageUnite"
+		extends="dailyChannelManage">
+		<put name="bodybody"
+			value="/WEB-INF/VideoSpaceManage/DailyChannelManage/uniteDailyChannel.jsp" />
+	</definition>
+	<definition name="dailyChannelManageMove"
+		extends="dailyChannelManage">
+		<put name="bodybody"
+			value="/WEB-INF/VideoSpaceManage/DailyChannelManage/moveDailyChannel.jsp" />
+	</definition>
+	<definition name="dailyReplyManageList" extends="dailyManage">
+		<put name="bodybody"
+			value="/WEB-INF/VideoSpaceManage/DailyManage/dailyReplyList.jsp" />
+	</definition>
+	<definition name="dailyReplyManageUpdate" extends="dailyManage">
+		<put name="bodybody"
+			value="/WEB-INF/VideoSpaceManage/DailyManage/updateDailyReply.jsp" />
+	</definition>
+
+	<definition name="uploaduserList" extends="main">
+		<put name="body" value="/WEB-INF/user/uploaduserList.jsp" />
+	</definition>
+	
+
+	<definition name="playbillList" extends="main">
+		<put name="body" value="/WEB-INF/user/playbillList.jsp" />
+	</definition>
+
+	<definition name="toAdminCreate" extends="main">
+		<put name="body" value="/WEB-INF/user/toAdminCreate.jsp" />
+	</definition>
+
+	<definition name="adminList" extends="main">
+		<put name="body" value="/WEB-INF/user/adminList.jsp" />
+	</definition>
+
+	<definition name="toUserCreate" extends="main">
+		<put name="body" value="/WEB-INF/user/toUserCreate.jsp" />
+	</definition>
+
+	<definition name="userList" extends="main">
+		<put name="body" value="/WEB-INF/user/userList.jsp" />
+	</definition>
+	
+	<definition name="toChooseStar" extends="main">
+		<put name="body" value="/WEB-INF/user/toChooseStar.jsp" />
+	</definition>
+	
+	<definition name="toUpdateRecommendGroups" extends="main">
+		<put name="body" value="/WEB-INF/group/toSubscribeGroup.jsp" />
+	</definition>
+
+	<definition name="toUserUpdate" extends="main">
+		<put name="body" value="/WEB-INF/user/toUserUpdate.jsp" />
+	</definition>
+
+	<definition name="tagList" extends="main">
+		<put name="body" value="/WEB-INF/tag/tagList.jsp" />
+	</definition>
+
+	<definition name="dailyTagList" extends="main">
+		<put name="body" value="/WEB-INF/tag/dailyTagList.jsp" />
+	</definition>
+
+	<definition name="sendMessage" extends="main">
+		<put name="body" value="/WEB-INF/whisper/sendMessage.jsp" />
+	</definition>
+
+	<definition name="getWhispers" extends="main">
+		<put name="body" value="/WEB-INF/whisper/whisperList.jsp" />
+	</definition>
+<definition name="groupList" extends="main">
+		<put name="body" value="/WEB-INF/group/groupList.jsp" />
+	</definition>
+	<definition name="toGroupUpdate" extends="main">
+		<put name="body" value="/WEB-INF/group/toGroupUpdate.jsp" />
+	</definition>
+	<definition name="topicList" extends="main">
+		<put name="body" value="/WEB-INF/group/topicList.jsp" />
+	</definition>
+	<definition name="toTopicUpdate" extends="main">
+		<put name="body" value="/WEB-INF/group/toTopicUpdate.jsp" />
+	</definition>
+	
+	<definition name="videoList" extends="main">
+		<put name="body" value="/WEB-INF/videomanage/videoList.jsp" />
+	</definition>
+	<definition name="toVideoUpdate" extends="main">
+		<put name="body" value="/WEB-INF/videomanage/toVideoUpdate.jsp" />
+	</definition>
+	<definition name="playBillList" extends="main">
+		<put name="body" value="/WEB-INF/videomanage/playBillList.jsp" />
+	</definition>
+	<definition name="toPlayBillUpdate" extends="main">
+		<put name="body" value="/WEB-INF/videomanage/toPlayBillUpdate.jsp" />
+	</definition>
+	<definition name="toPlayBillCreate" extends="main">
+		<put name="body" value="/WEB-INF/videomanage/toPlayBillCreate.jsp" />
+	</definition>
+	<definition name="toUploadVideoCreate" extends="main">
+		<put name="body" value="/WEB-INF/videomanage/toUploadVideoCreate.jsp" />
+	</definition>
+	<definition name="commentList" extends="main">
+		<put name="body" value="/WEB-INF/videomanage/commentList.jsp" />
+	</definition>
+	<definition name="indexRecommendVideoList" extends="main">
+		<put name="body" value="/WEB-INF/videomanage/indexRecommendVideoList.jsp" />
+	</definition>
+	<definition name="toUpdateIndexRecommendVideo" extends="main">
+		<put name="body" value="/WEB-INF/videomanage/toUpdateIndexRecommendVideo.jsp" />
+	</definition>
+	
+	<definition name="mayLikeVideoList" extends="main">
+		<put name="body" value="/WEB-INF/videomanage/mayLikeVideoList.jsp" />
+	</definition>
+	<definition name="toUpdateMayLikeVideo" extends="main">
+		<put name="body" value="/WEB-INF/videomanage/toUpdateMayLikeVideo.jsp" />
+	</definition>
+	
+	<definition name="candidateVideoesList" extends="main">
+		<put name="body" value="/WEB-INF/videomanage/candidateVideoesList.jsp" />
+	</definition>
+	
+	<definition name="uploadVideoList" extends="main">
+		<put name="body" value="/WEB-INF/videomanage/uploadVideoList.jsp" />
+	</definition>
+	<definition name="toUploadVideoUpdate" extends="main">
+		<put name="body" value="/WEB-INF/videomanage/toUploadVideoUpdate.jsp" />
+	</definition>
+	<definition name="videoChannelIndex" extends="videoChannelManage">
+		<put name="bodybody"
+			value="/WEB-INF/videomanage/videochannelmanage/index.jsp" />
+	</definition>
+
+	<definition name="addVideoChannel" extends="videoChannelManage">
+		<put name="bodybody"
+			value="/WEB-INF/videomanage/videochannelmanage/addVideoChannel.jsp" />
+	</definition>
+	<definition name="updateVideoChannel"
+		extends="videoChannelManage">
+		<put name="bodybody"
+			value="/WEB-INF/videomanage/videochannelmanage/updateVideoChannel.jsp" />
+	</definition>
+	<definition name="moveVideoChannel" extends="videoChannelManage">
+		<put name="bodybody"
+			value="/WEB-INF/videomanage/videochannelmanage/moveVideoChannel.jsp" />
+	</definition>
+	<definition name="uniteVideoChannel" extends="videoChannelManage">
+		<put name="bodybody"
+			value="/WEB-INF/videomanage/videochannelmanage/uniteVideoChannel.jsp" />
+	</definition>
+
+	<definition name="indexSearchManage" extends="searchManage">
+		<put name="bodybody" value="/WEB-INF/searchmanage/index.jsp" />
+	</definition>
+	<definition name="addSearchChannel" extends="searchManage">
+		<put name="bodybody"
+			value="/WEB-INF/searchmanage/addchannel.jsp" />
+	</definition>
+	<definition name="updateSearchChannel" extends="searchManage">
+		<put name="bodybody"
+			value="/WEB-INF/searchmanage/updatechannel.jsp" />
+	</definition>
+	<definition name="addSystemKeyword" extends="searchManage">
+		<put name="bodybody"
+			value="/WEB-INF/searchmanage/addKeyword.jsp" />
+	</definition>
+	<definition name="keywordChannelOrder" extends="searchManage">
+		<put name="bodybody"
+			value="/WEB-INF/searchmanage/channelOrder.jsp" />
+	</definition>
+	<definition name="keywordIndex" extends="searchManage">
+		<put name="bodybody"
+			value="/WEB-INF/searchmanage/keywordindex.jsp" />
+	</definition>
+	<definition name="updateKeyword" extends="searchManage">
+		<put name="bodybody"
+			value="/WEB-INF/searchmanage/updateKeyword.jsp" />
+	</definition>
+	
+	<definition name="notices" extends="main">
+		<put name="body"
+			value="/WEB-INF/notice/noticeList.jsp" />
+	</definition>
+	
+		<definition name="toUpdateNotice" extends="main">
+		<put name="body"
+			value="/WEB-INF/notice/noticeUpdate.jsp" />
+	</definition>
+	
+		<definition name="toAddNotice" extends="main">
+		<put name="body"
+			value="/WEB-INF/notice/noticeAdd.jsp" />
+	</definition>
+</tiles-definitions>

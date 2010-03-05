@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Topic">
+	<typeAlias alias="Topic" type="com.video.domain.Topic" />
+	<resultMap id="Topic" class="Topic">
+	<result property="id" column="id" />
+		<result property="title" column="title" />
+		<result property="text" column="text" />
+		<result property="user.id" column="user_id" />
+		<result property="group.id" column="group_id" />
+		<result property="browseCount" column="browse_times" />
+		<result property="flag" column="flag" />
+			<result property="recommendDate" column="recommend_date" />
+<result property="addDate" column="add_date" />
+	</resultMap>
+	
+	
+	
+	<resultMap id="TopicJoinMap" class="Topic" >
+		<result property="id" column="t.id" />
+		<result property="title" column="t.title" />
+		<result property="text" column="t.text" />
+
+		<result property="user.id" column="u.id" />
+		<result property="user.userName" column="u.username" />
+		<result property="group.id" column="g.id" />
+		<result property="group.name" column="g.name" />
+		<result property="browseCount" column="t.browse_times" />
+		<result property="addDate" column="t.add_date" />
+		<result property="flag" column="t.flag" />
+			<result property="recommendDate" column="t.recommend_date" />
+			<result property="comments" resultMap="topic.commentresult" />
+	</resultMap>
+	<resultMap id="commentResult" class="com.video.domain.TopicComment">
+<result property="id" column="c.id"/>
+<result property="comment" column="comment"/>
+<result property="commentDate" column="c.add_date"/>
+</resultMap>
+	
+	<select id="countTopic"  parameterClass="com.video.util.Pagination" resultClass="int">
+		select count(*) from w_topices
+	</select>
+	
+	<select id="getTopices" parameterClass="com.video.util.Pagination" resultMap="TopicJoinMap">
+		select t.flag,t.recommend_date,t.id,t.title,t.text,t.add_date,t.browse_times,u.id,u.username,g.id,g.name,c.id,c.comment,c.add_date  from w_topices t left join users u on t.user_id = u.id  left join w_groups g on t.group_id=g.id 
+		left join w_topic_comments c on t.id=c.topic_id 
+		group by t.id
+	  limit #startIndex#,#size#
+		
+	</select>
+	
+	<select id="getTopicById" parameterClass="java.lang.Long" resultMap="TopicJoinMap">
+		select t.flag,t.recommend_date,t.id,t.title,t.text,t.add_date,t.browse_times,u.id,u.username,g.id,g.name,c.id,c.comment,c.add_date  from w_topices t left join users u on t.user_id = u.id  left join w_groups g on t.group_id=g.id 
+		left join w_topic_comments c on t.id=c.topic_id where t.id=#value# order by t.id ,c.add_date desc 
+	</select>
+	
+	<delete id="deleteTopicById" parameterClass="java.lang.Long">
+		delete from w_topices where id = #value#  
+	</delete>
+	
+	<update id="updateTopic" parameterClass="Topic">
+		update w_topices set title=#title#,text=#text#,browse_times=#browseCount#,
+		add_date=#addDate#,flag=#flag#,recommend_date=#recommendDate# where id=#id#
+		
+	
+	</update>
+	
+	
+	<delete id="deleteTopicComment" parameterClass="java.lang.Long">
+	delete from w_topic_comments where id=#value#
+	</delete>
+	
+	
+	</sqlMap>
