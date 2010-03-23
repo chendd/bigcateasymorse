@@ -1,0 +1,122 @@
+
+ body { margin:0; font-size:12px;}
+
+  .table_box{ border:1px  solid #46ACDB; margin-bottom:8px;}
+  .table_box td,.table_box td a{ font-size:12px; color:#0058B0; text-decoration:none;}
+  .table_box td a:link,.table_box td a:visible{ font-size:12px; color:#0058B0; text-decoration:none;}
+  .table_box td a:hover{ font-size:12px; color:#FF6600; text-decoration:none;}
+
+  .table_main{ font-size:12px; color:0048b5; margin-bottom:6px;}
+  .table_main td,.table_main td a{font-size:12px; color:#0058B0; text-decoration:none;}
+  .table_main td a:link,.table_main td a:visible{font-size:12px; color:#0058B0; text-decoration:none;}
+  .table_main td a:hover{ font-size:12px; color:#FF6600; text-decoration:none;}
+
+.h4{
+	font-size: 14px;
+	padding:0px 0px 0px 12px;}
+.title_span{
+	font-size: 14px;
+	padding:0px 0px 0px 20px;
+	font-weight:bold;
+	vertical-align:bottom;}
+	
+.title_span13{
+	font-size: 13px;
+	padding:0px 0px 0px 0px;
+	font-weight:bold;
+	vertical-align:bottom;
+	}
+/*.left_list{ margin:0px;}
+.left_list ul{ list-style:none; margin: 0px;padding:0px;}
+.left_list li{ line-height:24spx; font-size:12px; border-bottom:1px dashed #CEE2F4; padding:0px 4px 0px 4px;}*/
+.dianping_form{ padding-left:20px;}
+
+.dianping_span{ font-size:12px; color:#000000; padding-left:20px;}
+.dianping_box{ float:left; width:88%; font-size:12px; color:#000000; margin-top:12px;margin-bottom:5px;}
+.dianping_box a{ font-size:12px; color:#0058B0; text-decoration:underline;}
+.dianping_box a:link,.dianping_box a:visible{ font-size:12px; color:#0058B0; text-decoration:underline;}
+.dianping_box a:hover{ font-size:12px; color:#FF6600; text-decoration:none;}
+.dianping_box ul{ margin:0px 0px 0px 20px; padding:0px; list-style:none;}
+.dianping_box li{ line-height:20px;}
+.dianping_box span{ margin-right:10px;}
+
+.dianping_box_right {float:left; font-size:12px; color:#FFFFFF;
+                      margin-top:12px;margin-bottom:5px;
+                      background:url(/image/comment_right.jpg) no-repeat; width:86px; height:87px;}
+.dianping_box_right ul{ margin:10px 0px 0px 15px;*margin:10px 0px 0px 15px; padding:0px; list-style:none;}
+.dianping_box_right li{ line-height:10px;*line-height:16px; padding-top:8px; *padding:0px;}
+.dianping_box_right span{ margin-right:14px;}
+.dianping_box img{margin-bottom:-2px;}
+
+.table_box1 {  margin-bottom:8px;}
+
+#Tab4{
+font:12px "ËÎÌו";
+width:196px;
+margin:0px;
+padding:0px;
+margin:0 auto;}
+
+.Menubox4 {
+width:100%;
+background:url(../image/left-title_bg2.jpg) no-repeat;
+height:34px;
+line-height:26px;
+}
+.Menubox4 ul{
+margin:0px;
+padding:0px;
+list-style:none;
+}
+.Menubox4 li{
+float:left;
+display:block;
+cursor:pointer;
+width:50%;
+text-align:center;
+color:#0F5997;
+height:34px;
+line-height:30px;
+
+}
+.Menubox4 li.hover{
+padding:0px;
+background:#fff;
+width:49.99%;
+background:url(../image/left-title_qh_bg.jpg) no-repeat;
+color:#0F5997;
+height:34px;
+line-height:30px;
+}
+
+
+.Contentbox4{
+clear:both;
+margin-top:0px;
+padding-top:4px;
+}
+
+
+.comment_search{ background:url(/image/comment_center.png) repeat-x;}
+.comment_search div.title{ height:30px; padding-top:6px; margin-bottom:16px;}
+.comment_search div.city{ padding:10px 0px 10px 0px; }
+.comment_search div.city ul{ margin:0px; padding:0px;padding-left:20px; list-style:none; }
+.comment_search div.city ul li{ padding-top:6px; height:18px; line-height:14px;}
+.comment_search div.city ul li a.current{ padding:3px 3px 1px 3px; background:#FF6600; color:#FFFFFF;}
+.paixu{ background:#FCDFC2; height:20px; padding-top:8px; padding-left:20px;}
+.paixu a.cheng{ padding:3px 3px 1px 3px; background:#FF6600; color:#FFFFFF;}
+.maincontent{ margin-top:0px; border:1px solid #6AC8F8;}
+
+.hoteltitle{height:18px; padding-top:7px; padding-left:20px;  background:#E7F0F7; border-top:1px solid #74C4E7;font-weight:bold;}
+
+
+
+.com_nav{ height:26px; margin-top:6px;}
+.com_nav ul{ margin:0px; padding:0px; padding-left:10px;}
+.com_nav ul li{ float:left; width:72px; text-align:center; height:26px; line-height:26px; background:url(../image/navbtn1.png) no-repeat; margin:0px 4px 0px 0px; }
+.com_nav ul li.current{background:url(../image/navbtn2.png) no-repeat; font-weight:bold;}
+.com_nav ul li  a{  display:block;  line-height:22px; padding-top:4px;}
+.com_nav ul li.current a{ color:#FFFFFF;}
+
+
+.city a.cheng{ padding:3px 3px 1px 3px; background:#FF6600; color:#FFFFFF;}

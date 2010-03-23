@@ -1,0 +1,397 @@
+body {
+	font-size:12px;
+	margin-top: 1px;
+
+         }
+		 
+a{ font-size:14px; color:#0058B0; text-decoration:none; font-family:"����"}
+a:link,a:visible{font-size:12px; color:#0058B0; text-decoration:none;}
+a:hover{font-size:14px; color:#ff6600; text-decoration:none;}
+
+/*----ҳ��---Start---*/
+/*.nav{ font-size:12px; color:#2358BA; vertical-align:middle;
+        background:url(../image/nav_bg.jpg) repeat-x;
+		*margin-left:3px;}*/
+.nav2{ font-size:12px; color:#2358BA; vertical-align:middle;
+       background:url(/image/tbg.png) repeat-x 0px -141px;}
+
+.menu_a1 a{ font-size:13px; color:#1173C0;font-weight:bold; text-decoration:none; }
+.menu_a1 a:hover,.menu_a1 a:visible{ font-size:13px; text-decoration:none;font-weight:bold; color:#1173C0;}
+.menu_a2 a{ font-size:13px; text-decoration:none; color:#FFFFFF; }
+.menu_a2 a:hover,.menu_a2 a:visible{ font-size:13px; text-decoration:none; color:#FFFFFF;}
+/*.top_img{ width:8px; height:9px; margin-right:2px;}*/
+/*----ҳ��---End---*/
+
+.search { font-size:12px; color:#003399;
+          width:209px; *width:200px;
+           }
+ 
+.search input{ border:1px solid #1374C3;}
+.search select{ border:1px solid #1374C3;}
+.table_biankuang{ border:1px  solid #9AD0FC;}
+
+
+.huise a{font-size:12px; color:#A7A7A7; text-decoration:none;}
+.huise a:link,.huise a:visible{font-size:12px; color:#A7A7A7; text-decoration:none;}
+.huise a:hover{font-size:12px; color:#ff6600; text-decoration:none;}
+.dianping_box a{ font-size:12px; color:#A7A7A7; text-decoration:none;}
+.dianping_box a:link,.dianping_box a:visible{ font-size:12px; color:#0058B0; text-decoration:none}
+.dianping_box a:hover{ font-size:12px; color:#ff6600; text-decoration:none}
+
+.table_left{  margin-bottom:0px;
+              border-top:1px solid #9AD0FC;
+			  border-right:1px solid #9AD0FC;
+			  border-left:1px solid #9AD0FC;}
+.table_left td,.table_left td a{ font-size:12px; color:#0058B0; text-decoration:none;}
+.table_left td a,.table_left td a:visible{ font-size:12px; color:#0058B0; text-decoration:none;}
+.table_left td a:hover{ font-size:12px; color:#FF6600; text-decoration:none;}
+
+
+.tuijian img{ margin:0px; border:1px solid #999999;}
+
+.main_tab {border-left:1px  solid #9AD0FC;
+          border-right:1px  solid #9AD0FC;
+		  }
+.options_tab{ border-left:1px  solid #9AD0FC;
+              border-right:1px  solid #9AD0FC;
+			  font-size:12px;
+			  text-align:center;
+			  }
+/*�ı���ɫ Start*/
+.blue { color:#0058B0; font-size:12px;}
+
+.bold { font-weight:bold;}
+/*.blue_b{ color:#0058B0; font-size:12px;}*/
+.hong {color: #FF3300;}
+.cheng{ font-size:12px; color:#FF6600;}
+.cheng13{ font-size:13px; color:#FF6600;}
+.cheng2{ color:#FF6600;}
+.hui{ font-size:12px; color:#959595;}
+.hui2{ color:#959595;}
+/*�ı���ɫ End*/
+.dashed{border-bottom:1px #CEE2F4 dashed;}
+.duanluo {
+	font-size: 12px;
+	line-height: 150%;
+	
+}
+
+h4{ margin:4px 0px 0px 12px; padding:0px; font-size:13px; color:#131B60;}
+
+.photo{ text-align:center;}
+.photo img{ border:1px solid #FFCC00;}
+.photo2{ text-align:center;}
+.photo2 img{ border:1px solid #C3C3C3;}
+
+
+.td_xuxian{ height:24px;
+            border-bottom:1px dashed #CEE2F4;
+			vertical-align:baseline;}
+.hang{ width:90%; margin-top:4px;}
+.hang td{ height:18px; width:50%;}
+
+
+/*���Ͻǹ��  start*/
+div#MainPromotionBanner{
+	width:328px;
+	height:126px;
+	background:#feb900;
+}
+#MainPromotionBanner #SlidePlayer {
+	position:relative;
+	margin: 0 auto;
+}
+#MainPromotionBanner .Slides{
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	height: 126px;
+	overflow: hidden;
+}
+#MainPromotionBanner .Slides li {
+	float: left;
+	width: 328px;
+	height: 126px;
+}
+
+#MainPromotionBanner .Slides img{
+	border:0;
+	display: block;
+	width: 328px;
+	height: 126px;	
+}
+
+#MainPromotionBanner .SlideTriggers{
+	margin: 0;
+	padding: 0;
+	list-style: none; 
+	position: absolute; 
+	top: 105px; 
+	right: 0px;
+	z-index: 10;
+	height: 25px;	
+}
+#MainPromotionBanner .SlideTriggers li{
+	float: left;
+	display: inline;
+	color: #74a8ed;
+	text-align: center;
+	line-height:16px;
+	width: 16px;
+	height: 16px;
+	font-family: Arial;
+	font-size: 10px;
+	cursor: pointer;
+	overflow: hidden; 
+	margin:3px 3px;
+	background: url(../image/slide_trigger.gif) no-repeat center center;
+}
+#MainPromotionBanner .SlideTriggers li.Current{ 
+	color:#fff; 
+	background: url(../image/slide_trigger_c.gif) no-repeat center center;
+	border:0; 
+	
+	font-size: 12px;
+	line-height: 22px;
+	height: 22px;
+	width: 16px;
+	margin:0 1px; 
+}
+/*���Ͻǹ��  End*/
+
+/*ѡ�-----------------------------------Start------------------------------*/
+#Tab1{
+font:12px "����";
+color:#0058B0;
+text-align:center;
+width:399px;
+margin:0px;
+padding:0px;
+margin:0 auto;}
+/*ѡ�2*/
+#Tab2{
+font:12px "����";
+color:#0058B0;
+text-align:center;
+width:204px;
+margin:0px;
+padding:0px;
+margin:0 auto;}
+
+/*ѡ�3*/
+#Tab3{
+font:12px "����";
+color:#0058B0;
+text-align:center;
+width:337px;
+margin:0px;
+padding:0px;
+margin:0 auto;}
+/*�˵�class*/
+
+.Menubox {
+width:100%;
+background:url(/image/tbg2.png) no-repeat 0px -32px;
+height:22px;
+line-height:22px;
+}
+.Menubox ul{
+margin:0px;
+padding:0px;
+list-style:none;
+}
+.Menubox li{
+float:left;
+display:block;
+cursor:pointer;
+width:9%;
+text-align:center;
+}
+.Menubox li.hover{
+padding:0px;
+background:#fff;
+width:9%;
+border-left:1px solid #9AD0FC;
+border-right:1px solid #9AD0FC;
+color:#ff6600;
+height:22px;
+line-height:22px;
+}
+
+
+.Menubox2 {
+width:100%;
+background:url(/image/tbg2.png) no-repeat 0px 0px;
+height:22px;
+line-height:22px;
+}
+.Menubox2 ul{
+margin:0px;
+padding:0px;
+list-style:none;
+}
+.Menubox2 li{
+float:left;
+display:block;
+cursor:pointer;
+width:40%;
+text-align:center;
+
+
+}
+.Menubox2 li.hover{
+padding:0px;
+background:#fff;
+width:40%;
+border-left:1px solid #9AD0FC;
+
+border-right:1px solid #9AD0FC;
+
+
+color:#ff6600;
+height:22px;
+line-height:22px;
+}
+
+.Menubox3 {
+width:100%;
+background:url(/image/tbg.png)  repeat-x 0px -109px;
+height:31px;
+line-height:31px;
+border-left:1px solid #9AD0FC;
+border-right:1px solid #9AD0FC;
+}
+.Menubox3 ul{
+margin:0px;
+padding:0px;
+list-style:none;
+margin-left:2px;
+}
+.Menubox3 li{
+float:left;
+display:block;
+cursor:pointer;
+width:100px;
+text-align:center;
+background:url(/image/tbg.png) no-repeat 99px -78px;
+}
+.Menubox3 li.hover{
+padding:0px;
+width:100px;
+background:url(/image/tbg2.png) no-repeat -210px 0px;
+color:#ffffff;
+height:31px;
+line-height:31px;
+}
+
+.Contentbox{
+clear:both;
+margin-top:0px;
+border:1px solid #9AD0FC;
+border-top:none;
+border-bottom:none;
+height:238px;
+text-align:center;
+padding-top:6px;
+}
+
+
+/*ѡ�-----------------------------------End------------------------------*/
+#blockCity{ position:absolute; background-color:#FFFFCC; padding:5px; border:1px solid #F5C66B; width:135px;
+	line-height:130%; display:none;}
+
+.more{  margin:0px;padding:0px;}
+
+.more ul{ width:720px; padding:10px 0px 0px 0px; margin:5px;
+          list-style:none;}
+.more li{ width:180px; float:left; padding:0px 0px 0px 10px;
+          line-height:22px;}
+
+.photoimg50 {
+	BORDER: #C3C3C3 1px solid; PADDING: 4px; 
+}
+.photoimg50 img{ width:50px; height:40px; border:0px;}
+.photoimg35 {
+	BORDER:#CDCDCD 1px solid; PADDING: 2px; 
+	width:50px; height:35px;
+}
+.photoimg35 img{ width:50px; height:35px; border:0px;}
+.photoimg84 { width:84px; height:58px;
+	BORDER: #C3C3C3 1px solid; PADDING: 3px;
+	text-align:center;
+	
+}
+.hotel_photoimg50 { width:50px; height:40px;
+	BORDER: #C3C3C3 1px solid; PADDING: 3px;
+	text-align:center;
+	
+}
+
+.bottom957{border-bottom:1px dashed #9AD0FC; height:19px;}
+
+
+/*---------------hotel--------------------*/
+ .list{ margin:0px; padding:0px;
+        border-left:1px solid #9AD0FC;
+		border-right:1px solid #9AD0FC;}
+ .list ul{ list-style:none; margin:0px; padding-left:14px; padding-top:4px;
+           }
+  .list li{ border-bottom:1px dashed #BDE3F2;
+            line-height:22px;       
+            width:95%;}
+ .list_b{ width:207px; text-align:center;
+          /*background:#E8F7FD;*/}
+  .list_b img{ width:180px; height:68px;}
+ .ul_listnone{ list-style:none;
+               margin:4px 0px 4px 0px; padding:0px;
+			   }
+ .ul_listnone li{ padding-top:6px;
+			   }
+  h4{ 
+     margin:0px 0px 0px 22px; padding:0px; font-size:13px;
+	 color:#2970AF;}
+
+ .Block_Margin{ height:10px;}
+ .com_box{ margin:0px;padding:0px;
+           vertical-align:top;
+		   width:100%;} 
+ .main{ border-left:1px #92D8FA solid;
+           border-right:1px #92D8FA solid;
+		   }
+ .cursor{ cursor:pointer;font-size:12px; color:#0058B0; font-weight:bold; }
+ 
+ .a_dotted{ color:#4499EE; text-decoration:none; /*�»���Ч�����»���*/
+             border-bottom: 1px  #FF9900 dashed  /*��һ��ֻ���±ߵĿ� �߿�Ϊ����*/
+			 }
+			 
+			 
+.hoteserach_banner{background:url(/image/search_bg4.png) no-repeat; margin-top:8px;}
+.hoteserach_banner img{ width:180px; height:68px;}
+.hotel_left{ background:url(/image/search_bgd2.png) no-repeat top left;}
+.hotelsearch_tuijian{ background:url(/image/search_bg3.png) no-repeat;}
+
+
+
+.clear{ clear:both}
+
+.list1{ margin:0px; padding:0px;}
+.list1 ul{ width:190px; list-style:none; margin:0px; padding:2px 6px 2px 6px;}
+.list1 li{ float:left; width:90px; height:18px; line-height:18px;margin:0px; padding:0px;}
+
+.list2{ margin:0px; padding:0px;}
+.list2 ul{ width:190px; list-style:none; margin:0px; padding:4px 6px 2px 6px;}
+.list2 li{  height:18px;width:190px;  line-height:18px;margin:0px; padding:0px;}
+
+.list3{ margin:0px; padding:0px;}
+.list3 ul{ width:377px; list-style:none; margin:0px; padding:6px 6px 6px 12px;}
+.list3 li{ float:left; width:35px; height:18px; line-height:18px;}
+.list3 li a,.list3 li a:visible{ color:#8B8B8B;}
+
+
+
+
+  #bottom3{ line-height:20px;margin-top:10px; border:1px solid #f2f2f2;padding:4px 4px 4px 6px; background:#FDFDFD;}
+  #bottom3 a,#bottom2 a:hover{ color:#888;}
+  #bottom3 a:hover{ color:#888; text-decoration:underline;}
+.homelink{ width:872px;padding:0px; margin:0px ; list-style:none;}
+.homelink li{  margin-right:0px; PADDING-LEFT: 2px; FLOAT: left; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; width:90px; }
