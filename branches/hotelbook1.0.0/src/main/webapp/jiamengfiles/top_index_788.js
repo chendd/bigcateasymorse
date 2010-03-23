@@ -1,0 +1,50 @@
+document.write('<meta http-equiv="Content-Type" content="text/html; charset=gb2312">');
+document.write('<table width="788"  border="0" align="center" cellpadding="0" cellspacing="0">');
+  document.write('<tr>');
+    document.write('<td height="75"><table width="100%"  border="0" cellspacing="0" cellpadding="0">');
+      document.write('<tr>');
+        document.write('<td width="223" height="78"><a href="http://www.51booking.cn"><img src="/image/logo_01.jpg"  alt="酒店预订 机票预订 旅游指南 - 中国商务订房网" style="width:213px;height:78px;" border="0" /></a></td>');
+        document.write('<td width="479" align="center"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="468" height="60">');
+          document.write('<param name="movie" value="/swf/hotel_index.swf" />');
+          document.write('<param name="quality" value="high" />');
+          document.write('<embed src="/swf/hotel.swf" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="468" height="60"></embed>');
+        document.write('</object></td>');
+        document.write('<td width="86" ><table width="80" border="0" align="center" cellpadding="0" cellspacing="0">');
+          document.write('<tr>');
+            document.write('<td height="23" align="center" valign="middle"><span style="font-size:12px; color:#1475C4;">·</span><a href="#" onclick="this.style.behavior=\'url(#default#homepage)\';this.setHomePage(\'http://www.51booking.cn/\')" class="t">设为首页</a></td>');
+          document.write('</tr>');
+          document.write('<tr>');
+            document.write('<td align="center" valign="top" ></td>');
+          document.write('</tr>');
+          document.write('<tr>');
+            document.write('<td align="center"><span style="font-size:12px; color:#1475C4;">·</span><a onmouseover="window.external.addFavorite(\'http://www.51booking.cn\',\'中国商务订房网\')" target="_self" href="http://www.51booking.cn" class="t">加入收藏</a></td>');
+          document.write('</tr>');
+        document.write('</table></td>');
+      document.write('</tr>');
+      
+    document.write('</table></td>');
+  document.write('</tr>');
+document.write('</table>');
+document.write('<table width="788"  border="0" align="center" cellpadding="0" cellspacing="0">');
+  document.write('<tr>');
+    document.write('<td height="49" background="/image/menu01.png"><table width="788" height="49"  border="0" align="center" cellpadding="0" cellspacing="0">');
+      document.write('<tr>');
+        document.write('<td height="23"><table width="100%" height="108%"  border="0" cellpadding="0" cellspacing="0" style="margin-top:2px;">');
+            document.write('<tr valign="middle">');
+
+              document.write('<td width="5%" ></td>');
+document.write('<td width="9%" height="15" ><a href="http://www.51booking.cn/"  title="首页" class="a_top1">首 页</a></td>');
+        document.write('<td width="11%" ><a href="http://www.51booking.cn/hotel/"  title="酒店预订" class="a_top2">酒店预订</a></td>');
+        document.write('<td width="12%" ><a href="http://www.51booking.cn/hotelchain/"title="连锁酒店" class="a_top2">连锁酒店</a></td>');
+		document.write('<td width="12%" ><a href="http://www.51booking.cn/comment/" title="酒店点评" class="a_top2">酒店点评</a></td>');
+        document.write('<td width="12%" ><a href="http://www.51booking.cn/plane/"  title="机票预订" class="a_top2">机票预订</a></td>');
+        document.write('<td width="14%" ><a href="http://www.51booking.cn/expo/" title="会展信息" class="a_top2">会展信息</a></td>');
+              document.write('<td width="25%"><a href="http://www.51booking.cn/Destinations/" title="目的地指南" class="a_top2">目的地指南</a></td>');
+            document.write('</tr>');
+        document.write('</table></td>');
+      document.write('</tr>');
+    document.write('</table></td>');
+  document.write('</tr>');
+document.write('</table>');
+
+

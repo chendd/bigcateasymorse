@@ -1,0 +1,1223 @@
+body {
+	font-size:12px;
+	margin-top: 1px;
+
+         }
+		 
+		 
+.bodybox{BORDER: #91c8f4 1px solid; }
+ .black a:link,.black a:visited{ color:#000000; text-decoration:none;}
+ .black a:hover{font-size:12px; color:#ff6600; text-decoration:none;}
+ body div{font-size:12px;}
+ .a_dotted{ color:#0058B0; text-decoration:none; /*下划线效果：无下划线*/
+            border-bottom: 1px  #0058B0 dashed;/*加下边的框 边框为虚线*/
+			}   /*颜色为字体蓝*/
+/*灰色字体，鼠标经过有下划线*/
+.link_hui{ font-size:12px; color:#959595; text-decoration:none;}
+.link_hui:link,.link_hui:visited{font-size:12px; color:#959595; text-decoration:none;}
+.link_hui:hover{font-size:12px; color:#959595; text-decoration:underline;}
+
+.link_hui666{ font-size:12px; color:#666; text-decoration:none;}
+.link_hui666:link,.link_hui666:visited{font-size:12px; color:#666; text-decoration:none;}
+.link_hui666:hover{font-size:12px; color:#666; text-decoration:underline;}
+/*-----------公共--------------*/
+.hui666{color:#666666;}
+.bold12{ font-weight:bold; font-size:12px;}  
+.bold13{ font-weight:bold; font-size:13px;} 
+.bold14{ font-weight:bold; font-size:14px;}
+.bold15{ font-size:15px; font-weight:bold;} 
+.cheng_bold{ color:#FF6600; font-weight:bold; line-height:28px;}	
+.color_black{ color:#000000;}
+.duanluo150{ line-height:150%;}
+.color_lan{ color:#000066;}
+.cheng15 {
+	font-size: 15px;
+	color: #FF6600;
+	font-weight: bold;
+	font-family: "黑体"
+}
+.cheng16{ font-size: 16px;
+	color: #FF6600;}
+.linkhui{}
+.height2{height:2px;}
+.linkhui a:hover{ text-decoration:underline; color:#999;}
+.lineheight160{ line-height:160%}
+.a_hovercolor1 a:hover{color:#0058B0;}
+
+.titlebar1 {
+	font-size: 12px;
+	font-weight: bold;
+	color: #FFFFFF;
+	background-color: #3CA6FB;
+	height: 25px;
+	text-align: left;
+}
+.daohang_line{ border-top:1px solid #9BD1FD;}
+img{ border:0px;}
+ul{ list-style:none; }
+.clear{ clear:both;}
+.Container{  width:950px; margin:0px auto;}
+.margin8{ height:10px; margin-bottom:0px!important;margin-bottom:-6px; padding:0px;}
+.margin6{ margin:6px;}
+.marginbox7{margin:7px;}
+.nointro{padding:10px; text-align:center; background:#FFF0D0; border:1px solid #FFD379; font-size:13px; font-weight:bold; color:#333333; padding-top:40px; padding-bottom:40px; margin-bottom:20px;width:97%; height:20px;}
+.margin2{ /*widht:710px;*/height:0px; border-top:2px solid #A6C4E1; margin: 8px 12px 8px 12px!important; *margin: 8px 12px 0px 12px;padding:0px;}
+.div_margin20{ height:20px;}
+.reddrop { text-decoration:line-through;}
+.left{width:208px;  background:#6AC8F8;}
+.left_in{width:196px; margin:6px;background:#fff;	}
+
+.left_box{ width:196px; margin:0px;}
+.left_title{height:30px;background:url(/image/left-title_bg.jpg); }
+.left_search{ margin-bottom:10px;}
+.left_search ul{ list-style:none; margin: 6px 0px 0px 14px; padding:0px;}
+.left_search li{height:22px; padding-top:3PX; }
+.left_search_more{text-align:center; height:14px;margin-bottom:6px;margin-top:2px;  padding:4px; background:#DBF2FD; border-top:1px dashed #0099CC;border-bottom:1px dashed #0099CC;}
+.left_search_more2{text-align:center; height:14px; margin-bottom:4px; padding:4px; background:#DBF2FD;border-top:1px dashed #0099CC;border-bottom:1px dashed #0099CC;}
+.left_title h4{ padding:9px 0px 0px 0px; font-size:12px;color:#0F5997; }
+.left_title_span13{margin:20px 0px 0px 0px;font-size:12px;color:#0F5997; font-weight:bold;}
+.left_list{ margin:0px; padding-top:1px; }
+.left_list ul{ list-style:none; margin: 6px 12px 0px 12px; padding:0px; padding-bottom:6px;}
+.left_list li{ width:172px; line-height:26px; font-size:12px; border-bottom:1px dashed #CEE2F4;overflow: hidden;
+white-space: nowrap;
+}
+
+.searchtxt{font-size:9pt;font-family:verdana;color:#999}
+
+
+
+
+.left_list ul.fujin_jl{ list-style:none; margin: 6px 12px 0px 12px; padding:0px; padding-bottom:6px; font-family:Verdana, Arial, Helvetica, sans-serif}
+.left_list ul.fujin_jl li{ width:172px; line-height:20px; margin-bottom:4px; font-size:12px; border-bottom:1px dashed #CEE2F4;overflow: hidden;
+white-space: nowrap;
+}
+.left_list ul.fujin_jl li a{ display:block;}
+
+
+
+
+
+
+
+.left_bg{ background:#6AC8F8;}
+.hotelcity{ margin-left:8px; width:736px;}
+.hotelcity_box{ margin:0px; padding:0px; border:1px solid #5EC6F8; border-top:2px solid #26BDF7;}
+.hotelcity_box2{ margin:0px; padding:0px; border:1px solid #5EC6F8;  }
+.hotelcity_search{border:1px solid #FFFFFF; height:60px; background:#DBF2FD;}
+.hotelcity_title{ height:30px;margin:0px; background:url(../image/title_bg.jpg)}
+.hotelcity_title h4{ padding:8px 0px 0px 0px;  font-size:12px;color:#0F5997;}
+.hotelcity_more{ position:relative;margin-top:-14px; margin-left:684px; width:48px;}
+.hotelcity_contenr{ margin:0px; padding:0px; }
+.hotelcity_contenr_ul{ margin:0px 6px 6px 6px; padding:1px;
+                       list-style:none;
+					   width:720px;
+					   }
+.hotelcity_contenr_ul li{ float:left; width:40px; text-align:center; line-height:22px;}
+.hotelcity_list{ width:730px; margin:0px ; padding:0px;}
+.hotelcity_list ul{ list-style:none; width:730px; margin:0px ; ;padding:0px; }
+.hotelcity_list li{ float:left; width:37%;margin-left:6px; line-height:24px;}
+.hotelcity_list li.li_Money{ float:left; width:10%;  line-height:20px;}
+
+.hotel_box2{ width:90px;  height:80px;  text-align:center;margin:2px 12px 0px 12px;}
+.hotel_title{ width:84px; height:12px; margin-top:4px;  vertical-align:center;  font-size:12px;}
+.hotel_box3 {
+float:left; 
+border:1px solid #ccc; 
+padding:3px; 
+display: inline;
+vertical-align:middle;
+} 
+.hotel_box3 img{ width:84px; height:58px; border:0px;}
+.listline{ line-height:24px; border-bottom:1px dashed #CEE2F4; }
+
+
+.div_width734{ width:724px;}
+.photo_list84{ margin-bottom:8px; }
+.photo_list84 ul{ margin:0px 2px 0px 6px; padding:0px; list-style:none;}
+.photo_list84 LI {FLOAT: left; MARGIN: 4px 9px 0px 9px; }
+.photo_list84 LI IMG { width:84px; height:58px;BORDER: #C3C3C3 1px solid; PADDING: 4px; 
+}
+.photo_list84 LI SPAN {
+	DISPLAY: block; overflow: inherit; cursor:pointer;  WIDTH: 100px; PADDING-TOP: 6px; HEIGHT: 18px; TEXT-ALIGN: center; 
+}
+.photo_list50 { margin-bottom:8px;}
+.photo_list50 ul{ margin:0px 2px 0px 6px; padding:0px; list-style:none;}
+.photo_list50 LI {FLOAT: left; MARGIN: 4px 5px 0px 5px;  }
+.photo_list50 LI IMG { width:50px; height:40px;BORDER: #C3C3C3 1px solid; PADDING: 3px; 
+}
+.photo_list50 LI SPAN {
+	DISPLAY: block; overflow: inherit; cursor:pointer;  WIDTH: 60px; PADDING-TOP: 6px; HEIGHT: 18px; TEXT-ALIGN: center; 
+}
+
+/*----酒店全部图片页样式----*/
+.photo_list120{}
+.photo_list120 ul{ margin:0px; padding:0px; list-style:none;}
+.photo_list120 LI {FLOAT: left; height:128px;MARGIN:6px;border:1px solid #D4D4D4; display:inline;}
+.photo_list120 LI IMG { width:120px; height:90px; PADDING: 4px; 
+}
+.photo_list120 LI SPAN {
+	DISPLAY: block; overflow: inherit; cursor:pointer;  WIDTH:128px; PADDING-TOP: 6px; HEIGHT: 20px; TEXT-ALIGN: center; 
+}
+
+.photo_show{ text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.photo_show ul{ margin:10px 10px 0px 10px; padding:10px; list-style:none;}
+.photo_show LI {margin:10px;line-height:20px;}
+.photo_show LI IMG { PADDING: 4px;border:1px solid #D4D4D4 }
+.photo_show  SPAN {
+	overflow:inherit; cursor:pointer; PADDING-TOP: 6px; HEIGHT: 20px; TEXT-ALIGN: center; 
+}
+
+.photo_page{ text-align:center; margin-bottom:20px; font-family:Arial;}
+.photo_page a { border:1px solid #6AC8F8; background:#DAEFFE; padding:2px 6px 2px 6px; margin-left:8px;margin-right:8px;}
+.photo_page a:visited,.photo_page a:hover { border:1px solid #6AC8F8;background:#6AC8F8;padding:2px 6px 2px 6px; margin-left:8px;margin-right:8px; color:#fff;}
+.photo_page span { border:1px solid #ccc; background:#F9F9F9;padding:2px 6px 2px 6px; margin-left:8px;margin-right:8px;}
+/*-----酒店搜索----*/
+.left_search2{ margin:0px;padding:0px; }
+.left_search2 .div1{height:90px; }
+.left_search2 .div2{ margin-bottom:10px;}
+.left_search2 .div3{ height:90px;}
+.left_search2  ul{ list-style:none; margin:0px 10px 0px 10px; padding:0px;  width:174px;}
+.left_search2  li{ float:left; width:85px;}
+.left_search2_li{line-height:16px; margin-top:8px; padding-left:4px; border-bottom:1px dashed #CCCCCC;}
+.left_search2 .div4{ height:90px;}
+.div4 ul{ margin:0px; padding:0px; margin:0px 10px 0px 14px; }
+.div4 li{ float:none;  width:140px;  }
+
+
+.left_search2 .div5{ height:90px;}
+.div5 ul{ margin:0px; padding:0px; margin:0px 10px 0px 14px; }
+.div5 li{ float:none;  width:98%; }
+.div5 li{ float:none;  width:98%; }
+
+
+/*----酒店  index---*/
+.search_mero{ width:98%; margin: auto 37px; }
+.search_mero ul{ margin:0px; padding:0px; }
+.search_mero li{ float:left; width:70px; line-height:24px;}
+
+/*------酒店详细------*/
+.hotelintro_top{height:120px; background:url(/image/hotel_intro_bg.jpg) repeat-x; }
+.hotelintro_daoxiang{height:18px;padding:8px 0px 0px 8px;font-family: Arial; font-size:12PX; }
+.hotelintro_title_img{margin-top:5px;margin-right:15px; float:right;}
+.hotelintro_title{ height:36px; margin:0px;padding:0px; float:left; width:76%;}
+.hotelintro_top_com{float:left;width:160px; height:34px; line-height:34px; background:url(/image/comment_bg.gif) no-repeat; text-align:center;color:#F9670F;}
+.hotelintro_top_com .span_f1{ font-size:19px; color:#FF6600;letter-spacing: -1px; font-family: Arial, Helvetica, sans-serif;}
+.hotelintro_top_com a{ display:block;}
+
+.hotelintro_title .span18{ font-size:18px; font-weight:bold;}
+.hotelintro_title h1{ font-size:18px;}
+.hotelintro_title ul{ width:100%; margin:0px; padding:0px; list-style:none;}
+.hotelintro_title li{ line-height:22px; float:left; margin-left:18px!important;margin-left:10px;margin-top:10px; }
+
+.hotelintro_top2{height:107px; background:#fff;background:url(/image/hotel_intro_bg3.jpg) repeat-x;}
+.hotelintro_title2{ height:36px;margin:0px;padding:0px;}
+.hotelintro_title2 .span18{ font-size:18px; font-weight:bold;}
+.hotelintro_title2 h1{ font-size:18px;}
+.hotelintro_title2 ul{ width:736px; margin:0px; padding:0px; list-style:none;}
+.hotelintro_title2 li{ line-height:36px; float:left; margin-left:18px!important;margin-left:10px;margin-top:10px; }
+
+
+
+.hotelintro_pinyin{ height:18px; margin-left:20px; padding:0px;}
+.hotelintro_pinyin span{ font-family:Arial, Helvetica, sans-serif; font-size:13px; font-weight:bold;}
+.hotelintro_menu{ height:32px; margin:0px; margin-top:10px!important;*margin-top:10px; padding:0px; text-align:bottom; background:url(/image/menulink.png) no-repeat bottom;}
+.hotelintro_menu ul{ list-style:none;margin:0px 0px 0px 10px; padding:0px; height:32px;}
+.hotelintro_menu li{ float:left; width:76px; text-align:center; background:url(/image/menushow.png) no-repeat 0px -33px;
+                      margin-right:3px; height:32px; display:inline;}
+.hotelintro_menu li a{line-height:30px;}
+.hotelintro_menu li.hover{ float:left;text-align:center; background:url(/image/menushow.png) no-repeat 0px 0px;
+                          }
+.hotelintro_menu li.hover a{ color:#FFFFFF;}
+.hotelintro_menu li.pinpai{width:148px; margin-left:18px; background:none; text-align:left; overflow:hidden;}
+.hotelintro_menu li img.shoucang{margin-top:0px!important;margin-top:8px;}
+
+/*.hotelintro_menu li span.icon_new{BACKGROUND: url(/image/icon_new.gif) no-repeat; MARGIN: -19px 0px 0px 40px; WIDTH: 19px; POSITION: absolute; HEIGHT: 16px}*/
+
+.shownew_icon{/*BACKGROUND: url(/image/icon_new.gif) no-repeat; MARGIN: -12px 0px 0px 58px; WIDTH: 19px; POSITION: absolute; HEIGHT: 16px*/}
+
+/*---旧的----*/
+/*.hotelintro_menu{ height:26px; margin-top:14px!important;margin-top:14px; padding:0px; text-align:bottom;}
+.hotelintro_menu ul{ list-style:none;margin:0px 10px 0px 10px; padding:0px;}
+.hotelintro_menu li{ float:left; width:70px; text-align:center; line-height:28px;
+                      background:url(/image/hotel_intro_menu03.gif) no-repeat; display:block;}
+.hotelintro_menu li.hover{ float:left; font-weight:bold; width:70px; text-align:center; line-height:28px; background:url(/image/hotel_intro_menu02.gif) no-repeat; }
+.hotelintro_menu li.pinpai{width:135px; margin-left:80px; background:none; text-align:left; overflow:hidden;}
+.hotelintro_menu li img.shoucang{margin-top:0px!important;margin-top:8px;} 
+*/
+
+
+
+
+.hotelintro_main{ width:734px; margin:0px;margin-top:0px!important; margin-top:-2px; padding-top:1px; border-left:1px solid #6AC8F8;border-right:1px solid #6AC8F8;border-bottom:1px solid #6AC8F8;}
+.hotel_address{ float:left;width:63%; margin:20px 15px 20px 15px; display:inline;}
+.hotel_address2{  float:left; width:29%; margin:20px 0px 20px 15px; display:inline;}
+.hotel_address ul,.hotel_address2 ul{ list-style:none; margin:0px; padding:0px;}
+.hotel_address li,.hotel_address2 li{ line-height:24px; border-bottom:1px dashed #ccc; padding-left:3px;}
+.hotel_intro{ float:left;width:64%; margin:10px 10px 10px 15px; display:inline; 
+               }
+			   
+.hotel_intro a{ color:#000000;}
+
+.hotel_pic{ float:left;margin:10px 10px 10px 20px; text-align:center;display:inline; padding:4px; border:1px solid #ccc;}
+/*.hotel_pic img{ width:180px; height:140px; padding:6px; border:1px solid #ccc;} */
+.bottom_title{height:12px; background:#D0EFFD; line-height:12px; padding:8px 0px 8px 0px;}
+
+.fangxing{width:730px; margin:0px 1px 0px 1px;}
+.fangxing_title{height:30px; background:url(/image/title_bg1.jpg);}
+.fangxing_title span{float:left; margin:10px 0px 0px 20px; font-size:14px; font-weight:bold;display:inline;}
+.date_f{float:left; margin-left:160px; margin-right:0px;display:inline;}
+form {margin:0; padding:0;}
+.date_f div input{font-size:12px; height:12px;}
+.input_btn01{margin-bottom:-4px;width:56px; height:22px;}
+.fangxing_intro{width:730px; margin:0px; padding:0px;}
+.fangxing_intro div.ti{background:#DBF2FD; height:22px; margin-bottom:4px;}
+.fangxing_intro div.ti li{ line-height:22px; font-weight:bold;} 
+.fangxing_intro ul{ width:722px; margin:0px 4px 0px 4px; }
+.fangxing_intro li{ float:left;}
+.fangxing_intro li.ti1{ width:44%; padding-left:15px;}
+.fangxing_intro li.ti3{ width:12%; }
+.fangxing_intro li.ti4{ width:21%; }
+.fangxing_intro li.fx5{ width:12%;}
+
+
+.fangxing_intro div.fx{ border-bottom:1px dashed #ccc; padding:2px 0px 2px 0px; }
+.fangxing_intro div.fx ul{ padding:0px;}
+.fangxing_intro div.fx li{ float:left; line-height:200%; /* border-bottom:1px dashed #ccc; */ margin:0px;  display:inline;}
+.fangxing_intro li.fx1{width:34%;padding-left:15px; padding-right:4px;}
+.fangxing_intro li.fx2{width:10%;  }
+.fangxing_intro li.fx3{width:12%; }
+.fangxing_intro li.fx4{width:8%;}
+.fangxing_intro li.fx44{width:13%;}
+.fangxing_intro li.fx5{width:10%;}
+.fangxing_intro li.fx6{width:10%;}
+.fangxing_intro li.fx6 .btn_02{  margin-top:3px!important;margin-bottom:-2px;}
+
+.fangxing_intro2{width:730px; margin:0px; padding:0px;border-bottom:1px dashed #ccc;}
+.fangxing_intro2 ul{ width:720px; margin:0px 4px 0px 4px; padding:0px; }
+.fangxing_intro2 li{ float: left;line-height:200%; padding-top:6px; }
+.fangxing_intro2 li div.title{width:75px; line-height:16px; margin:8px 0px 8px 0px ; padding-top:2px;background:#D8E2F1; text-align:center;}
+.fangxing_intro2 li.xiangguan{ width:88%; padding-left:4px; margin-left:1%;}
+
+.hotel_comment{ float:left; width:110px; height:46px;
+                  background:url(/image/comment_bg01.gif) no-repeat; display:inline;}
+.hotel_comment ul{ margin:0px; padding:0px;}
+.hotel_comment li{ line-height:15px; margin:6px 4px 4px 6px; padding:0px;}
+.hotel_comment li span{ color:#ff6600; font-weight:bold;}
+
+
+.comment_Score{ float:left; width:500px; height:46px;}
+.comment_Score ul{ width:430px; margin:5px 30px 5px 30px; padding: 0px;}
+.comment_Score li{ float:left; width:200px; margin:3px; display:inline;}
+.comment_btn{float:left; width:100px; margin:8px 0px 8px 0px;}
+
+
+.comment_con_box{margin:0px 4px 8px 4px;}
+.comment_con_ti{height:16px; border-bottom:1px dashed #A6DDFB;border-top:2px solid #BCE6FC; background:#F1FAFE; line-height:16px; padding:4px 0px 4px 10px;}
+.comment_con_Score{float:left; width:130px;}
+.comment_con_Score ul{ margin:0px; padding:0px;}
+.comment_con_Score li{ height:18px;}
+.comment_con_td{border-left:1px dashed #ccc;} /*  竖虚线-*/
+.f{ font-size:40px;}
+
+.com_content{ word-wrap: break-word; word-break: break-all;}
+
+.commentcontent{padding:1px; line-height:18px; text-align:justify; text-justify:inter-ideograph}
+
+.comment_con_ti2{height:32px; border-top:2px solid #A6C4E1; background:#CAEFFF; line-height:20px; padding:4px 0px 4px 10px;
+background:url(/image/comment_titlebg.jpg) no-repeat;}
+.comment_con_box2{margin:0px 4px 8px 4px; background:#F7FDFF; border-bottom:4px solid #C8DAEC;}
+.comment_con2{ }
+.comment_con2 td{ line-height:20px;border-bottom:1px dashed #A6C4E1;}
+
+.pingfen2{ width:250px; height:24px;}
+.pingfen{ width:250px; height:24px; background:#E9F1F3;}
+.pingfen ul,.pingfen2 ul{ margin:0px;padding:0px;}
+.pingfen li,.pingfen2 li{ width:40px;float:left; text-align:center; line-height:24px;}
+
+
+.yema{ height:40px; border-top:3px solid #6BC8F8; margin:10px 4px 10px 4px;}
+.yema div.yema_title{ float:right;  height:20px; margin:10px auto; }
+.yema_title{ float:right;  height:20px; margin:10px auto; }
+.yema_title ul{ margin:0px ; padding:0px;}
+.yema_title li { float:left;  margin-left:3px;margin-right:3px;  height:18px; 
+                 text-align:center; line-height:20px;
+				 border:1px solid #6AC8F8; background:#DAEFFE;
+				 display:inline;
+				 padding:0px 3px 0px 3px;}
+.yema_title li a{ padding:0px 6px 0px 6px; display:block;}
+.yema_title li.current { float:left; margin-left:3px;margin-right:3px;height:18px; 
+                 text-align:center;
+				 font-weight:bold;
+				 line-height:20px;
+				 border:1px solid #6AC8F0; background:#6AC8F8;
+				 display:inline;
+				 color:#FFFFFF;
+				 padding:0px 8px 0px 8px; 
+				 }
+.yema_title li.hover { float:left; margin-left:3px;margin-right:3px;height:18px; 
+                 text-align:center;
+				 line-height:20px;
+				 border:1px solid #6AC8F0; background:#6AC8F8;
+				 display:inline;
+				 color:#FFFFFF;
+				 }
+.yema_title li.hover a { color:#FFFFFF;}
+.yema_title li a {  display:block;}
+
+
+.map{ width:714px; height:440px;}
+.jt_title{ text-align:center; font-size:13px; font-weight:bold; color:#0F5997;}
+.jiaotong_td1{  width:11%; vertical-align:middle; border-top:4px solid #FF0000; background:#E9F4FE;}
+.jiaotong_td2{  width:89%; vertical-align:top; border-top:1px dashed #CCCCCC;}
+.jiaotong{ margin:15px; padding:0px;}
+.jiaotong ul{ margin:0px; padding:0px;}
+.jiaotong ul li{ line-height:22px;}
+
+.photo_box{ width:346px; height:100px;
+           margin-right:11px;
+		   float:left;
+		   border-bottom:1px dashed #A8BFB0; display:inline;}
+.photo_90{ float:left; height:77px; width:97px; margin:11px; display:inline;}
+.photo_90 img{width:90px; height:70px; padding:3px; border:1px solid #D4D4D4;}
+.photo_intro{ float:left; height:68px; width:220px; margin:16px 0px 16px 0px; display:inline;}
+.photo_intro ul{ margin:0px; padding:0px;}
+.photo_intro li{ line-height:22px;}
+
+.zhoubian_title{height:22px; line-height:22px;margin:20px 0px 10px 0px; border-bottom:1px dashed #CCCCCC;}
+
+.width716_row4{ width:714px;}
+.width716_row4 ul{ width:710px; margin:0px; padding:0px;}
+.width716_row4 li{ float:left; width:170px; margin-left:4px;	 line-height:24px; display:inline;}
+
+
+
+
+.hotelintro_menu2{ height:26px; margin-top:19px!important;margin-top:9px;padding:0px; text-align:bottom;}
+.hotelintro_menu2 ul{ list-style:none;margin:0px 10px 0px 10px; padding:0px;}
+.hotelintro_menu2 li{ float:left; width:74px; text-align:center; line-height:28px;
+                      display:block;
+					  background:url(/image/hotel_intro_menu044.jpg) no-repeat;}
+.hotelintro_menu2 li.hover{ float:left; font-weight:bold; width:74px; text-align:center; line-height:28px; background:url(/image/serachmenu1.jpg) no-repeat; }
+/*.hotelintro_menu2 li.hover3{ float:left; font-weight:bold; width:78px; text-align:center; line-height:28px; background:url(/image/hotel_intro_menu04.gif) no-repeat; }*/
+.hotelintro_menu2 li.shangyequ_map1{ float:left; width:86px; text-align:center; line-height:28px; display:block;
+background:url(/image/hotel_intro_menu055.jpg) no-repeat;}
+.hotelintro_menu2 li.shangyequ_map2{ float:left; font-weight:bold; width:86px; text-align:center; line-height:28px; background:url(/image/serachmenu2.jpg) no-repeat; }
+.hotelintro_menu2 li.shangyequ_map3{ float:left; width:86px; text-align:center; line-height:28px;display:block;}
+
+.hotelintro_menu2 li.date{ width:330px; margin-left:78px; background:none; text-align:left; overflow:hidden; text-align:right;}
+.hotelintro_menu2 li.date2{ width:332px; margin-left:8px; background:none; text-align:left; overflow:hidden; text-align:right;}
+.hotelintro_menu2 li img.shoucang{margin-top:0px!important;margin-top:8px;}
+
+
+
+
+/***********************serach菜单******新*******************/
+
+.hotelintro_menu3{ height:26px; margin-top:19px!important;margin-top:9px;padding:0px; text-align:bottom;}
+.hotelintro_menu3 ul{ list-style:none;margin:0px 10px 0px 6px; padding:0px;}
+.hotelintro_menu3 li{ float:left; width:78px; text-align:center; line-height:28px;
+                      display:block;
+					  background:url(/image/search_menu2.jpg) no-repeat;}
+.hotelintro_menu3 li.hover{ float:left; font-weight:bold; width:78px; text-align:center; line-height:28px; background:url(/image/search_menu1.jpg) no-repeat; }
+/*.hotelintro_menu2 li.hover3{ float:left; font-weight:bold; width:78px; text-align:center; line-height:28px; background:url(/image/hotel_intro_menu04.gif) no-repeat; }*/
+.hotelintro_menu3 li.shangyequ_map3{ float:left; width:78px; text-align:center; line-height:28px;display:block;background:none;}
+.hotelintro_menu3 li.date{ width:328px; margin-left:75px; background:none; text-align:left; overflow:hidden; text-align:right;}
+
+.hotelintro_menu3 li span.btnmap{ }
+.hotelintro_menu3 li.hover span.btnmap{   }
+
+
+
+
+
+ 
+.hotelintro_menu22{ width:736px; height:30px; line-height:30px; margin:0px;margin-top:0px!important; margin-top:-2px; padding-top:1px; background:#E0ECF8; }
+.hotelintro_menu22 ul{ margin:0px; padding:0px;}
+.hotelintro_menu22 li{ float:left;}
+.hotelintro_menu22 li.menu_Stars{ width:45%;}
+.hotelintro_menu22 li.menu_Stars{ width:45%;}
+.hotelintro_menu22 li.menu_Stars span{ padding:3px 3px 1px 3px;}
+.hotelintro_menu22 li.menu_Stars span.cheng{ padding:3px 3px 1px 3px; background:#FF6600; color:#FFFFFF;}
+.hotelintro_menu22 li.page1{ width:33%;text-align:right;line-height:30px;}
+.hotelintro_menu22 li.page2{ width:21%;text-align:right; height:26px;}
+.hotelintro_menu22 li.page2 img{ margin-top:0.6%!important; margin-top:0.4%}
+
+
+
+
+.hotelmetro_menu2{ height:34px;margin-top:13px!important;margin-top:3px;padding:0px; text-align:bottom;}
+.hotelmetro_menu2 ul{ list-style:none;margin:0px 10px 0px 10px; padding:0px; }
+.hotelmetro_menu2 li{ float:left; width:100px; text-align:center; line-height:34px;display:block;background:url(/image/hotel_intro_menu07.jpg) no-repeat;}
+.hotelmetro_menu2 li.metro_tab2{ float:left; font-weight:bold; width:100px; text-align:center; line-height:34px; background:url(/image/hotel_intro_menu06.jpg) no-repeat; }
+.hotelintro_menu22 li.menu_metroNumber{ width:95%;}
+.hotelintro_menu22 li.menu_metroNumber a{ padding:3px 3px 1px 3px;}
+.hotelintro_menu22 li.menu_metroNumber a.hover{ padding:3px 3px 1px 3px; background:#FF6600; color:#FFFFFF;}
+
+.hotellist_title{ height:18px; line-height:18px;
+                  font-size:14px;
+                   padding:4px 0px 4px 0px;}
+.hotellist_title img{ width:11px; height:14px; margin-bottom:-1px;}
+.hotellist_box{ width:734px;margin:0px; border:1px solid #AADEFB;
+                 background:url(../image/hotellist_bg.jpg) repeat-x; 
+				 margin-bottom:8px;}
+.hotellist_box_over{ width:734px;margin:0px; border:1px solid #AADEFB;
+                 background:url(../image/hotellist_bg_over.jpg) repeat-x; 
+				 margin-bottom:8px;}
+				 
+.hotellist_box2{ width:734px;margin:0px; border:1px solid #AADEFB;
+                 background:url(../image/hotellist_bg2.jpg) no-repeat; 
+				 margin-bottom:8px;}
+				 
+.hotellist_box2 div ul{ margin:0px; padding:0px;}				 
+.hotellist2_title{ height:40px; line-height:40px;}	
+.hotellist2_title li{ float:left; display:inline; }			 
+		 
+.hotellist2_title li.title1{ width:28%; margin-left:25px;}
+.hotellist2_title li.title2{ width:12%; }
+.hotellist2_title li.title3{ width:35%; }
+.hotellist2_title li.title4{ width:12%;}
+
+.hotellist2_info{  margin-left:6px;margin-right:7px;border-bottom:1px dashed #ccc;}
+.hotellist2_info_over{border-bottom:1px dashed #FBC779; background:url(../image/hotel_intro_overbg.jpg) repeat-x;}
+.hotellist2_info li{ float:left; line-height:34px;margin-left:4px; display:inline; word-break:break-all;overflow: hidden;
+white-space: nowrap;
+text-overflow: ellipsis;
+}	
+.width620{}		 
+		 
+.hotellist2_info li.info2{ width:27%;margin-left:15px;  }
+.hotellist2_info li.info3{ width:12%;}
+.hotellist2_info li.info4{ width:36%;}
+.hotellist2_info li.info5{ width:10%;}
+.hotellist2_info li.info6{ width:10%;}
+.hotellist2_info li img.jinpai{ *margin-top:0px!important; margin-top:7px;}
+.hotellist2_info li img.btn_04{ margin-top:5px; }
+				 
+/*列表显示3*/
+.hotellist3_title{ height:40px; line-height:40px;}	
+.hotellist3_title li{ float:left; display:inline; }			 
+		 
+.hotellist3_title li.title1{ width:30%; margin-left:25px;}
+.hotellist3_title li.title2{ width:12%; }
+.hotellist3_title li.title3{ width:31%; }
+.hotellist3_title li.title4{ width:14%;}
+
+
+
+.hotellist3_info{  margin-left:6px;margin-right:7px;border-bottom:1px dashed #ccc; font-family:Verdana, Arial,sans-serif}
+.hotellist3_info_over{border-bottom:1px dashed #FBC779; background:url(../image/hotel_intro_overbg.jpg) repeat-x;}
+.hotellist3_info li{ float:left; line-height:34px;margin-left:4px; display:inline; word-break:break-all;overflow: hidden;
+white-space: nowrap;
+text-overflow: ellipsis;
+}	
+
+		 
+.hotellist3_info li.info2{ width:30%;margin-left:15px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+.hotellist3_info li.info3{ width:12%;}
+.hotellist3_info li.info4{ width:31%; color:#999}
+.hotellist3_info li.info5{ width:12%;}
+.hotellist3_info li.info6{ width:10%;}
+.hotellist3_info li img.jinpai{ *margin-top:0px!important; margin-top:7px;}
+.hotellist3_info li img.btn_04{ margin-top:5px; }
+				 
+
+				 
+.hotellist_left{ float:left; width:100px; margin:10px 10px 10px 10px; display:inline; border:1px solid #ccc;}
+.hotellist_photo{margin:10px 10px 10px 10px;}
+.hotellist_photo img{ width:80px; height:70px;}
+.hotellist_left_info { margin:10px 0px 10px 0px; }
+.hotellist_left_info ul{ margin:0px; padding:0px;}
+.hotellist_left_info li {height:22px;text-align:center;}
+.hotellist_left_info img{ width:16px; height:15px; margin-bottom:-2px;}
+.hotellist_main{ float:left; width:607px; margin:10px 0px 10px 0px; }
+.hotellist_intro{ margin:0px; padding:1px; line-height:160%;
+                  }
+.hotellist_intro ul{ margin:0px; padding:0px;}
+.hotellist_intro li{ float:left; margin:0px 0px 5px 0px;}
+.hotellist_intro li.intro{ width:600px; line-height:180%;}
+.hotellist_intro li.address{ float:left;width:56%;}
+.hotellist_intro li.juli{ float:left;width:80%;}
+.hotellist_intro li.diqu{ float:left;width:42%; margin-right:1%; text-align:right;}
+
+
+
+
+.fangxing2_intro{ margin-bottom:10px; padding:0px;}
+.fangxing2_intro div.ti{background:#f3f3f3; height:22px; margin-bottom:4px;}
+.fangxing2_intro div.ti li{ line-height:22px; font-weight:bold;} 
+.fangxing2_intro ul{margin:0px 4px 0px 4px; }
+.fangxing2_intro li{ float:left;}
+.fangxing2_intro li.ti1{ width:42%; padding-left:15px;}
+.fangxing2_intro li.ti3{ width:12%; }
+.fangxing2_intro li.ti4{ width:23%; }
+.fangxing2_intro li.ti5{ width:12%;}
+
+
+.fangxing2_intro div.fx{ border-bottom:1px dashed #ccc; }
+.fangxing2_intro div.fx ul{ padding:0px; margin:0px;}
+.fangxing2_intro div.fx li{ float:left; line-height:200%;margin:0px;  display:inline;}
+.fangxing2_intro li.fx1{width:32%;padding-left:15px; padding-right:2%;}
+.fangxing2_intro li.fx2{width:8%; }
+.fangxing2_intro li.fx3{width:12%; }
+.fangxing2_intro li.fx4{width:10%;}
+.fangxing2_intro li.fx44{width:13%;}
+.fangxing2_intro li.fx5{width:10%;}
+.fangxing2_intro li.fx6{width:10%;}
+.fangxing2_intro li.fx6 .btn_02{  margin-top:3px!important;margin-bottom:-2px;}
+
+
+
+/*  每日价格DIV  */
+.p_tb_title{ background-color:#DFEFFF;}
+.p_td_title{ background-color:#BBDDFF; color:#000; text-align:center;}
+.p_td_content{ background-color:#fff; text-align:center;}
+.p_td_content_left{ background-color:#fff; text-align:left;}
+.p_td_content span{ color:#FF6600; font-weight:bold;}
+
+
+
+/*-------------会员--订单---------------------*/
+.daoxiang_border{ border-top:1px solid #6BC8F8;}
+.menber_vi{ float:right; position:relative;  top:0px!important;*top:-15px!important;*top:-13px; margin-right:8px!important;*margin-right:8px; }
+.orders_box{ width:734px;margin-top:0px!important;*margin-top:0px!important;border:1px solid #6AC8F8; }
+.orders_main{width:100%}
+.orders_title{height:42px; background:url(../image/orders_bg.jpg) repeat-x; margin:1px;}
+
+.orders_dh ul{ margin:0px; padding:0px; list-style:none;}
+
+.orders_dh li span { float:left; width:70%;}
+.orders_dh li label{float:right; width:28%;  text-align:right; }
+.orders_title .img1{ margin-left:10px; margin-bottom:-3px;}
+.orders_title .img2{ text-align:right; position:relative; left:31%; top:8px;}
+.orders_title span{ color:#005782; font-size:14px; font-weight:bold;}
+.orders_tishi{ margin:10px; background:#FFF5EE; border:1px solid #FFD1BB; padding:4px; line-height:18px; color:#ff6600;}
+
+.orders_title2{height:23px; background:url(../image/orders_bg2.jpg) repeat-x; margin:1px; padding-top:7px;padding-bottom:4px;}
+.orders_title2 .img1{ margin-left:10px; margin-bottom:-3px;}
+.orders_title2 span{ color:#005782; font-size:13px; font-weight:bold;}
+
+
+.login_box{ width:320px; height:330px; float:left; margin:12px;
+             background:url(../image/orders_login.jpg) no-repeat; 
+			 display:inline; }
+.login_box2{ width:320px; height:330px; float:left; margin:12px;
+             background:url(../image/orders_login2.jpg) no-repeat;
+			 display:inline; }
+			 
+.login_mian{ margin-top:80px; padding-left:20px;padding-right:80px;
+             }
+.login_mian ul{ margin:0px; padding:0px;}
+.login_mian li	{ line-height:32px; text-align:right; height:32px;}
+
+.login_text{ margin-top:50px; padding-left:40px;padding-right:36px;
+             color:#006699;
+             line-height:150%;}
+.login_text2{ margin-top:80px; padding-left:25px;padding-right:25px;
+             color:#006699;
+             line-height:180%;
+			 text-align:center;}
+.login_text2 .span14{ color:#006699; font-size:14px; font-weight:bold;}
+.login_text2 .span13{ color:#FF6600; font-size:14px; font-weight:bold;}
+			 
+/*----------商业区 行政区   选卡样式-------------*/
+
+#Tab5{
+font:12px "宋体";
+color:#0058B0;
+text-align:center;
+margin:0px;
+padding:0px;
+margin:0 auto;}
+
+.Menubox5 {
+width:100%;
+background:url(../image/left-title_bg2.jpg) no-repeat;
+height:34px;
+line-height:22px;
+}
+.Menubox5 ul{
+margin:0px;
+padding: 0px;
+list-style:none;
+}
+.Menubox5 li{
+float:left;
+display:block;
+cursor:pointer;
+width:50%;
+text-align:center;
+height:34px;
+line-height:30px;
+}
+.Menubox5 li.hover{
+padding:0px;
+background:#fff;
+width:50%;
+height:34px;
+line-height:30px;
+background:url(../image/left-title_qh_bg.jpg) no-repeat;
+}
+.Contentbox5{
+clear:both;
+margin-top:0px;
+
+}
+.Contentbox6{
+clear:both;
+margin-top:0px;
+
+}
+
+.contentbox_in{ width:194px;text-align:left; }
+.contentbox_in ul{ width:192px;  margin:3px 0px 6px 0px; padding:0px;list-style:none;}
+.contentbox_in li{ float:left; line-height:24px; width:84px; margin-left:8px;border-bottom:1px dashed #CEE2F4;}
+.contentbox_in2{ width:194px;text-align:left; margin-bottom:8px;}
+.contentbox_in2 ul{ margin:3px 0px 6px 0px; padding:0px;   width:192px; list-style:none;}
+.contentbox_in2 li{ line-height:24px;width:180px; margin-left:8px;border-bottom:1px dashed #CEE2F4;}
+
+
+
+/*---连锁酒店-选卡----*/
+
+#Tab_chain{
+width:950px;
+margin:0px;
+padding:0px;
+margin:0 auto;}
+
+.Menubox_chain {
+width:100%;
+height:31px;
+line-height:31px;
+}
+.Menubox_chain ul{
+margin:0px;
+padding:0px;
+list-style:none;
+
+}
+.Menubox_chain li{
+ float:left;
+ display:block;
+ cursor:pointer;
+ width:150px;
+ height:31px;
+ text-align:center;
+ color:#0A50BA;
+ border-bottom:1px solid #91D8FA;
+ background:url(../image/chain02.jpg) no-repeat;
+
+
+ }
+.Menubox_chain li.hover{
+ padding:0px;
+ background:#fff;
+ width:150px;
+ background:url(../image/chain01.jpg) no-repeat;
+ color:#FF6600;
+ font-weight:bold;
+ height:31px;
+ border-bottom:none;
+}
+.Contentbox_chain{
+ clear:both;
+ margin-top:0px;
+ border:1px solid #91D8FA;
+ border-top:none;
+ text-align:center;
+ padding-top:14px;
+ padding-bottom:14px;
+}
+
+.chain_box { 
+width:946px;  
+background:#fff;   
+} 
+.chain_title{ width:68px;   margin-top:9px;vertical-align:center;}
+.chain_box2{ width:68px;  height:83px; float:left; text-align:center;margin:8px;}
+.chain_box2 div.chain_box3{border:1px solid #ccc; padding:6px; vertical-align:middle;}
+.chain_box2 div.chain_box3 img{ width:50px; height:40px; border:0px;}
+
+.chain_box22{ width:68px;  height:83px; float:left; text-align:center;margin:8px;}
+.chain_box22 div.chain_box3{border:2px solid  #FF9900; padding:6px; vertical-align:middle;}
+.chain_box22 div.chain_box3 img{ width:50px; height:40px; border:0px;}
+.chain_box22 a{ color:#FF6600;}
+
+/*.chain_box3 {
+float:left; 
+border:1px solid #ccc; 
+padding:6px; 
+display: inline;
+vertical-align:middle;
+} 
+.chain_box4 {
+float:left; 
+border:3px solid  #FFCC00; 
+padding:6px; 
+display: inline; 
+} 
+.chain_box3 img{ width:50px; height:40px; border:0px;}
+.chain_box4 img{ width:50px; height:40px;border:0px;}*/
+.clear {clear:both;} 
+/*----选卡----*/
+
+#showDetail{ padding:5px; background-color:#FFFFCC; border:1px solid #FF9900; line-height:130%; position:absolute; display:none; width:200px;}
+
+.showDetail{ padding:5px; background-color:#FFFFCC; border:1px solid #FF9900; line-height:130%; position:absolute; display:none; width:170px;}
+/*----连锁酒店_城市-----*/
+.chain_box930 { 
+width:930px;  
+background:#fff; 
+margin-left:10px;/* margin-right:10px;*/ margin-bottom:30px;
+clear:both;
+
+} 
+.chain_box_content { 
+width:930px;  
+background:#fff; 
+margin-left:10px; margin-right:10px; 
+margin-bottom:20px;
+
+} 
+.chain_box80{ width:80px; height:66px; float:left; margin-top:9px; margin-bottom:9px; text-align:left;}
+.chain_box310{ width:310px; height:66px; float:left; margin-top:9px;  text-align:left;}
+.chain_box930_in{ width:930px; height:66px; float:left; margin-top:9px; margin-bottom:9px; text-align:left;}
+ 
+.chain_box950{
+width:950px;
+padding:0px;
+margin:0 auto;}
+.border{ border:1px solid #91D8FA;}
+.chain_box_photo70 {
+float:left; 
+border:1px solid #d6d6d6; 
+margin:0px;
+padding:3px; 
+display: inline;
+
+}
+.chain_box_photo70 img{ width:70px; height:52px; border:0px;}
+
+
+.chain_box_photo50 {
+float:left; 
+border:3px solid #FFCC00; 
+margin:0px;
+padding:13px; 
+display: inline;
+
+}
+.chain_box_photo50 img{ width:50px; height:40px; border:0px;}
+
+
+
+.chain_title2{ width:230px; font-size:12px; float:left;}
+.chain_title2 ul{ list-style:none; margin:0px 0px 0px 6px;padding:0px;}
+.chain_title2 li{ line-height:21px; margin:0px;padding:0px;}
+.chain_title3{ width:840px; margin-top:9px; font-size:12px; float:left;}
+.chain_title3 ul{ list-style:none; margin:0px 0px 0px 10px;padding:0px;}
+.chain_title3 li{ line-height:21px; margin:0px;padding:0px;}
+
+
+.h4_left0{ 
+     margin:0px 0px 4px 0px; padding:0px; font-size:13px; font-weight:bold;
+	 color:#ff6600;}
+.color_blue{ color:#0058B0;}
+.font-size13{ font-size:13px;}
+.chain_title4{ width:31px; margin:0px; padding:0px;}
+.chain_title4 ul{ list-style:none; margin:0px; padding:0px;}
+.chain_title4 li { text-align:center; height:31px; float:left; border-bottom:1px solid #91D8FA; }
+.chain_title4_li_bg { width:390px; background:url(/image/chain015.jpg) no-repeat; border:none; } 
+
+
+
+
+/*-------收藏夹-------------*/
+
+#shoucangjia_box{ position:absolute;  left:expression((body.clientWidth-310)/2); top:40%; width:340px; height:90px;filter:dropshadow(color=#666666,offx=3,offy=3,positive=2); z-index:2; visibility:hidden}
+#mask{ position:absolute; top:0px; left:0px; width:expression(body.clientWidth); height:expression(body.clientHeight);/* background:#666; filter:ALPHA(opacity=60);*/ z-index:1; visibility:hidden}
+.massage{border: 1px #036 solid; border:1 1 3 1; border-width: width:95%; height:95%; background:#fff; color:#036; font-size:12px; line-height:150%}
+.shoucang_header{background:#FF9900; height:25%; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; padding:3px 5px 0px 5px; color:#fff}
+
+
+ #head{ margin:0px auto; width:957px;}
+ #head .top{ width:100%;}
+ #head .logo{ float:left; width:210px; height:78px;display:inline;}
+ #head .banner{ float:left; width:468px; height:60px; margin-left:90px;margin-right:56px; padding:9px 0px 9px 0px;display:inline;}
+ #head .banner img{  width:468px; height:60px;}
+ #head .login{ float:left; width:125px; height:47px; background:url("/image/right_top_bg.jpg");margin:18px 0px 12px 0px; display:inline;}
+ #head .login ul{ list-style:none; margin:0px; padding:4px 0px 0px 2px; width:123px;}
+ #head .login ul li{ text-align:center; width:120px; padding:4px 0px 3px 0px;}
+ #head #menu{ width:100%; height:49px;}
+ #head #menu ul{ margin:0px; padding:0px 0px 0px 20px; list-style:none; width:937px;}
+ #menu ul li{ float:left; width:90px; padding:19px 0px 15px 0px ; margin-right:6px; text-align:center;}
+ #head #nav {width:955px; margin-left:2px; height:23px; background:url(../image/nav_bg2.jpg) repeat-x;}
+  #head #navbox {padding:3px 0px 3px 10px;}
+  #head #navbox ul{ margin:0px; padding:0px;}
+  #head #navbox li{ float:left;width:72px; padding-top:2px; display:inline;}
+  #head #navbox li.nav_phone{ float:left;width:652px;padding-top:1px; display:inline;}
+  #head #navbox li img{ margin-right:2px;}
+  
+  #bottom{  margin:0px auto; width:957px; padding-top:10px; margin-top:12px; border-top:1px dashed #9AD0FC;}
+  #bottom .content{ font-family:Arial;text-align:center; padding-top:10px;}
+  
+  #bottom2{  margin:0px auto; width:938px;  line-height:20px; padding:8px 8px 4px 8px; 
+               margin-top:10px; border:1px solid #f2f2f2; background:#FDFDFD;}
+
+  #bottom2 a,#bottom2 a:hover{ color:#888;}
+  #bottom2 a:hover{ color:#888; text-decoration:underline;}
+  #bottom2 .content{ font-family:Arial;text-align:center; padding-top:10px;}
+  
+  /*----地铁酒店search----*/
+  .metro_title{ height:32px; padding:1px 0px 1px 24px; line-height:32px; background:url(../image/btn_bg01.jpg) repeat-x; color:#0058B0; cursor:pointer;	}
+  .metro_hover{ height:32px; padding:1px 0px 1px 24px; line-height:32px; background:url(../image/btn_bg02.jpg) repeat-x; color:#ff6600; font-weight:bold; cursor:pointer;	}
+  .metrolist_title{height:24px; padding:9px 0px 1px 8px;background:url(/image/metro_btn.jpg) repeat-x;}
+  .metrolist td{ line-height:24px;}
+  
+  
+  
+  
+  /*-----------------星级酒店选项卡-----------------*/
+#city_Tab{
+font:12px "宋体";
+color:#0058B0;
+text-align:center;
+width:738px;
+margin:0px;
+padding:0px;
+margin:0 auto;}
+
+
+.city_Menubox {
+width:100%;
+background:url(../image/travel_starbg.jpg) no-repeat;
+line-height:23px;
+}
+.city_Menubox ul{
+margin:0px;
+padding:0px;
+list-style:none;
+}
+.city_Menubox li{
+float:left;
+display:inline;
+FONT-FAMILY:Geneva, Arial, Helvetica, sans-serif;
+font-size:14px;
+cursor:pointer;
+padding:0px 5px 0px 5px;
+text-align:center;
+margin-right:1px;
+margin-left:1px;
+
+
+
+}
+.city_Menubox li.hover{
+padding:0px;
+background:#F7FBFD;
+color:#ff6600;
+height:23px;
+line-height:23px;
+margin-right:1px;
+}
+
+
+.city_Contentbox{
+clear:both;
+margin-top:0px;
+border:1px solid #9BD7F3;
+border-top:none;
+text-align:center;
+padding-top:6px;
+}
+.city_Contentbox{
+clear:both;
+margin-top:0px;
+border:1px solid #9BD7F3;
+border-top:none;
+text-align:center;
+padding-top:6px;
+}
+
+.loginbox{background:#91C8F4;padding:1px;}
+.loginbox .loginbox2{margin:8px; padding:30px;  border-bottom:2px solid #62A4D5; background:#fff; }
+.loginbox .login_left{float:left; background:#F3F3F3; border:1px solid #d7d7d7; width:440px; height:250px;}
+.loginbox .login_left h3{ margin:30px; color:#0088CA;}
+.loginbox .logintext {margin:30px; padding:0}
+
+
+/*--------搜索城市拼音----------*/
+.citypinyin{position:absolute; top:202px; z-index:3;}
+.citypinyin_iframe{position:absolute; top:222px; background:none;  display:none; width:180px;z-index:0;}
+
+
+
+/*-------首页广告模块----------------*/
+.pic_380x70 {
+	DISPLAY: block; OVERFLOW: hidden; WIDTH: 380px; HEIGHT: 70px;
+	BACKGROUND: url(http://www.51booking.cn/image/loading.gif) no-repeat center center
+}
+.indexbg{background:url(/image/2010chunjie.jpg) no-repeat top; padding:0px; margin:0px;}
+.indexbodybg{background:url(/image/ydbg1.jpg) no-repeat top; padding:0px; margin:0px;}
+
+
+.pailiebox{width:16px; height:16px; text-align:center; position:relative; left:717px; margin:2px 2px 0px 0px;}
+.pailiebox img{ width:15px; height:15px;}
+
+
+
+
+
+/*-------关于我们----------------*/
+.about_nav {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND: url(/image/about/bg.png) no-repeat left bottom; PADDING-BOTTOM: 126px; WIDTH: 144px; PADDING-TOP: 0px
+}
+.about_nav_list {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND: url(/image/about/bg.png) no-repeat left top; PADDING-BOTTOM: 0px; WIDTH: 144px; PADDING-TOP: 27px; margin:0px;
+}
+.about_nav_list LI {
+	FONT-SIZE: 14px; BACKGROUND: url(/image/about/li_bg.png) no-repeat center bottom; LINE-HEIGHT: 38px; HEIGHT: 38px; TEXT-ALIGN: center
+}
+.about_nav_list LI.hover {
+	FONT-WEIGHT: bold; BACKGROUND: url(/image/about/bg01.png) no-repeat 11px top; LINE-HEIGHT: 40px; POSITION: relative; TOP: -1px; HEIGHT: 40px
+}
+.about_nav_list LI A {
+	COLOR: #115995; TEXT-DECORATION: none
+}
+.about_nav_list LI.hover A {
+	DISPLAY: block; BACKGROUND: url(/image/about/hover_bg.png) no-repeat 120px center; COLOR: #ff6600
+}
+.about_nav_list LI A:hover {
+	COLOR: #ff6600
+}
+
+
+/*google地图*/
+#googlemap{ padding:7px 5px 7px 7px!important;*padding:7px 3px 7px 7px;}
+.map_canvas{ width: 720px; height: 340px; margin-top: 2px;border:solid 1px #ccc;background-color:#F2EFE9;}/*地图尺寸*/
+.map_loadicon{margin:180px 0 0 320px;}/*地图加载图标位置*/
+
+
+.nearlistbox{ margin:7px; font-family:Verdana}
+.gonglititle{margin:0px 7px 7px 7px;}
+.near_bar{ background:#EAF7FD;border-bottom:1px solid #DAEBF3; height:26px; width:100%;  }
+.near_bar dl {
+	DISPLAY: inline-block; FLOAT: left; LIST-STYLE-TYPE: none; margin:0px; padding:0px; width:100%;
+}
+
+.near_bar dl dd { padding:3px 10px 0px 11px; margin:5px 9px 0px 9px; float:left;
+}
+
+.near_bar dl dd.selected {
+	BORDER: #ff6701 1px solid; BACKGROUND: url(/image/tbg.png)  repeat-x 0px -166px; padding:2px 8px 0px 8px; font-weight:bold;
+}
+.near_bar dl dd.selected a{ color:#ff6701 ;}
+
+.hotelmap_list {
+	PADDING: 4px  0px  10px  0px; OVERFLOW: auto; ZOOM: 1; margin:0px;
+}
+.hotelmap_list LI {
+	PADDING: 7px 0px 7px 2px;border-bottom:1px dashed #D7D7D7;  COLOR: #444;  FLOAT: left; WIDTH: 330px; MARGIN-RIGHT: 26px;
+}
+.hotelmap_list LI SPAN {
+	FLOAT: right; COLOR: #888
+}
+
+.near_bar2 { background:#EAF7FD;border-bottom:1px solid #DAEBF3;height:28px;  padding:0px 4px 0px 4px;  }
+.near_bar2 ul{ margin:0px; padding:0px; list-style:none;  }
+.near_bar2 li{ padding-top:8px; font-size:14px; }
+.near_bar2 li span { float:left; width:90%; overflow:hidden;}
+.near_bar2 li label{float:right; width:7%;  text-align:right; }
+
+
+.near_bar3 { border-bottom:2px solid #EaEaE8; width:98%;height:28px;  padding:0px 6px 0px 6px;  }
+.near_bar3 ul{ margin:0px; padding:0px; list-style:none;  }
+.near_bar3 li{ padding-top:8px; font-size:14px; }
+.near_bar3 li span { float:left; width:90%; overflow:hidden;}
+.near_bar3 li label{float:right; width:7%;  text-align:right; }
+
+
+.hotelmap_list2 {
+	PADDING: 4px  0px  10px  0px; margin:0px; float:left; width:360px; display:inline; text-align:left; list-style:none
+}
+.hotelmap_list2 LI {
+	PADDING: 7px 0px 7px 2px;border-bottom:1px dashed #D7D7D7;  COLOR: #444; WIDTH: 320px;margin:0px;  MARGIN-RIGHT: 20px;
+}
+.hotelmap_list2 LI SPAN {
+	FLOAT: right; COLOR: #888
+}
+
+
+
+/*.hotelmap_list3 {
+	PADDING: 4px  0px  10px  0px; OVERFLOW: auto; ZOOM: 1; margin:0px; 
+	list-style:url(/image/icon35.gif) ;
+}
+.hotelmap_list3 LI {
+	PADDING: 7px 0px 7px 2px;border-bottom:1px dashed #D7D7D7;  COLOR: #444;  FLOAT: left; WIDTH: 330px; MARGIN-RIGHT: 26px; 
+}
+.hotelmap_list3 LI SPAN {
+	FLOAT: right; COLOR: #888;
+}*/
+
+
+.hotelmap_list3 {
+	PADDING: 4px  0px  10px  0px; OVERFLOW: auto; ZOOM: 1; margin:0px; 
+	
+}
+.hotelmap_list3 LI {
+	PADDING: 8px 0px 7px 2px;border-bottom:1px dashed #D7D7D7;  COLOR: #444;  FLOAT: left; WIDTH: 210px; MARGIN-RIGHT: 14px;  MARGIN-left: 10px;display:inline;font-family:Verdana
+}
+
+.hotelmap_list3 LI SPAN {
+	FLOAT: right; COLOR: #888;font-family:Verdana
+}
+
+.hotelmap_list3 LI SPAN a {
+	COLOR: #888;font-family:Verdana; 
+}
+.hotelmap_list3 LI SPAN a:hover {
+text-decoration:underline;
+}
+
+
+/*附近环境搜索距离*/
+.hotelmap_list4 {
+	PADDING: 8px  0px  8px  0px; OVERFLOW: auto; ZOOM: 1; margin:0px; font-family:Verdana}
+.hotelmap_list4 LI {
+	PADDING: 4px 0px 4px 0px; COLOR: #444; FLOAT: left; WIDTH: 46%!important;WIDTH: 42%; MARGIN-RIGHT: 14px;  MARGIN-left: 10px; display:inline;
+}
+.hotelmap_list4 LI a:hover { text-decoration:underline; }
+
+.aroundsearch{height:20px; background:#f5f5f5; padding:10px 10px 11px 10px!important;*padding:8px 10px 10px 10px; margin-top:8px;}
+.aroundsearch span{color:#333 }
+.aroundsearch_con{ display:none;background:#FFFDE6; border-top:1px dashed #E4D5BE;}
+
+<!--地标-->
+.dibiaolist{ margin:0px; padding:4px;}
+.dibiaolist h3{ height:24px; width:182px; margin:4px 0px 0px 7px; padding:0px 4px 0px 0px; line-height:24px; background:url(/image/bar20.png) no-repeat; }
+.dibiaolist h3.small{ height:24px; width:182px; margin:4px 0px 0px 7px; padding:0px 4px 0px 0px; line-height:24px;  background:url(/image/bar19.png) no-repeat; }
+.dibiaolist H3 A{ display:block; width:95%;font-size:13px; padding-left:10px;  padding-top:1px;color:#0F5997;}
+.dibiaolist ul{ list-style:none; margin: 6px 0px 0px 7px; padding:0px;}
+.dibiaolist li{ width:182px; line-height:22px; font-size:12px; overflow: hidden;
+white-space: nowrap;
+}
+.dibiaolist li a{display:block;border-bottom:1px dashed #fff; padding-left:18px;}
+.dibiaolist  li A:hover{ border-bottom:1px solid #F0D8CA; background:#FEF5F1 }
+.dibiaolist  li A.current{ border-bottom:1px solid #F0D8CA; background:#FEF5F1 }
+
+
+/*all
+.allbody{ color:#0058B0; width:100%;}
+.allbody h4{ padding:5px 0px 5px 0px; margin:2px 0px 8px 0px;color:#0058B0;border-bottom:1px solid #ccc; }
+.allcitytitle{ float:left; width:80px;line-height:22px; font-weight:bold;}
+.allcitylist{ float:left; width:91%; line-height:22px;}
+.allcitylist strong{ color:#FF6600;}
+.allbody_bg{ background:#FFF9DF; border:1px solid #FEE9A7;}*/
+
+/*all*/
+.allbody{ color:#0058B0; width:100%;}
+.allbody ul{ padding:0px; margin:0px;}
+.allbody h4{ padding:5px 0px 5px 0px; margin:2px 0px 2px 0px;color:#E46F03; font-size:16px; FONT-WEIGHT: normal;FONT-FAMILY: 黑体; }
+.allbody img{ margin-bottom:2px}
+.allbody h4 a{color:#E46F03;  font-size:16px; FONT-WEIGHT: normal;FONT-FAMILY: 黑体 }
+.allbody h4 a:hover{ font-size:16px; }
+
+.allcitytitle{ float:left; width:80px;line-height:22px; font-weight:bold;}
+.allcitylist{ float:left; width:100%; line-height:22px;color:#999999}
+.allcitylist a{ color:#999999}
+.allcitylist strong{ color:#0058B0; font-weight:100;}
+
+.allbody_bg{ background:#FFF9DF; border:1px solid #FEE9A7;}
+.allbpadding{padding:10px;}
+.allnav{ height:22px; font-family:Arial; background:#EAF7FD; line-height:22px; padding-left:4px;margin-bottom:10px;}
+
+
+.allcitylist2{width:100%;color:#000000;}
+.allcitylist2 ul{ padding-left:10px;}
+.allcitylist2 ul li{ float:left; width:38%; line-height:21px; margin-right:10px;
+                      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+.allcitylist3{width:100%;color:#000000;border-bottom:1px solid #F6F6F6; padding-bottom:10px; margin-bottom:6px;}
+.allcitylist3 ul{ padding-left:10px;}
+.allcitylist3 ul li{ float:left; width:23%; line-height:21px; margin-right:10px;
+                     white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+					 
+.allcitylist4{width:100%;color:#000000;}
+.allcitylist4 ul{ padding-left:10px;}
+.allcitylist4 ul li{ float:left; width:30%;LINE-HEIGHT: 210%; margin-right:8px;
+                     white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sitepage{ text-align:right; padding:20px 10px 0px 10px;color:#000000; line-height:12px;}
+
+
+.friendlink li{ float:left; width:88px; margin:4px 35px 4px 0px;}
+.friendlink ul{ padding:0px 0px 0px 14px; margin:0px; list-style:none;}
+.friendlink li img{ height:31px; width:88px; }
+.friendlink2 li{ float:left; width:110px; margin:4px 12px 4px 0px; margin-bottom:10px;overflow:hidden; WHITE-SPACE: nowrap;}
+.friendlink2 ul{ padding:0px 0px 0px 14px; margin:0px; list-style:none;}
+
+.friendlink3 TEXTAREA {
+	FONT: 12px/20px Tahoma,Arial, sans-serif; COLOR: #545454;VERTICAL-ALIGN: middle; margin-right:6px; line-height:140%;}
+
+.friendlink2 BUTTON {
+	FONT: 12px/20px Tahoma,Arial, sans-serif; COLOR: #545454;VERTICAL-ALIGN: middle
+;}
+.friendlink3{ padding-left:14px}
+
+
+.hoteinfo_con{padding:10px; background:#F5F5F5; }
+
+.dibiao_titel{ background:#F9F9F9;padding:14px 8px 8px 8px; margin-bottom:10px}
+.dibiao_titel a:hover{ text-decoration:underline;}
+.dibiao_titel ul{ margin:0px; padding:0px;}
+.dibiao_titel ul li { float:left; padding:7px 6px 0px 6px; text-align:center; height:18px;
+                      border:1px solid #E46F03; background:url(../image/dibiao_title2.png) repeat-x; margin:0px 8px 0px 0px; 
+					    }
+.dibiao_titel ul li a{ display:block; color:#fff;}
+.dibiao_titel ul li a:hover{ display:block; color:#fff;}
+
+
+/*左侧列表*/
+.left_searchlist{ margin:0px; padding-top:1px; font-family:Geneva, Arial, Helvetica, sans-serif}
+.left_searchlist ul{ list-style:none; margin:0px; padding:0px; padding-bottom:6px;}
+.left_searchlist li{ width:98%; overflow: hidden; padding:0px; margin:0px; margin-left:2px; 
+white-space: nowrap; 
+}
+
+
+.left_searchlist li a{display:block;padding-left:9%; padding-right:10px; height:16px; padding-top:5px; margin-bottom:1px;white-space: nowrap;overflow: hidden; }
+.left_searchlist li a:hover{ background:#E7F5FE; padding-right:10px;
+}
+
+
+.left_searchlist li.title{width:91%;padding-left:9%; margin-left:0px;   border-bottom:1px solid #DAF4FC; margin-bottom:4px; background:#E7F5FE; color:#0F5997; padding-top:4px;
+}
+.left_searchlist li.hover{background:#E7F5FE; margin-bottom:1px}
+.left_searchlist li.hover a{background:url( /image/icon65.gif) no-repeat right ; background-position:96% ;color:#0C1452;
+}
+.left_searchlist li.hover a:hover{background:url( /image/icon65.gif) no-repeat right ; background-position:96% ;color:#0C1452; 
+}
+.left_searchlist li.title2{width:91%;padding:4px 0px 2px 8%; margin-top:6px;background:url( /image/icon35.gif) no-repeat  left center; background-position:3% ; color:#0058B0;}
+
+
+
+.zhuanti_list{padding:10px; border:1px solid #91C8F4;}
+
+.zhuanti_list h3{ padding:6px 6px 12px 6px; margin:0px;  color:#EA7500}
+.zhuanti_list ul{ margin:0px; padding:0px; list-style:none;}
+.zhuanti_list LI {FLOAT: left; height:150px;MARGIN:6px 12px 6px 9px; display:inline; }
+.zhuanti_list LI IMG { width:280px; height:107px; PADDING:4px;}
+.zhuanti_list LI SPAN {
+	DISPLAY: block; overflow: inherit; cursor:pointer;  WIDTH:284px; PADDING-TOP: 10px; HEIGHT: 20px; TEXT-ALIGN: center; 
+}
+.zhuanti_list LI SPAN a:hover{ text-decoration:underline; font-weight:bold;}
+
+
+.zhuanti_list LI.hover{ margin:0px; padding:0px; list-style:none;}
+.zhuanti_list LI.hover {FLOAT: left; height:150px;MARGIN:6px 12px 6px 9px; display:inline; background:#F2F2F2}
+.zhuanti_list LI.hover IMG { width:280px; height:107px; PADDING:4px;}
+.zhuanti_list LI.hover SPAN {
+	DISPLAY: block; overflow: inherit; cursor:pointer;  WIDTH:284px; PADDING-TOP: 10px; HEIGHT: 20px; TEXT-ALIGN: center; 
+}
+.zhuanti_list LI.hover SPAN a{ color:#EA7500; text-decoration:underline; font-weight:bold; font-size:13px;}
+.zhuanti_list LI.hover SPAN a:hover{ text-decoration:underline; font-weight:bold;}

@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0040)http://www.51booking.cn/inc/calendar.htm -->
+<HTML><HEAD><META http-equiv="Content-Type" content="text/html; charset=GBK">
+
+<STYLE type="text/css">TD {
+	FONT-SIZE: 12px; FONT-FAMILY: arial; TEXT-ALIGN: center
+}
+TD.dt {
+	FONT-SIZE: 11px; FONT-FAMILY: arial; TEXT-ALIGN: center
+}
+A {
+	COLOR: blue
+}
+A:hover {
+	COLOR: red
+}
+A.bt {
+	COLOR: #888888
+}
+</STYLE>
+
+<SCRIPT language="javascript">
+<!--//
+var str='',i,j,yy,mm,openbound,callback;
+var fld1,fld2;
+var wp=window.parent;
+var cf=wp.document.getElementById("CalFrame");
+var fld,curday,today=new Date();
+today.setHours(0);today.setMinutes(0);today.setSeconds(0);today.setMilliseconds(0);
+//var lastyear=today.getYear(),lastmonth=today.getMonth();
+function parseDate(s)
+{
+	var reg=new RegExp("[^0-9-]","")
+	if(s.search(reg)>=0)return today;
+	var ss=s.split("-");
+	if(ss.length!=3)return today;
+	if(isNaN(ss[0])||isNaN(ss[1])||isNaN(ss[2]))return today;
+	return new Date(parseFloat(ss[0]),parseFloat(ss[1])-1,parseFloat(ss[2]));
+}
+function resizeCalendar(){cf.width=144;cf.height=192;}
+function initCalendar()
+{
+	if(fld1&&fld1.value.length>0){curday=parseDate(fld1.value);}
+	else if(fld2&&fld2.value.length>0){curday=parseDate(fld2.value);}
+	else curday=today;
+	drawCalendar(curday.getFullYear(),curday.getMonth());
+	
+}
+function drawCalendar(y,m)
+{
+	var x=new Date(y,m,1),mv=x.getDay(),d=x.getDate(),de;
+	yy=x.getFullYear();mm=x.getMonth();
+	document.getElementById("yyyymm").innerHTML=yy+"."+(mm+1>9?mm+1:"0"+(mm+1));
+	for(var i=1;i<=mv;i++)
+	{
+		de=document.getElementById("d"+i);
+		de.innerHTML="";
+		de.bgColor="";
+	}
+	while(x.getMonth()==mm)
+	{
+		de=document.getElementById("d"+(d+mv));
+		if(x.getTime()==curday.getTime())
+			de.bgColor="#dddddd";
+		else
+			de.bgColor="white";
+		if(x.getTime()==today.getTime())
+			de.innerHTML="<a href=javascript:setDate("+d+");><font color=red>"+d+"</font></a>";
+		else if(x.getTime()<today.getTime())
+			if(openbound){de.innerHTML="<a href=javascript:setDate("+d+"); class=bt>"+d+"</a>";}
+			else{de.innerHTML="<font color=#999999>"+d+"</font>";}
+		else
+			de.innerHTML="<a href=javascript:setDate("+d+");>"+d+"</a>";
+		x.setDate(++d);
+	}
+	while(d+mv<=42)
+	{
+		de=document.getElementById("d"+(d+mv));
+		de.innerHTML="";
+		de.bgColor="";
+		d++;
+	}
+}
+function setDate(d)
+{
+	wp.hideCalendar();
+	var dstr=yy+"-"+(mm+1)+"-"+d;
+	if(callback&&callback.length>0){eval("wp."+callback+"(\""+dstr+"\")");}
+	else{
+	fld1.value=dstr;
+	}
+	
+}
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2800.1498" name="GENERATOR"></HEAD><BODY bottommargin="0" bgcolor="red" leftmargin="0" topmargin="0" onload="resizeCalendar();" rightmargin="0">
+<TABLE id="tbl0" cellspacing="0" cellpadding="1" bgcolor="#336699" border="0">
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE cellspacing="1" cellpadding="2" width="100%" bgcolor="white" border="0">
+        <TBODY>
+        <TR bgcolor="gray">
+          <TD id="prev" width="16"><A href="javascript:drawCalendar(yy,mm-1);"><IMG height="16" src="./prev.gif" width="16" border="0"></A></TD>
+          <TD id="yyyymm" style="FONT-SIZE: 11px; COLOR: white" width="99%">
+          <TD id="next" width="16"><A href="javascript:drawCalendar(yy,mm+1);"><IMG height="16" src="./next.gif" width="16" border="0"></A></TD>
+        </TR></TBODY></TABLE>
+      <TABLE cellspacing="2" cellpadding="0" width="142" bgcolor="white" border="0">
+        <TBODY>
+        <TR height="18">
+          <TD width="18"><FONT color="red">日</FONT></TD>
+          <TD width="18">一</TD>
+          <TD width="18">二</TD>
+          <TD width="18">三</TD>
+          <TD width="18">四</TD>
+          <TD width="18">五</TD>
+          <TD width="18"><FONT color="green">六</FONT></TD></TR>
+        <TR height="1">
+          <TD bgcolor="gray" colspan="7"></TR>
+        <SCRIPT language="javascript">
+<!--//
+for(i=0;i<6;i++)
+{
+	str+="<tr height=18>";
+	for(j=1;j<=7;j++)str+="<td id=d"+(i*7+j)+" class=dt></td>";
+	str+="</tr>";
+}
+document.write(str);
+//-->
+</SCRIPT><TR height="18"><TD id="d1" class="dt"><TD id="d2" class="dt"><TD id="d3" class="dt"><TD id="d4" class="dt"><TD id="d5" class="dt"><TD id="d6" class="dt"><TD id="d7" class="dt"></TR><TR height="18"><TD id="d8" class="dt"><TD id="d9" class="dt"><TD id="d10" class="dt"><TD id="d11" class="dt"><TD id="d12" class="dt"><TD id="d13" class="dt"><TD id="d14" class="dt"></TR><TR height="18"><TD id="d15" class="dt"><TD id="d16" class="dt"><TD id="d17" class="dt"><TD id="d18" class="dt"><TD id="d19" class="dt"><TD id="d20" class="dt"><TD id="d21" class="dt"></TR><TR height="18"><TD id="d22" class="dt"><TD id="d23" class="dt"><TD id="d24" class="dt"><TD id="d25" class="dt"><TD id="d26" class="dt"><TD id="d27" class="dt"><TD id="d28" class="dt"></TR><TR height="18"><TD id="d29" class="dt"><TD id="d30" class="dt"><TD id="d31" class="dt"><TD id="d32" class="dt"><TD id="d33" class="dt"><TD id="d34" class="dt"><TD id="d35" class="dt"></TR><TR height="18"><TD id="d36" class="dt"><TD id="d37" class="dt"><TD id="d38" class="dt"><TD id="d39" class="dt"><TD id="d40" class="dt"><TD id="d41" class="dt"><TD id="d42" class="dt"></TR>
+
+        <TR height="1">
+          <TD bgcolor="gray" colspan="7"></TR>
+        <TR height="18">
+          <TD colspan="7"><A href="javascript:wp.hideCalendar();">关闭</A></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<SCRIPT language="javascript">
+<!--//
+var bCalLoaded=true;
+//-->
+</SCRIPT>
+
+</BODY></HTML>
