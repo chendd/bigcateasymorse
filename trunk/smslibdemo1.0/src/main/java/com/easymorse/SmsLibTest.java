@@ -15,7 +15,7 @@ public class SmsLibTest {
 		OutboundMessage msg; 
 		srv = new Service(); 
 		SerialModemGateway gateway = new SerialModemGateway("modem.com5", 
-		        "", 115200, "WAVECOM", "–"); 
+		        "/dev/ttyS0", 115200, "WAVECOM", "–"); 
 		gateway.setInbound(true); 
 		gateway.setOutbound(true); 
 		try {
