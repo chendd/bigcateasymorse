@@ -48,8 +48,10 @@ public class SendSmsServlet extends HttpServlet {
 				t.message = req.getParameter("msg");
 				if(null != req.getParameter("smsPort") && !"".equals(req.getParameter("smsPort"))){
 					t.smsPort = Integer.valueOf(req.getParameter("smsPort"));
+				}else{
+					t.smsPort = -1;
 				}
-				t.smsPort = -1;
+				
 				//logger.debug("转化后的短信内容是>>>>"+smsMessage);
 				t.smsSign = smsSign;
 				t.start();
