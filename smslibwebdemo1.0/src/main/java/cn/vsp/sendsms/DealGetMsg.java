@@ -18,7 +18,7 @@ public class DealGetMsg {
 	
 	
 
-	public boolean dealGet(String phonenum, String message) {
+	public boolean dealGet(String phonenum, String message,int port) {
 		
 		
 		gateway.setInbound(true);
@@ -28,7 +28,7 @@ public class DealGetMsg {
 			msg = new OutboundMessage(phonenum, message);
 			msg.setEncoding(MessageEncodings.ENCUCS2);
 			msg.setStatusReport(true);
-			msg.setDstPort(77);
+			msg.setDstPort(port);
 			return srv.sendMessage(msg);
 			
 			//srv.stopService();

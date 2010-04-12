@@ -13,7 +13,7 @@ public class RedirectThread extends Thread {
 
 	public String phone;
 	public String message;
-	
+	public int smsPort;
 	public String smsSign;
 
 	SmsBean smsBean;
@@ -25,7 +25,7 @@ public class RedirectThread extends Thread {
 		try {
 			
 			DealGetMsg dealGetMsg = new DealGetMsg();
-			if (dealGetMsg.dealGet(phone,message )) {
+			if (dealGetMsg.dealGet(phone,message,smsPort )) {
 				
 				logger.debug("发送成功");
 			
