@@ -43,9 +43,13 @@ public class SendSmsServlet extends HttpServlet {
 				resp.sendRedirect("success.jsp?smsSign="+smsSign);
 				
 				RedirectThread t = new RedirectThread();
-				String smsMessage  = new String(req.getParameter("msg").getBytes("iso8859-1"),"utf-8");
+				//String smsMessage  = new String(req.getParameter("msg").getBytes("iso8859-1"),"utf-8");
 				t.phone = req.getParameter("phonenum");
 				t.message = req.getParameter("msg");
+				if(null != req.getParameter("smsPort") && !"".equals(req.getParameter("smsPort"))){
+					t.smsPort = Integer.valueOf(req.getParameter("smsPort"));
+				}
+				t.smsPort = -1;
 				//logger.debug("转化后的短信内容是>>>>"+smsMessage);
 				t.smsSign = smsSign;
 				t.start();
