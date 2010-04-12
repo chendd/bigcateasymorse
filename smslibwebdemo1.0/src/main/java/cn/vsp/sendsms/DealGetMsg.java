@@ -24,11 +24,12 @@ public class DealGetMsg {
 		gateway.setInbound(true);
 		gateway.setOutbound(true);
 		try {
-		
+			logger.debug("端口是>>>>>>>>"+port);
 			msg = new OutboundMessage(phonenum, message);
 			msg.setEncoding(MessageEncodings.ENCUCS2);
 			msg.setStatusReport(true);
 			msg.setDstPort(port);
+			msg.setSrcPort(port);
 			return srv.sendMessage(msg);
 			
 			//srv.stopService();
