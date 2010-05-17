@@ -104,11 +104,11 @@
 				</configuration>
 				<executions>
 					<execution>
-						<goals>
-							<goal>compile</goal>
-							<goal>generateAsync</goal>
-							<goal>test</goal>
-						</goals>
+<!--						<goals>-->
+<!--							<goal>compile</goal>-->
+<!--							<goal>generateAsync</goal>-->
+<!--							<goal>test</goal>-->
+<!--						</goals>-->
 					</execution>
 				</executions>
 			</plugin>

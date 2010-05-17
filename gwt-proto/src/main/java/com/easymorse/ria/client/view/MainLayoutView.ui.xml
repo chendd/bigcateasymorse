@@ -10,7 +10,7 @@
 			<g:FlexTable>
 			</g:FlexTable>
 			<g:DecoratorPanel>
-				<g:FlowPanel  ui:field="layout">
+				<g:FlowPanel  ui:field="flowPanels">
 				</g:FlowPanel>
 			</g:DecoratorPanel>
 		</g:HorizontalPanel>

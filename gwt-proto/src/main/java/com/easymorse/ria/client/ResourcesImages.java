@@ -22,6 +22,7 @@ import com.google.gwt.resources.client.ImageResource;
  * The images used throughout the Showcase.
  */
 public interface ResourcesImages extends ClientBundle {
+	
   ImageResource gwtLogo();
 
   ImageResource treeimage();
