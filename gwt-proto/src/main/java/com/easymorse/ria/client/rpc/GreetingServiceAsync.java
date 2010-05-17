@@ -7,4 +7,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public interface GreetingServiceAsync {
 	void greetServer(String input, AsyncCallback<String> callback);
+	void login(String userInfo,AsyncCallback<String> callback);
+	void isLogined(String message,AsyncCallback<String> callback);
 }
