@@ -14,7 +14,7 @@ public class RiaEntryPoint implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
-		new ApplicationController(new HandlerManager(null)).go(RootPanel.get());
+		new ApplicationController(new HandlerManager(null),RootPanel.get()).go(RootPanel.get());
 	}
 
 }
