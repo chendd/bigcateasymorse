@@ -1,20 +1,14 @@
 package com.easymorse.ria.client;
 
-import com.easymorse.ria.client.event.AboutEvent;
-import com.easymorse.ria.client.event.AboutEventHandler;
-import com.easymorse.ria.client.event.LoginEvent;
-import com.easymorse.ria.client.event.LoginEventHandler;
-import com.easymorse.ria.client.event.TestEvent;
-import com.easymorse.ria.client.event.TestEventHandler;
+import com.easymorse.ria.client.event.NeedLoginEvent;
+import com.easymorse.ria.client.event.NeedLoginEventHandler;
+import com.easymorse.ria.client.presenter.LoginPresenter;
 import com.easymorse.ria.client.presenter.Presenter;
 import com.easymorse.ria.client.presenter.TestPresenter;
 import com.easymorse.ria.client.rpc.GreetingService;
 import com.easymorse.ria.client.rpc.GreetingServiceAsync;
 import com.easymorse.ria.client.view.MainLayoutView;
-import com.easymorse.ria.client.view.RPCPanel;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
@@ -39,6 +33,10 @@ public class ApplicationController implements ValueChangeHandler<String>,
 	HasWidgets container;
 	
 	String userName;
+	/**
+	 * 用户登录的信息
+	 */
+	String userInfo;
 
 	private final GreetingServiceAsync greetingService = GWT
 			.create(GreetingService.class);
@@ -59,10 +57,31 @@ public class ApplicationController implements ValueChangeHandler<String>,
 	public void go(HasWidgets container) {
 		//this.container = container;
 		//container.add(mainLayoutView);
-		testPresenter = new TestPresenter(handlerManager);
-		testPresenter.go(container);
+		this.checkLogin();
+		
 	}
 
+	private void checkLogin(){
+		
+		
+		
+		greetingService.isLogined(userInfo,
+				new AsyncCallback<String>() {
+					public void onFailure(Throwable caught) {
+						Window.alert("rpc error!");
+					}
+					public void onSuccess(String result) {
+						if("logined".equals(result)){
+							testPresenter = new TestPresenter(handlerManager);
+							testPresenter.go(container);
+						}else{
+							handlerManager.fireEvent(new NeedLoginEvent());
+						}
+						
+					}
+				});
+		
+	}
 	/**
 	 * 全局事件
 	 */
@@ -70,6 +89,16 @@ public class ApplicationController implements ValueChangeHandler<String>,
 		/**
 		 * 作用户的权限事件配置
 		 */
+		
+		
+		this.handlerManager.addHandler(NeedLoginEvent.TYPE,
+				new NeedLoginEventHandler() {
+
+					@Override
+					public void onNeedLogin(NeedLoginEvent event) {
+						new LoginPresenter(handlerManager).go(container);
+					}
+				});
 //		this.handlerManager.addHandler(AboutEvent.TYPE,new AboutEventHandler(){
 //
 //			@Override
