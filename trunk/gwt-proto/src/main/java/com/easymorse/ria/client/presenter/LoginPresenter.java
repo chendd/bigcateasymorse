@@ -1,5 +1,7 @@
 package com.easymorse.ria.client.presenter;
 
+import org.apache.log4j.Logger;
+
 import com.easymorse.ria.client.event.NeedLoginEvent;
 import com.easymorse.ria.client.rpc.GreetingService;
 import com.easymorse.ria.client.rpc.GreetingServiceAsync;
@@ -25,28 +27,30 @@ public class LoginPresenter implements Presenter {
 	private LoginDialogBox loginDialogBox;
 
 	private TestPresenter testPresenter;
-	
+
 	private final GreetingServiceAsync greetingService = GWT
-	.create(GreetingService.class);
+			.create(GreetingService.class);
 
 	private HasWidgets container;
+
+	private NeedLoginEvent needLoginEvent;
+
 	
-	private NeedLoginEvent needLoginEvent ;
-	
+
 	public LoginPresenter(HandlerManager handlerManager) {
 		this.handlerManager = handlerManager;
 		loginDialogBox = new LoginDialogBox();
-		this.needLoginEvent  = needLoginEvent;
-		
+		this.needLoginEvent = needLoginEvent;
+
 	}
 
 	@Override
 	public void go(HasWidgets container) {
-		
+
 		this.container = container;
-		
+
 		loginDialogBox.getLoginButton().addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
 				login();
@@ -60,40 +64,45 @@ public class LoginPresenter implements Presenter {
 	}
 
 	protected void login() {
-	
+
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(
-				this.loginDialogBox.getUserName().getValue()).append("-").append(
-				this.loginDialogBox.getPassword().getValue());
+		stringBuilder.append(this.loginDialogBox.getUserName().getValue())
+				.append("-").append(
+						this.loginDialogBox.getPassword().getValue());
 
 		if (this.loginDialogBox.getSaveCheckBox().getValue()) {
-			//stringBuilder.append("&_spring_security_remember_me=on");
+			// stringBuilder.append("&_spring_security_remember_me=on");
 		}
 		greetingService.login(stringBuilder.toString(),
 				new AsyncCallback<String>() {
 					public void onFailure(Throwable caught) {
 						Window.alert("rpc error!");
 					}
+
 					public void onSuccess(String result) {
-						if("success".equals(result)){
+						String resultsign = result.split("-")[0];
+						GWT.log("0--------"+resultsign+"------1---------"+result.split("-")[1]);
+						if ("success".equals(resultsign)) {
 							getLoginDialogBox().getLoginDialgoBox().hide();
-							testPresenter = new TestPresenter(handlerManager);
+							System.out.println("result.split[1]------------"+result.split("-")[1]);
+							testPresenter = new TestPresenter(handlerManager,result.split("-")[1]);
+							//testPresenter.setAuthString(result.split("-")[1]);
 							testPresenter.go(container);
-						}else{
-							
+						} else {
+
 							loginError("用户名或密码错误");
 							return;
 						}
-						
+
 					}
 				});
 
 	}
 
 	private void loginSuccessful() {
-	//	loginDialogBox.hide();
-//		this.handlerManager.fireEvent(new LoginSuccessEvent(loginDialogBox
-//				.getUserName().getValue()));
+		// loginDialogBox.hide();
+		// this.handlerManager.fireEvent(new LoginSuccessEvent(loginDialogBox
+		// .getUserName().getValue()));
 	}
 
 	private void loginError(String errorMessage) {
@@ -104,5 +113,4 @@ public class LoginPresenter implements Presenter {
 		return needLoginEvent;
 	}
 
-	
 }

@@ -71,8 +71,8 @@ public class ApplicationController implements ValueChangeHandler<String>,
 						Window.alert("rpc error!");
 					}
 					public void onSuccess(String result) {
-						if("logined".equals(result)){
-							testPresenter = new TestPresenter(handlerManager);
+						if("logined".equals(result.split("-")[0])){
+							testPresenter = new TestPresenter(handlerManager,result.split("-")[1]);
 							testPresenter.go(container);
 						}else{
 							handlerManager.fireEvent(new NeedLoginEvent());
@@ -99,65 +99,6 @@ public class ApplicationController implements ValueChangeHandler<String>,
 						new LoginPresenter(handlerManager).go(container);
 					}
 				});
-//		this.handlerManager.addHandler(AboutEvent.TYPE,new AboutEventHandler(){
-//
-//			@Override
-//			public void aboutDialog(AboutEvent event) {
-//				// TODO Auto-generated method stub
-//				mainLayoutView.setVisible(false);
-//				Window.alert("ddd");
-//				
-//			}	
-//		});
-//		
-//		mainLayoutView.getTopPanelView().getLink().addClickHandler(
-//		new ClickHandler() {
-//
-//			@Override
-//			public void onClick(ClickEvent event) {
-//				handlerManager.fireEvent(new AboutEvent("哈哈"));
-//
-//			}
-//
-//		});
-
-//		this.handlerManager.addHandler(LoginEvent.TYPE,
-//				new LoginEventHandler() {
-//
-//					@Override
-//					public void startLogin(LoginEvent event) {
-//						userName = event.getUserName();
-//						greetingService.greetServer(userName,
-//								new AsyncCallback<String>() {
-//									public void onFailure(Throwable caught) {
-//										// Show the RPC error message to the
-//										// user
-//										Window
-//												.alert("Remote Procedure Call - Failure");
-//
-//									}
-//
-//									public void onSuccess(String result) {
-//
-//										Window.alert("输入的用户名是：" + result);
-//									}
-//								});
-//					}
-//				});
-//		mainLayoutView.getRpcPanel().getButton().addClickHandler(
-//				new ClickHandler() {
-//
-//					@Override
-//					public void onClick(ClickEvent event) {
-//						handlerManager.fireEvent(new LoginEvent(mainLayoutView.getRpcPanel()
-//								.getTextBox().getText()));
-//
-//					}
-//
-//				});
 
 	}
-
-
-
 }

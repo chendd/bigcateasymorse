@@ -15,8 +15,11 @@ public class UserDao {
 		logger.debug("user name is---"+user.getName()+"-----user password is ----"+user.getPassword());
 		
 		if("zhangsan".equals(user.getName())&& "password".equals(user.getPassword())){
-			return "success";
-		}else{
+			return "success-管理员";
+		}if("lisi".equals(user.getName())&& "password".equals(user.getPassword())){
+			return "success-普通用户";
+		}
+		else{
 			return "error";
 		}
 	}
