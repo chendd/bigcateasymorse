@@ -1,31 +1,21 @@
 package com.easymorse.ria.client.view;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import com.easymorse.ria.client.ResourcesImages;
-import com.easymorse.ria.client.util.CommonDate;
+import com.easymorse.ria.client.util.AuthUtil;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
@@ -33,7 +23,6 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Tree;
@@ -42,14 +31,15 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class MainLayoutView extends Composite implements ResizeHandler {
-	
-	
+
 	@UiField
 	FlowPanel flowPanels;
 	FlowPanel layout;
-	
+
+	String authString;
+
 	private Tree mainMenu;
-	
+
 	private HorizontalPanel bottomPanel;
 
 	private DecoratorPanel contentDecorator;
@@ -68,8 +58,8 @@ public class MainLayoutView extends Composite implements ResizeHandler {
 	 * 菜单的加载panel
 	 */
 
-	private  RPCPanel rpcPanel;
-	
+	private RPCPanel rpcPanel;
+
 	public RPCPanel getRpcPanel() {
 		return rpcPanel;
 	}
@@ -77,18 +67,17 @@ public class MainLayoutView extends Composite implements ResizeHandler {
 	HorizontalPanel horizontalPanels = new HorizontalPanel();
 	VerticalPanel verticalPanelss = new VerticalPanel();
 
-
 	private static MainLayoutViewUiBinder uiBinder = GWT
 			.create(MainLayoutViewUiBinder.class);
 
 	interface MainLayoutViewUiBinder extends UiBinder<Widget, MainLayoutView> {
 	}
 
-	
 	Grid contentLayout;
 
-	public MainLayoutView() {
+	public MainLayoutView(String authString) {
 		initWidget(uiBinder.createAndBindUi(this));
+		this.authString = authString;
 		mainLayout();
 	}
 
@@ -101,7 +90,7 @@ public class MainLayoutView extends Composite implements ResizeHandler {
 		this.layout.setStyleName("Application");
 
 		// 创建配置顶部布局
-	
+
 		topPanelView = new TopPanelView();
 		this.layout.add(this.getTopPanelView());
 
@@ -133,38 +122,87 @@ public class MainLayoutView extends Composite implements ResizeHandler {
 		contentLayout.getCellFormatter().setStyleName(1, 0,
 				"Application-content-wrapper");
 
-
 		mainMenu.ensureSelectedItemVisible();
 		// 调整内容部分的宽度
-		 Window.addResizeHandler(this);
-		 this.setContentSize(Window.getClientWidth());
+		Window.addResizeHandler(this);
+		this.setContentSize(Window.getClientWidth());
 	}
 
-
-
-
+	@SuppressWarnings("unchecked")
 	private void initTree() {
 		mainMenu = new Tree();
 		mainMenu.setAnimationEnabled(true);
 		mainMenu.addStyleName("Application-menu");
 
+		AuthUtil authUtil = new AuthUtil();
+		GWT.log("getAuthString()-------"+this.getAuthString());
+		List<Map<String, List>> authList = AuthUtil.getAuthMap().get(this.getAuthString());
+		TreeItem item = null;
+		TreeItem childrenItem = null;
+		GWT.log("authList size is "+authList.size());
+		for (int i = 0; i < authList.size(); i++) {
+			Map<String, List>   authMaps =  authList.get(i);
+			Iterator iterator = authMaps.keySet().iterator();
+			while (iterator.hasNext()) {
+				String s = (String)iterator.next();
+				if ("数据管理".equals(s)) {
+					item = mainMenu.addItem("数据管理");
+					List l = authMaps.get("数据管理");
+					for (int li = 0; li < l.size(); li++) {
+						if ("数据查询".equals(l.get(li))) {
+							childrenItem = item.addItem(new Image(images
+									.treeimage())
+									+ "数据查询");
+							childrenItem.setUserObject("test_date1");
+							treeItems.put(childrenItem, new HTML(
+									"数据查询"));
 
-		TreeItem item = mainMenu.addItem("数据管理");
-		TreeItem childrenItem = item.addItem(new Image(images.treeimage())
-				+ "测试数据1");
-		childrenItem.setUserObject("test_date1");
-		treeItems.put(childrenItem, new HTML("欢迎来到GWT数据操作平台"));
+						}
+						if ("数据维护".equals(l.get(li))) {
+							childrenItem = item.addItem(new Image(images
+									.treeimage())
+									+ "数据维护");
+							childrenItem.setUserObject("test_data2");
+							rpcPanel = new RPCPanel();
+							treeItems.put(childrenItem, rpcPanel.getVerticalPanel());
 
-		childrenItem = item.addItem(new Image(images.treeimage()) + "测试数据2");
-		childrenItem.setUserObject("test_data2");
-		rpcPanel = new RPCPanel();
-		treeItems.put(childrenItem, rpcPanel.getVerticalPanel());
+						}
+					}
+
+				}
+				if ("用户管理".equals(s)) {
+					item = mainMenu.addItem("用户管理");
+					List l = authMaps.get("用户管理");
+					for (int li = 0; li < l.size(); li++) {
+						if ("帐号管理".equals(l.get(li))) {
+							childrenItem = item.addItem(new Image(images
+									.treeimage())
+									+ "帐号管理");
+							childrenItem.setUserObject("test_date3");
+							treeItems.put(childrenItem, new HTML(
+									"帐号管理"));
+
+						}
+						if ("个人信息管理".equals(l.get(li))) {
+							childrenItem = item.addItem(new Image(images
+									.treeimage())
+									+ "个人信息管理");
+							childrenItem.setUserObject("test_data4");
+							treeItems.put(childrenItem, new HTML(
+							"个人信息管理"));
+
+						}
+					}
+				}
+			}
+		}
 
 		bottomPanel.add(mainMenu);
 	}
 
 	/**
-	 * size 
+	 * size
+	 * 
 	 * @param width
 	 */
 	private void setContentSize(int width) {
@@ -178,6 +216,7 @@ public class MainLayoutView extends Composite implements ResizeHandler {
 		contentLayout.getCellFormatter().setWidth(1, 0,
 				contentWidthInner + "px");
 	}
+
 	@Override
 	public void onResize(ResizeEvent event) {
 		setContentSize(event.getWidth());
@@ -204,7 +243,8 @@ public class MainLayoutView extends Composite implements ResizeHandler {
 		return contentWrapper;
 	}
 
+	public String getAuthString() {
+		return authString;
+	}
 
-	
-	
 }

@@ -33,13 +33,15 @@ public class TestPresenter implements Presenter, ValueChangeHandler<String> {
 	private MainLayoutView mainLayoutView;
 
 	String userName;
-
+	
+	String authString;
+	
 	private final GreetingServiceAsync greetingService = GWT
 			.create(GreetingService.class);
 
-	public TestPresenter(HandlerManager handlerManager) {
+	public TestPresenter(HandlerManager handlerManager,String authString) {
 		this.handlerManager = handlerManager;
-		this.mainLayoutView = new MainLayoutView();
+		this.mainLayoutView = new MainLayoutView(authString);
 		// mainLayoutView = new MainLayoutView();
 		bind();
 	}
@@ -88,17 +90,20 @@ public class TestPresenter implements Presenter, ValueChangeHandler<String> {
 					}
 
 				});
-		mainLayoutView.getRpcPanel().getButton().addClickHandler(
-				new ClickHandler() {
+		if(null != mainLayoutView.getRpcPanel()){
+			mainLayoutView.getRpcPanel().getButton().addClickHandler(
+					new ClickHandler() {
 
-					@Override
-					public void onClick(ClickEvent event) {
-						handlerManager.fireEvent(new LoginEvent(mainLayoutView
-								.getRpcPanel().getTextBox().getText()));
+						@Override
+						public void onClick(ClickEvent event) {
+							handlerManager.fireEvent(new LoginEvent(mainLayoutView
+									.getRpcPanel().getTextBox().getText()));
 
-					}
+						}
 
-				});
+					});
+		}
+	
 
 		mainLayoutView.getMainMenu().addSelectionHandler(
 				new SelectionHandler<TreeItem>() {
@@ -157,8 +162,17 @@ public class TestPresenter implements Presenter, ValueChangeHandler<String> {
 		Window.alert("哈哈。他调用了 onvalues");
 	}
 
+	public String getAuthString() {
+		return authString;
+	}
+
+	public void setAuthString(String authString) {
+		this.authString = authString;
+	}
+
 	// public RPCPanel getRpcPanel() {
 	// return this.rpcPanel;
 	// }
+	
 
 }
