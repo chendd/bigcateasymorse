@@ -107,29 +107,12 @@
           <td >&nbsp;${item.roomName }</td>
           <td >&nbsp;${item.roomPrice }元/间</td>
           <input type="hidden" value=${item.id } name="id" ></input>
-          <td >&nbsp;<a href="<%=request.getContextPath()%>/bookroom?id=${item.id}"><img src="images/button_ljyd.jpg"></img></a></td>
+          <td >&nbsp;<a href="<%=request.getContextPath()%>/ibooks.do?id=${item.id}"><img src="images/button_ljyd.jpg"></img></a></td>
         </tr>
     	</c:forEach>
-        <tr align="center">
-          <td >&nbsp;宝宇荣耀时尚公寓</td>
-          <td >&nbsp;158 元/间</td>
-          <td >&nbsp;<img src="images/button_ljyd.jpg"></img></td>
-        </tr>
-        <tr align="center">
-          <td >&nbsp;宝宇荣耀时尚公寓</td>
-          <td >&nbsp;158 元/间</td>
-          <td >&nbsp;<img src="images/button_ljyd.jpg"></img></td>
-        </tr>
-        <tr align="center">
-          <td >&nbsp;宝宇荣耀时尚公寓</td>
-          <td >&nbsp;158 元/间</td>
-          <td >&nbsp;<img src="images/button_ljyd.jpg"></img></td>
-        </tr>
-         <tr align="center">
-          <td >&nbsp;宝宇荣耀时尚公寓</td>
-          <td >&nbsp;158 元/间</td>
-          <td >&nbsp;<img src="images/button_ljyd.jpg"></img></td>
-        </tr>
+       
+       
+       
         
       </table>
      <div align="right"> <a href=""><h5>更多>></h5></a></div>

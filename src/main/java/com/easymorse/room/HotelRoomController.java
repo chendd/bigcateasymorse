@@ -16,7 +16,11 @@ import com.easymorse.order.OrderItem;
 import com.easymorse.order.OrderItemDao;
 import com.easymorse.user.UserBean;
 import com.easymorse.user.UserBeanDao;
-
+/**
+ * 
+ * @author dahui <a href="mailto:jiessiedyh@gmail.com">jiessiedyh@gmail.com</a> 
+ *
+ */
 @Controller
 public class HotelRoomController {
 
@@ -111,7 +115,10 @@ public class HotelRoomController {
 			ModelMap modelMap, OrderItem orderItem, String roomId) {
 
 		if(null != roomId){
-			orderItem.setHotelRoom(hotelRoomDao.findById(Long.valueOf(roomId)));
+			HotelRoom hotelRoom = hotelRoomDao.findById(Long.valueOf(roomId));
+			hotelRoom.setBooked(true);
+			hotelRoomDao.update(hotelRoom);
+			orderItem.setHotelRoom(hotelRoom);
 		}
 		if(null != request.getSession().getAttribute("the_user")){
 			UserBean user  =userBeanDao.findByAlise((String)request.getSession().getAttribute("the_user"));

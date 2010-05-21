@@ -35,10 +35,12 @@ public class CriticismController {
 	}
 
 	@RequestMapping("/addcriticism.do")
-	public String addC(HttpServletRequest request, ModelMap modelMap, String id) {
-		
+	public String addC(HttpServletRequest request, ModelMap modelMap, String id,String randomImage ) {
 
-		if (1==0) {
+		if(null != randomImage && !"".equals(randomImage)){
+			request.setAttribute("randomImage",randomImage );
+		}
+		if (1 == 0) {
 			return "redirect:login.do";
 		} else {
 			if (null != id && !"".equals(id)) {
@@ -46,54 +48,75 @@ public class CriticismController {
 					request.setAttribute("hotels", hotelBeanDao.findById(Long
 							.valueOf(id)));
 					modelMap.put("criticismlist", criticismBeanDao
-							.findListById(hotelBeanDao.findById(Long.valueOf(id))));
-					
-					logger.debug("hotels是》》》》》》》》》》》。"+hotelBeanDao.findById(Long
-							.valueOf(id)));
+							.findListById(hotelBeanDao.findById(Long
+									.valueOf(id))));
+
+					logger.debug("hotels是》》》》》》》》》》》。"
+							+ hotelBeanDao.findById(Long.valueOf(id)));
 				}
 
-			}else if(null !=modelMap.get("signId")){
-				logger.debug(">>>>>>>>>>>>执行到了signid的情况,z这个时候的id是"+modelMap.get("signId"));
-				if (null != hotelBeanDao.findById((Long)(modelMap.get("signId")))) {
-					request.setAttribute("hotels", hotelBeanDao.findById((Long)(modelMap.get("signId"))));
-					modelMap.put("criticismlist", criticismBeanDao
-							.findListById(hotelBeanDao.findById((Long)(modelMap.get("signId")))));
-					logger.debug(">>>>>>>>>>>>执行到了signid的情况, 并且hotel是"+hotelBeanDao.findById((Long)(modelMap.get("signId"))));
+			} else if (null != modelMap.get("signId")) {
+				logger.debug(">>>>>>>>>>>>执行到了signid的情况,z这个时候的id是"
+						+ modelMap.get("signId"));
+				if (null != hotelBeanDao.findById((Long) (modelMap
+						.get("signId")))) {
+					request.setAttribute("hotels", hotelBeanDao
+							.findById((Long) (modelMap.get("signId"))));
+					modelMap
+							.put("criticismlist", criticismBeanDao
+									.findListById(hotelBeanDao
+											.findById((Long) (modelMap
+													.get("signId")))));
+					logger.debug(">>>>>>>>>>>>执行到了signid的情况, 并且hotel是"
+							+ hotelBeanDao.findById((Long) (modelMap
+									.get("signId"))));
 				}
 			}
-			
+
 			return "criticism/addcriticism";
 		}
 
 	}
-	
-	
-		
-		@RequestMapping("/criticism_submit.do")
-		@Transactional(propagation = Propagation.REQUIRED)
-		public String criticismSumbit(HttpServletRequest request, ModelMap modelMap, String id,CriticismBean criticismBean) {
-			if(null != id && !"".equals(id)){
-				
-				if(null != hotelBeanDao.findById(Long.valueOf(id))){
-					criticismBean.setHotelBean(hotelBeanDao.findById(Long.valueOf(id)));
-				}
-					criticismBean.setCriticismTime(new Date());
-					logger.debug("评论的信息:>>>>>>>>>>>>"+criticismBean.getCriticism());
-					try {
-						String s  = new String(criticismBean.getCriticism().getBytes("iso8859-1"),"utf-8");
-						logger.debug("评论的信息经过转码后的是:>>>>>>>>>>>>"+s);
-					} catch (UnsupportedEncodingException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					
-					criticismBeanDao.create(criticismBean);
-			}
-			logger.debug("submint的时候的id是?>>>>"+id);
-			modelMap.put("signId", id);
-			
-				return "redirect:/addcriticism.do?id="+id;
-			
 
+	@RequestMapping("/criticism_submit.do")
+	@Transactional(propagation = Propagation.REQUIRED)
+	public String criticismSumbit(HttpServletRequest request,
+			ModelMap modelMap, String id, CriticismBean criticismBean,String validatecode ) {
+		logger.debug("验证码是" + request.getSession().getAttribute("rand")
+				+ "用户输入的是 " + validatecode);
+		
+		if (request.getSession().getAttribute("rand").equals(
+				validatecode)) {
+
+			if (null != id && !"".equals(id)) {
+
+				if (null != hotelBeanDao.findById(Long.valueOf(id))) {
+					criticismBean.setHotelBean(hotelBeanDao.findById(Long
+							.valueOf(id)));
+				}
+				criticismBean.setCriticismTime(new Date());
+				logger.debug("评论的信息:>>>>>>>>>>>>"
+						+ criticismBean.getCriticism());
+				try {
+					String s = new String(criticismBean.getCriticism()
+							.getBytes("iso8859-1"), "utf-8");
+					logger.debug("评论的信息经过转码后的是:>>>>>>>>>>>>" + s);
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				criticismBeanDao.create(criticismBean);
+			}
+			logger.debug("submint的时候的id是?>>>>" + id);
+			modelMap.put("signId", id);
+
+			return "redirect:/addcriticism.do?id=" + id;
+
+		} else {
+			//request.setAttribute("randomImage", "error");
+			logger.debug("验证马输入有错误");
+			return "redirect:/addcriticism.do?id=" + id+"&randomImage=error";
 		}
+	}
 }
