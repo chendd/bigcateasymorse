@@ -24,15 +24,16 @@
 	</tr>
 	<c:forEach items="${roomlist}" var="item">
 		<tr align="center">
-			<td>${item.hotelName}</td>
+			<td>${item.hotelBean.hotelName}</td>
 			<td>${item.roomPrice}</td>
 			<td>${item.roomDescription}</td>
-			<td>${item.isBooked}</td>
+
+			<td>没有</td>
 			<td><input type="hidden" name="id" value="${item.id }" /><a
 				href="<%=request.getContextPath()%>/webadmin/deleteroom.do?id=${item.id}">删除</a></td>
 		</tr>
 	</c:forEach>
 </TABLE>
-<a href="<%=request.getContextPath()%>/hotel/addroom.do">新添房屋</a>
+<!--<a href="<%=request.getContextPath()%>/hotel/addroom.do">新添房屋</a>-->
 </body>
 </html>

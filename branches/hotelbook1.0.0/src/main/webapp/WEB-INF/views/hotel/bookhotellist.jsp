@@ -18,7 +18,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
 <!-- saved from url=(0032)http://www.51booking.cn/comment/ -->
 <HTML><HEAD><META http-equiv="Content-Type" content="text/html; charset=GBK">
-<TITLE>东莞酒店点评_东莞宾馆评论_中国商务订房网</TITLE>
+<TITLE>订房网</TITLE>
 
 <SCRIPT language="javascript" src="<%=request.getContextPath() %>/pinglun/changeclass.js"></SCRIPT>
 <SCRIPT language="javascript" src="<%=request.getContextPath() %>/pinglun/chkfunc.js"></SCRIPT>

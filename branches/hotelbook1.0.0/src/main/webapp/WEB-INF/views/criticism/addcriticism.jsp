@@ -29,7 +29,7 @@
 <LINK href="<%=request.getContextPath() %>/pinglun/pinglun1/div_css.css" rel="stylesheet" type="text/css">
 <SCRIPT language="javascript" src="<%=request.getContextPath() %>/pinglun/pinglun1/js.js"></SCRIPT>
 <SCRIPT language="JavaScript">
-<!--
+
 function check(frm)
 {
 	
@@ -93,7 +93,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
   eval(targ+".location='"+selObj.options[selObj.selectedIndex].value+"'");
   if (restore) selObj.selectedIndex=0;
 }
-//-->
+
 </SCRIPT>
 
 <STYLE type="text/css">
@@ -222,8 +222,8 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 			 <DIV class="bottom_title">&nbsp;<IMG src="<%=request.getContextPath() %>/pinglun/pinglun1/icon25.gif"><A name="dian" id="dian"></A>&nbsp;
 			 
 			   
-			   您还没有登录 当前是匿名发表    <A href="http://www.51booking.cn/login/index.asp">我要登录</A> 
-			   <A href="">免费注册会员</A></DIV>
+			   您还没有登录 当前是匿名发表    <A href="<%=request.getContextPath() %>/login.do">我要登录</A> 
+			   <A href="<%=request.getContextPath() %>/register.do">免费注册会员</A></DIV>
 			 
 			 
 			 <DIV>
@@ -295,9 +295,12 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 							     <TABLE width="90%" border="0" cellspacing="0" cellpadding="0">
                    <TBODY><TR>
                      <TD width="2%">&nbsp;</TD>
+                     <% if("error".equals(request.getAttribute("randomImage"))){ %>
+                     <font color="red">验证码错误</font>
+                     <%} %>
                      <TD width="7%">验证码</TD>
                      <TD width="17%"><INPUT size="5" name="validatecode">
-                     <IMG src="<%=request.getContextPath() %>/pinglun/pinglun1/validatecode.asp" align="absmiddle" border="0"></TD>
+                     <IMG src="<%=request.getContextPath()%>/randomImage.asp" align="absmiddle" border="0"></TD>
                      <TD width="19%"><INPUT type="image" src="<%=request.getContextPath() %>/pinglun/pinglun1/btn_tjpl.jpg" name="Submit"></TD>
                      <TD width="55%">&nbsp;</TD>
                    </TR>

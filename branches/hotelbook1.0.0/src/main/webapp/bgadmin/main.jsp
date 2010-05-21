@@ -51,20 +51,14 @@
   <TR>
     <TD align=right>真实姓名：</TD>
     <TD style="COLOR: #880000"><%=session.getAttribute("loginusername") %></TD></TR>
-  <TR>
-    <TD align=right>注册时间：</TD>
-    <TD style="COLOR: #880000">2007-7-25 15:02:04</TD></TR>
-  <TR>
-    <TD align=right>登陆次数：</TD>
-    <TD style="COLOR: #880000">58</TD></TR>
+ 
+ 
   <TR>
     <TD align=right>上线时间：</TD>
     <TD style="COLOR: #880000"><%=dates %></TD></TR>
   <TR>
     <TD align=right>IP地址：</TD>
     <TD style="COLOR: #880000"><%=request.getRemoteHost() %></TD></TR>
-  <TR>
-    <TD align=right>身份过期：</TD>
-    <TD style="COLOR: #880000">30 分钟</TD></TR>
+ 
   
   </TABLE></BODY></HTML>

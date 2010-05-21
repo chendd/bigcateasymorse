@@ -71,31 +71,9 @@ background=<%=request.getContextPath() %>/bgcss/images/menu_bg.jpg border=0>
           <TD><A class=menuChild 
             href="<%=request.getContextPath() %>/hotel/checkup.do" 
             target=main>审核新申请</A></TD></TR>
-        <TR height=20>
-          <TD align=middle width=30><IMG height=9 
-            src="<%=request.getContextPath() %>/bgcss/images/menu_icon.gif" width=9></TD>
-          <TD><A class=menuChild 
-            href="#" 
-            target=main>最新产品</A></TD></TR>
-        <TR height=20>
-          <TD align=middle width=30><IMG height=9 
-            src="<%=request.getContextPath() %>/bgcss/images/menu_icon.gif" width=9></TD>
-          <TD><A class=menuChild 
-            href="#" 
-            target=main>分类管理</A></TD></TR>
-        <TR height=20>
-          <TD align=middle width=30><IMG height=9 
-            src="<%=request.getContextPath() %>/bgcss/images/menu_icon.gif" width=9></TD>
-          <TD><A class=menuChild 
-            href="#" 
-            target=main>子类管理</A></TD></TR>
-        <TR height=4>
-          <TD colSpan=2></TD></TR></TABLE>
-      <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
-        <TR height=22>
-          <TD style="PADDING-LEFT: 30px" background=<%=request.getContextPath() %>/bgcss/images/menu_bt.jpg><A 
-            class=menuParent onclick=expand(4) 
-            href="javascript:void(0);">客户服务</A></TD></TR>
+       
+       
+        
         <TR height=4>
           <TD></TD></TR></TABLE>
       <TABLE id=child4 style="DISPLAY: none" cellSpacing=0 cellPadding=0 
@@ -141,12 +119,7 @@ background=<%=request.getContextPath() %>/bgcss/images/menu_bg.jpg border=0>
           <TD><A class=menuChild 
             href="<%=request.getContextPath() %>/webadmin/addadminuser.do" 
             target=main>管理员增加</A></TD></TR>
-        <TR height=20>
-          <TD align=middle width=30><IMG height=9 
-            src="<%=request.getContextPath() %>/bgcss/images/menu_icon.gif" width=9></TD>
-          <TD><A class=menuChild 
-            href="" 
-            target=main>修改管理员</A></TD></TR>
+       
         <TR height=20>
           <TD align=middle width=30><IMG height=9 
             src="<%=request.getContextPath() %>/bgcss/images/menu_icon.gif" width=9></TD>
