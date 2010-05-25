@@ -1,0 +1,20 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+<!--	<ui:style src="mainlayout.css" />-->
+		<g:FlowPanel>
+		<g:FlexTable>			
+		</g:FlexTable>
+		<g:HorizontalPanel>
+			<g:FlexTable>
+			</g:FlexTable>
+			<g:DecoratorPanel>
+				<g:FlowPanel  ui:field="flowPanels">
+				</g:FlowPanel>
+			</g:DecoratorPanel>
+		</g:HorizontalPanel>
+	</g:FlowPanel>
+</ui:UiBinder> 
