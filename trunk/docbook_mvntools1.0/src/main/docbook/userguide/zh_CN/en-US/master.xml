@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3CR3//EN"
+      "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+      <!ENTITY preface SYSTEM "modules/preface.xml">
+      <!ENTITY introduction SYSTEM "modules/introduction.xml">
+      <!ENTITY architecture SYSTEM "modules/architecture.xml">
+      <!ENTITY basic_api SYSTEM "modules/basic_api.xml">
+      <!ENTITY replication SYSTEM "modules/replication.xml">
+      <!ENTITY transactions SYSTEM "modules/transactions.xml">
+      <!ENTITY eviction_policies SYSTEM "modules/eviction_policies.xml">
+      <!ENTITY cache_loaders SYSTEM "modules/cache_loaders.xml">
+      <!ENTITY compatibility SYSTEM "modules/compatibility.xml">
+      <!ENTITY configuration SYSTEM "modules/configuration.xml">
+      <!ENTITY deployment SYSTEM "modules/deployment.xml">
+      <!ENTITY configuration_reference SYSTEM "modules/configuration_reference.xml">
+      <!ENTITY jmx_reference SYSTEM "modules/jmx_reference.xml">
+      <!ENTITY glossary SYSTEM "modules/glossary.xml">
+      ]>
+<book lang="zh-CN">
+   <bookinfo>
+      <title>JBoss Cache 用户向导</title>
+      <subtitle>支持集群、事务的缓存技术</subtitle>
+
+      <!-- Release version and date -->
+      <releaseinfo>版本 2.2.0 Poblano</releaseinfo>
+      <pubdate>2008 五月</pubdate>
+
+      <!-- Authors/contributors -->
+      <author>
+         <firstname>Manik</firstname>
+         <surname>Surtani</surname>
+         <email>manik@jboss.org</email>
+      </author>
+
+      <author>
+         <firstname>Bela</firstname>
+         <surname>Ban</surname>
+         <email>bela@jboss.com</email>
+      </author>
+
+      <author>
+         <firstname>Ben</firstname>
+         <surname>Wang</surname>
+         <email>ben.wang@jboss.com</email>
+      </author>
+
+      <author>
+         <firstname>Brian</firstname>
+         <surname>Stansberry</surname>
+         <email>brian.stansberry@jboss.com</email>
+      </author>
+
+      <author>
+         <firstname>Galder</firstname>
+         <surname>Zamarreño</surname>
+         <email>galder.zamarreno@jboss.com</email>
+      </author>
+
+      <author>
+         <firstname>Daniel</firstname>
+         <surname>Huang</surname>
+         <email>dhuang@jboss.org</email>
+      </author>
+
+      <author>
+         <firstname>Mircea</firstname>
+         <surname>Markus</surname>
+         <email>mircea.markus@jboss.com</email>
+      </author>
+
+
+      <!-- copyright info -->
+      <copyright>
+         <year>2004</year>
+         <year>2005</year>
+         <year>2006</year>
+         <year>2007</year>
+         <year>2008</year>
+         <holder>红帽子公司 JBoss 部门</holder>
+      </copyright>
+
+   </bookinfo>
+
+   <!-- Adds a table of contents here -->
+   <toc/>
+
+   &preface;
+
+   <part label="I">
+      <title>JBoss Cache 简介</title>
+      <partintro>
+         <para>
+            这个章节涵盖 JBoss Cache 的基本知识，
+            基于这些知识开发者可以快速地在他们的项目中开始使用 JBoss Cache。
+            这章的主要内容包括基本概念和 <glossterm linkend="api_gloss">API</glossterm>，还包括如何配置和部署的信息。
+         </para>
+      </partintro>
+      &introduction;
+      &basic_api;
+      &configuration;
+      &deployment;
+      &compatibility;
+   </part>
+
+   <part label="II">
+      <title>JBoss Cache 体系框架</title>
+      <partintro>
+         <para>
+            这个章节将深入探讨 JBoss Cache 体系框架，
+            目标读者是那些想要扩展或提高 JBoss Cache 的开发人员。
+            基于这章内容，他们可以编写插件，或者查找框架下如何运转的更详细知识。
+         </para>
+      </partintro>
+      &architecture;
+      &replication;
+      &cache_loaders;
+      &eviction_policies;
+      &transactions;
+   </part>
+
+   <part label="III">
+      <title>JBoss Cache 参考配置</title>
+      <partintro>
+         <para>
+            这个章节的主要内容是技术参考，是为了查找方便。
+         </para>
+      </partintro>
+
+      &configuration_reference;
+      &jmx_reference;
+   </part>
+      &glossary;
+</book>
