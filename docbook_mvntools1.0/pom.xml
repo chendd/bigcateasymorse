@@ -6,7 +6,7 @@
 	<artifactId>docbook_mvntools</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0</version>
-	<name>jboss-cache-core-doc</name>
+	<name>docbook_mvntools</name>
 	<url>http://bigcat.easymorse.com</url>
 	<developers>
 	<developer>
