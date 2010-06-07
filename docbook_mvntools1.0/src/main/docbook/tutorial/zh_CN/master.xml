@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article lang="zh-CN">
+    <articleinfo>
+        <title>JBoss Cache 指南核心版</title>
+      <!-- Release version and date -->
+        <releaseinfo>版本 2.2.0 Poblano</releaseinfo>
+        <pubdate>2008 五月</pubdate>
+        <author>
+            <firstname>Manik</firstname>
+            <surname>Surtani</surname>
+            <email>manik@jboss.org</email>
+        </author>
+
+      <!-- copyright info -->
+        <copyright>
+            <year>2005</year>
+            <year>2006</year>
+            <year>2007</year>
+            <year>2008</year>
+            <holder>红帽子公司 JBoss 部门</holder>
+        </copyright>
+    </articleinfo>
+    <section>
+        <title>导言</title>
+        <para>
+         JBoss Cache 是一种缓存技术，它的特点包括支持内存复制、事务处理、细粒度控制。
+         这个指南的重点是介绍缓存（如果不特殊说明就是指 JBoss Cache）的核心
+            <glossterm linkend="api">API
+            </glossterm>。如果您对缓存技术的
+            <glossterm linkend="pojo">Pojo
+            </glossterm>
+         编程接口感兴趣，请参考一起发行的 JBoss Cache 指南
+            <glossterm linkend="pojo">Pojo
+            </glossterm>  版。
+        </para>
+        <para>
+         如果想了解缓存技术配置、用法和
+            <glossterm linkend="api">API
+            </glossterm>的详细情况，请参考
+            <ulink
+               url="http://labs.jboss.org/portal/jbosscache/docs/index.html">用户手册
+            </ulink>
+         。
+        </para>
+    </section>
+    <section>
+        <title>可以学到的知识</title>
+        <itemizedlist>
+            <listitem>
+                <para>缓存的创建和修改</para>
+            </listitem>
+            <listitem>
+                <para>状态复制</para>
+            </listitem>
+            <listitem>
+                <para>事务处理</para>
+            </listitem>
+        </itemizedlist>
+    </section>
+    <section>
+        <title>配置</title>
+        <para>首先从
+            <ulink
+               url="http://labs.jboss.org/portal/jbosscache/download/index.html">下载页面
+            </ulink>下载 JBoss Cache 2.x 发行版本。你可以使用
+            <literal>JBossCache-core-2.X.Y.zip</literal>
+         发行程序。解压后，会有一个包含发行程序的目录，例如
+            <literal>JBossCache-core-2.X.Y</literal>。
+         为了方便阅读这个指南，我将用
+            <literal>JBossCache</literal>
+         代替这个目录名称。
+        </para>
+        <para>配置文件在
+            <literal>JBossCache/resources</literal>
+         目录下。通过编辑不同的配置文件，你可以修改缓存的行为。
+        </para>
+        <itemizedlist>
+            <listitem>
+                <para>
+                    <literal>log4j.xml</literal>，记录输出。你可以打开日志功能，
+               指定日志记录水平，或者修改日志文件的名称和输出路径。
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    <literal>config-samples/replSync-service.xml</literal>
+               ，本指南将要用到的这个缓存配置文件。
+                </para>
+            </listitem>
+        </itemizedlist>
+    </section>
+    <section>
+        <title>脚本</title>
+        <para>这个指南需要的唯一脚本是
+            <literal>JBossCache/build.xml</literal>
+         ，这是一个ant脚本。为了运行演示程序，你也需要安装
+            <ulink url="http://ant.apache.org/">ant
+            </ulink>。
+        </para>
+    </section>
+    <section>
+        <title>运行
+            <glossterm linkend="gui">GUI
+            </glossterm>
+            <glossterm linkend="demo">demo
+            </glossterm>
+        </title>
+        <para>
+         运行
+            <glossterm linkend="demo">demo
+            </glossterm>是通过运行ant脚本的
+            <literal>run.demo</literal>
+         目标来进行的。举例来说：
+        </para>
+        <para>
+            <literal>ant run.demo</literal>
+        </para>
+        <para>
+            <glossterm linkend="gui">GUI
+            </glossterm>
+            <glossterm linkend="demo">demo
+            </glossterm>的窗口将出现，在顶部方框显示缓存的树形视图，
+         在底部方框内显示
+            <glossterm linkend="jvm">JVM
+            </glossterm> 的
+            <glossterm linkend="beanshell">BeanShell
+            </glossterm>
+         视图。
+        </para>
+        <para>
+            <glossterm linkend="beanshell">BeanShell
+            </glossterm> 视图显示下列变量：
+            <itemizedlist>
+                <listitem>
+                    <literal>cache</literal>
+               -
+                    <glossterm linkend="gui">GUI
+                    </glossterm> 实例引用的 Cache 接口。
+                </listitem>
+                <listitem>
+                    <literal>root</literal>
+               - 上述缓存引用的根节点实例。
+                </listitem>
+                <listitem>
+                    <literal>transactionManager</literal>
+               - 引用的注册过的事务管理器。
+                </listitem>
+            </itemizedlist>
+            <glossterm linkend="beanshell">BeanShell
+            </glossterm>窗体和上面GUI树形视图指向的是同一个缓存实例。
+        </para>
+        <para>
+         为了使
+            <glossterm linkend="demo">demo
+            </glossterm> 演示出复制的效果，需要另外启动一个命令行窗体，
+         并象上面一样再次运行ant脚本目标。这样，在两个不同的
+            <glossterm linkend="gui">GUI
+            </glossterm>
+         程序里面有了两个缓存实例，这两个缓存实例互相复制状态。
+        </para>
+    </section>
+    <section>
+        <title>指南</title>
+      需要注意的是，在下面每个指南里面，最好关闭并重新启动一个
+        <glossterm linkend="gui">GUI
+        </glossterm>
+        <glossterm linkend="demo">demo
+        </glossterm>，
+      这样能保证每次清理缓存。
+        <section>
+            <title>缓存和节点</title>
+            <para>
+            在这个指南中，启动一个
+                <glossterm linkend="gui">GUI
+                </glossterm>
+                <glossterm linkend="demo">demo
+                </glossterm>实例，我们将要：
+                <itemizedlist>
+                    <listitem>在根节点下创建节点。</listitem>
+                    <listitem>单独或递归地移除根节点下的节点。</listitem>
+                    <listitem>在节点中添加和移除数据。</listitem>
+                </itemizedlist>
+            </para>
+            <para>1. 创建你需要的
+                <glossterm linkend="fqn">Fqn
+                </glossterm>，
+         在
+                <glossterm linkend="beanshell">BeanShell
+                </glossterm> 方框中，创建3个
+                <glossterm linkend="fqn">Fqn
+                </glossterm> 变量：
+            </para>
+            <programlisting role="JAVA"><![CDATA[
+   childFqn1 = Fqn.fromString("/child1");
+   childFqn2 = Fqn.fromString("/child2");
+   childFqn3 = Fqn.fromString("/child2/child3");
+                    ]]>
+            </programlisting>
+            <para>2. 在根节点下建立子节点。</para>
+            <programlisting role="JAVA"><![CDATA[
+   child1 = root.addChild(childFqn1);
+   child2 = root.addChild(childFqn2);
+   child3 = root.addChild(childFqn3);
+                     ]]>
+            </programlisting>
+            <para>3. 查询节点。</para>
+            <programlisting role="JAVA"><![CDATA[
+   root.hasChild(childFqn1); // should return true
+   child2.hasChild(childFqn3.getLastElement()); // should return true
+   child3.getParent(); // should return child2
+   child2.getParent(); // should return root
+                 ]]>
+            </programlisting>
+            <para>4. 在节点中放入一些数据。通过选择树形视图中的节点，
+         你应该能够看到每个节点的内容。
+            </para>
+            <programlisting role="JAVA"><![CDATA[
+   child1.put("key1", "value1");
+   child1.put("key2", "value2");
+   child2.put("key3", "value3");
+   child2.put("key4", "value4");
+   child3.put("key5", "value5");
+   child3.put("key6", "value6");
+                 ]]>
+            </programlisting>
+            <para>5. 查询数据。</para>
+            <programlisting role="JAVA"><![CDATA[
+   child1.getKeys();
+   child2.getData();
+                 ]]>
+            </programlisting>
+            <para>6. 将数据从节点中移除。</para>
+            <programlisting role="JAVA"><![CDATA[
+   child1.remove("key1");
+   child2.remove("key3");
+   child3.clearData();
+                 ]]>
+            </programlisting>
+            <para>7. 删除节点。</para>
+            <programlisting role="JAVA"><![CDATA[
+   root.removeChild(childFqn1); // will also remove any data held under child1
+   root.removeChild(childFqn2); // will recursively remove child3 as well.
+                 ]]>
+            </programlisting>
+            <para>
+            除了上面的部分，你还应该参考
+                <literal>Cache</literal>
+            和
+                <literal>Node</literal>
+                <ulink
+                  url="http://labs.jboss.org/portal/jbosscache/docs/index.html">API 文档
+                </ulink>
+            ，并尝试BeanShell脚本中其他API。
+            </para>
+        </section>
+        <section>
+            <title>复制</title>
+            <para>
+            在这个指南中，启动两个
+                <glossterm linkend="demo">demo
+                </glossterm>
+                <glossterm linkend="gui">GUI
+                </glossterm> 实例。重复上一个指南中的练习，
+            只是当创建、移除节点或添加、移除数据的时候，切换一下两个
+                <glossterm linkend="gui">GUI
+                </glossterm>的窗口。
+            这将演示，两个
+                <glossterm linkend="gui">GUI
+                </glossterm> 缓存实例如何保持同步。
+            </para>
+        </section>
+        <section>
+            <title>事务处理</title>
+            <para>
+            在这个指南中，启动两个
+                <glossterm linkend="demo">demo
+                </glossterm>
+                <glossterm linkend="gui">GUI
+                </glossterm> 实例。重复上一个指南中的练习，
+            只是当创建、移除节点或添加、移除数据的时候，启动事务。
+            这将描述出，复制如何仅仅发生在事务的边界。同时也尝试一下回滚几个事务，
+            看一下在这些情景中复制为什么没有发生。下面是管理事务的样本代码：
+            </para>
+            <programlisting role="JAVA"><![CDATA[
+              tm = cache.getTransactionManager();
+              tm.begin();
+              // do operations here
+              tm.commit(); // tm.rollback();              
+            ]]>
+            </programlisting>
+        </section>
+    </section>
+    <glossary>
+        <title>术语表</title>
+        <glossdiv>
+            <title>A</title>
+            <glossentry id="api">
+                <glossterm>API</glossterm>
+                <acronym>API</acronym>
+                <glossdef>
+                    <para>Application Programming Interface，应用编程接口。</para>
+                </glossdef>
+            </glossentry>
+        </glossdiv>
+        <glossdiv>
+            <title>B</title>
+            <glossentry id="beanshell">
+                <glossterm>BeanShell</glossterm>
+                <glossdef>
+                    <para>一个轻量级的Java脚本工具。</para>
+                </glossdef>
+            </glossentry>
+        </glossdiv>
+        <glossdiv>
+            <title>D</title>
+            <glossentry id="demo">
+                <glossterm>demo</glossterm>
+                <acronym>demo</acronym>
+                <glossdef>
+                    <para>演示或演示程序。</para>
+                </glossdef>
+            </glossentry>
+        </glossdiv>
+        <glossdiv>
+            <title>F</title>
+            <glossentry id="fqn">
+                <glossterm>Fqn</glossterm>
+                <acronym>Fqn</acronym>
+                <glossdef>
+                    <para>Fully Qualified Name，全路径名。</para>
+                </glossdef>
+            </glossentry>
+        </glossdiv>
+        <glossdiv>
+            <title>G</title>
+            <glossentry id="gui">
+                <glossterm>GUI</glossterm>
+                <acronym>GUI</acronym>
+                <glossdef>
+                    <para>Graphical User Interface，图形用户界面。</para>
+                </glossdef>
+            </glossentry>
+        </glossdiv>
+        <glossdiv>
+            <title>J</title>
+            <glossentry id="jvm">
+                <glossterm>JVM</glossterm>
+                <acronym>JVM</acronym>
+                <glossdef>
+                    <para>Java Virtual Machines，Java虚拟机。</para>
+                </glossdef>
+            </glossentry>
+        </glossdiv>
+        <glossdiv>
+            <title>P</title>
+            <glossentry id="pojo">
+                <glossterm>Pojo</glossterm>
+                <acronym>Pojo</acronym>
+                <glossdef>
+                    <para>Plain Old Java Object，简单Java对象。</para>
+                </glossdef>
+            </glossentry>
+        </glossdiv>
+    </glossary>
+</article>

@@ -1,0 +1,361 @@
+<chapter id="architecture">
+   <title>架构</title>
+   <section id="architecture.tree_structure">
+      <title>缓存中的数据结构</title>
+
+
+
+      <para>
+         一个 <literal>Cache</literal> 由一组 <literal>Node</literal> 的实例组成，
+         这些 <literal>Node</literal> 按树型结构组织起来。
+         每个 <literal>Node </literal> 包含一个用于缓存数据对象的 <literal>Map</literal>。
+         需要重点关注的是，这个结构是一个数学树而不是图；
+         每个 <literal>Node</literal>有且仅有一个父节点，
+         而根节点则固定不变地被命名为 <literal>Fqn.ROOT</literal>。
+      </para>
+      <para>
+         像这样组织节点的原因是，可以提高数据的并发访问，并能在更细粒度上实现复制和持久化。
+      </para>
+      <para>
+         <figure>
+            <title>树型数据结构</title>
+
+            <mediaobject>
+               <imageobject>
+                  <imagedata fileref="TreeCacheArchitecture.png"/>
+               </imageobject>
+            </mediaobject>
+         </figure>
+         上图中每个方框表示一个JVM。
+         可以看出，在独立的 JVM 中一共有两个缓存，互相复制数据。
+         这些 VM 可以在同一个物理的机器上，也可以分属于通过网络相连的两台不同机器上。
+         网络节点间的底层分组通讯由 <ulink url="http://www.jgroups.org">JGroups</ulink> 实现。
+      </para>
+
+      <para>在一个缓存实例中的任意修改（参见<link linkend="api">API 章节</link>）都将会被复制到另外一个缓存上。
+      当然，在一个集群中可能会有不止两个缓存。
+      依据具体的事务设置，这个复制过程可以发生在每次修改之后，也可以发生在事务结尾的提交时。
+      当创建一个新的缓存后，启动时它可以选择在从一个已经存在的缓存中获取数据。
+      </para>
+   </section>
+
+   <section id="architecture.SPI_interfaces">
+      <title>SPI 接口</title>
+      <para>
+         除了常用的 <literal>Cache</literal> 和 <literal>Node</literal> 接口，
+         JBoss Cache还提供了更强大的 <literal>CacheSPI</literal>
+         和 <literal>NodeSPI</literal> 接口，
+         它们可以提供对 JBoss Cache 内部的更多控制。
+         设计这些接口的目的不是为了一般应用，
+         主要是为那些希望对 JBoss Cache 进行扩展和功能增强的人准备的，
+         或者是那些编写自定义 <literal>Interceptor</literal>
+         和 <literal>CacheLoader</literal> 实例的人。
+      </para>
+      <figure>
+         <title>SPI接口</title>
+
+         <mediaobject>
+            <imageobject>
+               <imagedata fileref="SPI.png"/>
+            </imageobject>
+         </mediaobject>
+      </figure>
+      <para>
+        不能创建 <literal>CacheSPI</literal> 接口，
+        只能通过<literal>Interceptor</literal> 和 <literal>CacheLoader</literal> 接口的 
+         <literal>setCache(CacheSPI Cache)</literal> 方法，注入到这些实现中。
+         <literal>CacheSPI</literal> 是 <literal>Cache</literal>的扩展，
+         因此对它来说，所有基本的 API 功能都是可用的。
+      </para>
+      <para>
+         同样的，不能创建 <literal>NodeSPI</literal> 接口，
+         只能是通过象上面的<literal>CacheSPI</literal>那样的操作来获得。例如：
+         <literal>Cache.getRoot() : Node</literal>重载为
+         <literal>CacheSPI.getRoot() : NodeSPI</literal>。
+      </para>
+      <para>
+        特别要注意的是，不推荐直接将 <literal>Cache</literal>
+         或者 <literal>Node</literal> 转换成对应的 SPI 对象，这种做法是很槽糕的。
+         因为这种做法在日后对接口的继承进行扩展时并不能保证可用。
+         换句话说，使用暴露出来的公用 API 才是有保证的做法。
+      </para>
+   </section>
+
+   <section id="architecture.invocations">
+      <title>Node 上的方法调用</title>
+      <para>
+        由于缓存本质上就是节点的集合，因此对于整个缓存或其中的单个节点的调用，
+        就集中在对节点的集群、持久化、驱逐等方面。
+        为了用一种清晰的、模块化的、可扩展的方式实现这个目的，使用了拦截器链。
+        这个链是由一系列拦截器组成，每个拦截器增加某一方面或特定功能。
+        当创建缓存时，也基于使用的配置构建这个链。
+      </para>
+      <para>
+         特别要注意的是，<literal>NodeSPI</literal> 提供了一些方法（诸如
+         <literal>xxxDirect()</literal> 方法族）直接对节点进行操作而不通过拦截器堆栈。
+         使用这些方法的插件作者，应该注意到它们对缓存诸如锁、复制等等这些方面的影响。
+         一般说来，除非你<emphasis>真的</emphasis>了解你在做什么，否则不要使用这些方法！
+      </para>
+      <section id="architecture.interceptors">
+         <title>拦截器</title>
+         <para>
+            <literal>Interceptor</literal> 是个抽象类，几个拦截器组成一个拦截器链。
+            它暴露一个 <literal>invoke()</literal> 方法，
+            这个方法由实现类来重载，在其中添加操作，
+            然后通过调用 <literal>super.invoke()</literal> 将调用沿着链传递下去。
+         </para>
+         <figure>
+            <title>SPI 接口</title>
+
+            <mediaobject>
+               <imageobject>
+                  <imagedata fileref="Interceptor.png"/>
+               </imageobject>
+            </mediaobject>
+         </figure>
+         <para>
+            JBoss Cache 带有几个拦截器，代表不同的配置选项，其中的一些是：
+            <itemizedlist>
+               <listitem>
+                  <literal>TxInterceptor</literal>
+                  - 用事务管理器查找正在进行的事务和注册器，以便于参与同步事件。
+               </listitem>
+               <listitem>
+                  <literal>ReplicationInterceptor</literal>
+                  - 使用 JGroups 通道，横跨集群复制状态。
+               </listitem>
+               <listitem>
+                  <literal>CacheLoaderInterceptor</literal>
+                  - 如果所需数据没有在内存里，从持久存储加载数据。
+               </listitem>
+            </itemizedlist>
+            通过调用
+            <literal>CacheSPI.getInterceptorChain()</literal>
+            来获得和检查你缓存实例配置的拦截器链，
+            这个方法返回一个排序的拦截器 <literal>List</literal>。
+         </para>
+         <section id="architecture.custom_interceptors">
+            <title>编写自定义拦截器</title>
+            <para>
+               通过扩展
+               <literal>Interceptor</literal> 并重载 <literal>invoke()</literal>，
+               可以编写自定义拦截器来添加特定功能和特点。
+               需要通过使用 <literal>CacheSPI.addInterceptor()</literal> 方法，
+               将自定义拦截器添加到拦截器链中。
+            </para>
+            <para>
+               目前，还不支持通过 XML 方式添加自定义拦截器。
+            </para>
+         </section>
+      </section>
+
+      <section id="architecture.methodcalls">
+         <title>MethodCalls</title>
+         <para>
+            <literal>org.jboss.cache.marshall.MethodCall</literal> 是一个封装
+            <literal>java.lang.reflection.Method</literal> 的类，
+            并用一个 <literal>Object[]</literal> 表达方法参数。
+            它是 <literal>org.jgroups.blocks.MethodCall</literal> 类的一个扩展，
+            添加了用幻数和方法标示鉴别已知方法的机制，
+            这使编码和解组更加高效和表现更佳。
+         </para>
+         <para>
+            这是 <literal>Interceptor</literal> 框架的核心，
+            并且是传递给 <literal>Interceptor.invoke()</literal> 的唯一参数。
+         </para>
+      </section>
+
+      <section id="architecture.invocationcontext">
+         <title>InvocationContexts</title>
+         <para>
+            <literal>InvocationContext</literal> 在单一调用期间保留中间状态，
+            它由位于链起点的
+            <literal>InvocationContextInterceptor</literal> 创建和销毁。
+         </para>
+         <para>
+            <literal>InvocationContext</literal> 就像它的名字暗示的一样，
+            保留单一缓存方法调用的相关环境信息。
+            环境信息包括关联的
+            <literal>javax.transaction.Transaction</literal>
+            或
+            <literal>org.jboss.cache.transaction.GlobalTransaction</literal>，
+            方法调用的源点（<literal>InvocationContext.isOriginLocal()</literal>），
+            还有 <link linkend="configuration.options">
+                重定义的<literal>Option</literal>
+            </link>。
+         </para>
+         <para>
+            通过调用 <literal>Cache.getInvocationContext()</literal> 获得
+            <literal>InvocationContext</literal>。
+         </para>
+      </section>
+   </section>
+
+   <section id="architecture.managers">
+      <title>子系统的管理器</title>
+      <para>
+         某些方法和功能是由不止一个拦截器共享，其中一部分已经封装成管理器，
+         由不同拦截器调用，通过 <literal>CacheSPI</literal> 接口获得。
+      </para>
+
+      <section id="architecture.rpcmanager">
+         <title>RpcManager</title>
+         <para>
+            这个类负责管理所有通过 JGroups 通道对远程缓存进行的
+            <glossterm linkend="rpc">RPC</glossterm> 调用，
+            并且封装使用的 JGroups 通道。
+         </para>
+      </section>
+
+      <section id="architecture.buddymanager">
+         <title>BuddyManager</title>
+         <para>
+            这个类管理伙伴分组，并通过调用分组组织的远程方法，
+            将集群中缓存组织成更小一点的分组。
+         </para>
+      </section>
+
+      <section id="architecture.cacheloadermanager">
+         <title>CacheLoaderManager</title>
+         <para>
+            安装、配置缓存加载器。这个类将单个的
+            <literal>CacheLoader</literal> 实例包装进委派类，
+            例如
+            <literal>SingletonStoreCacheLoader</literal>
+            或
+            <literal>AsyncCacheLoader</literal>
+            ，或者通过使用
+            <literal>ChainingCacheLoader</literal>也可以将
+            <literal>CacheLoader</literal> 
+            添加到链中。
+         </para>
+      </section>
+
+   </section>
+
+   <section id="architecture.marshalling">
+      <title>编码和报文格式</title>
+      <para>
+         在复制过程中，JBoss Cache 的较早版本简单地通过写入一个
+         <literal>ObjectOutputStream</literal> 来将缓存数据写入网络。
+         经过 JBoss Cache 1.x.x 系列的几个版本，这个方法渐渐被弃用，
+         取而代之的是一个更成熟的编码框架。
+         在 JBoss Cache 2.x.x 系列中，这是官方支持和推荐将对象写入数据流的唯一机制。
+      </para>
+      <figure>
+         <title>编码器接口</title>
+
+         <mediaobject>
+            <imageobject>
+               <imagedata fileref="Marshaller.png"/>
+            </imageobject>
+         </mediaobject>
+      </figure>
+      <section>
+         <title>编码器接口</title>
+         <para>
+            <literal>Marshaller</literal> 接口扩展来自 JGroups 的
+            <literal>RpcDispatcher.Marshaller</literal>。
+            这个接口有两个主要实现，一个委派
+            <literal>VersionAwareMarshaller</literal>
+            和一个具体实现
+            <literal>CacheMarshaller200</literal>。
+         </para>
+         <para>
+            通过调用
+            <literal>CacheSPI.getMarshaller()</literal> 得到编码器，
+            缺省是 <literal>VersionAwareMarshaller</literal>。
+            用户也可以通过实现 <literal>Marshaller</literal> 接口编写他们自己的编码器，
+            然后通过 <literal>MarshallerClass</literal> 配置属性将他们添加进配置。
+         </para>
+      </section>
+
+      <section>
+         <title>VersionAwareMarshaller</title>
+         <para>
+            就像名字暗示的，当写操作的时候这个编码器在每个流的前面添加一个
+            <literal>短</literal> 版本信息，
+            使相同的
+            <literal>VersionAwareMarshaller</literal> 实例能读这个短版本信息，
+            并知道是那个特定编码器实现委派了这个调用。
+            例如，<literal>CacheMarshaller200</literal> 是 JBoss Cache 2.0.x. 的编码器，
+            而 JBoss Cache 2.1.x 可能带有一个改进了报文协议的
+            <literal>CacheMarshaller210</literal>。
+            使用
+            <literal>VersionAwareMarshaller</literal> 能帮助实现小版本之间的报文协议兼容性，
+            但还是为我们提供了在较小或微小版本之间，调整和改进报文协议的弹性。
+         </para>
+
+         <section>
+            <title>CacheLoaders</title>
+            <para>
+               一些已经存在的缓存加载器，例如
+               <literal>JDBCCacheLoader</literal>
+               和
+               <literal>FileCacheLoader</literal> 也依赖使用
+               <literal>ObjectOutputStream</literal> 的持久数据，
+               但是现在，持久化到缓存存储时他们使用
+               <literal>VersionAwareMarshaller</literal> 来编码持久数据。
+            </para>
+         </section>
+
+      </section>
+
+      <section>
+         <title>CacheMarshaller200</title>
+         <para>
+            这个编码器将需要编码的常见对象当作不需要完整类型定义的类型，
+            这些常见对象包括 <literal>MethodCall</literal>,
+            <literal>Fqn</literal>,<literal>DataVersion</literal>
+            , 甚至还包括一些 JDK 对象，如<literal>String</literal>,
+            <literal>List</literal>,<literal>Boolean</literal>
+            和其他类型。取而代之，编码器用<literal>短的</literal>表达来表述这些常见对象，
+            这种方法更有效。
+         </para>
+         <para>
+            另外，通过计算引用数量来减少将某一对象重复写数次，这样有助于将流保持得很小、很高效。
+         </para>
+         <para>
+            同时，如果打开 <literal>UseRegionBasedMarshalling</literal> 选项（缺省是关闭的），
+            编码器在写任何数据前在流中添加区域信息。
+            这个区域信息是用 <literal>Fqn</literal> 的 <literal>String</literal> 表达格式。
+            当解读时，可以用 <literal>RegionManager</literal>
+            来查找相关的 <literal>Region</literal>，并用一个特定区域的
+            <literal>ClassLoader</literal> 来解读流。
+            当用于应用服务器集群状态时特别有用，
+            因为每个服务器部署有它自己的 <literal>ClassLoader</literal>。
+            查看下面有关
+            <link linkend="architecture.regions">区域</link>的章节，了解更多信息。
+         </para>
+      </section>
+
+   </section>
+   <section id="architecture.regions">
+      <title>类加载和区域</title>
+      <para>
+         当用于应用服务器集群状态时，
+         应用服务器里部署的应用，趋向于将他们应用中的特定对象实例放入缓存
+         （或者在一个<literal>HttpSession</literal>里面），这些缓存是需要复制的。
+         通用的应用服务器做法是，给每个部署的应用分配一个单独的
+         <literal>ClassLoader</literal> 实例，
+         但是让应用服务器的 <literal>ClassLoader</literal> 引用 JBoss Cache 库。
+      </para>
+      <para>
+         为了能让我们成功地从类加载器中编码和解读对象，我们使用一个叫做区域的概念。
+         一个区域是缓存的一部分，这个部分共享一个类加载器
+         （区域也有其他的用途，参见
+         <link linkend="eviction_policies">驱逐策略</link>）。
+      </para>
+      <para>
+         通过使用
+         <literal>Cache.getRegion(Fqn fqn, boolean createIfNotExists)</literal> 方法建立区域，
+         这个方法返回一个 <literal>Region</literal> 接口的实现。
+         一旦获得区域引用，就可以设置或置空区域的类加载器，
+         区域可以激活/解除。
+         缺省情况下，区域是激活的，除非
+         <literal>InactiveOnStartup</literal> 配置属性设置为
+         <literal>true</literal>。
+      </para>
+   </section>
+
+</chapter>

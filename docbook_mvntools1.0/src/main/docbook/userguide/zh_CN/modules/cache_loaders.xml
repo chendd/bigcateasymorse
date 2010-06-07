@@ -1,0 +1,1164 @@
+<chapter id="cache_loaders">
+   <title>缓存加载器</title>
+   <para>JBoss Cache 可以用一个 <literal>CacheLoader</literal>
+   将内存缓存备份到后台数据存储中。如果为 JBoss Cache 配置一个缓存加载器，
+   那么将提供下列功能：
+      <itemizedlist>
+         <listitem>每当访问一个缓存元素，而这个元素没有在缓存中（例如，由于驱逐或由于服务器重启），
+         如果能在后台存储中找到，那么缓存加载器透明地将元素加载到缓存中。
+         </listitem>
+
+         <listitem>每当修改、添加或移除一个元素，那么这些修改都将通过缓存加载器保存到后台存储中。
+         如果使用了事务，所有事务之内创建的修改都要保持。在事务的结尾，
+         虽然没有明确的提示，<literal>CacheLoader</literal> 将参与事务管理器运行的两阶段提交协议。
+         </listitem>
+      </itemizedlist>
+   </para>
+
+   <section>
+      <title>CacheLoader 接口和生命周期</title>
+
+      <figure>
+         <title>CacheLoader 接口</title>
+
+         <mediaobject>
+            <imageobject>
+               <imagedata fileref="CacheLoader.png"/>
+            </imageobject>
+         </mediaobject>
+      </figure>
+
+      <para>JBoss Cache 与一个 <literal>CacheLoader</literal> 实现的交互是这样的：
+      当 <literal>CacheLoaderConfiguration</literal> （参见下面）是非空的，
+      每个配置的 <literal>CacheLoader</literal> 实例在缓存建立时创建，在缓存启动时启动。
+      </para>
+
+      <para>
+         当缓存启动时调用<literal>CacheLoader.create()</literal>
+         和 <literal>CacheLoader.start()</literal>。
+         对应的，当缓存停止时调用 <literal>stop()</literal>
+         和 <literal>destroy()</literal>。
+      </para>
+
+      <para>其次，调用 <literal>setConfig()</literal> 和 <literal>setCache()</literal>。
+      后一个用于存储缓存的引用，前一个用于配置这个 <literal>CacheLoader</literal> 实例。
+      例如，在这里数据库缓存加载器建立与数据库的连接。
+      </para>
+
+      <para>当没有使用事务时，调用 <literal>CacheLoader</literal> 接口的一组方法：
+         <literal>get()</literal>, <literal>put()</literal>, <literal>remove()</literal>
+         和 <literal>removeData()</literal>。它们立即获得/设置/移除数值。
+         这些方法在接口的 javadoc 注释里面描述。
+      </para>
+
+      <para>然后，有三个方法用于事务中：<literal>prepare()</literal>,
+      <literal>commit()</literal> 和 <literal>rollback()</literal>。
+      当事务提交时调用 <literal>prepare()</literal> 方法。
+      它用一个事务对象和一个修改列表作为参数。
+      事务对象可以用于事务哈希映射的键，而值是修改列表。
+      每个修改列表有一些 <literal>Modification</literal> 元素，
+      每一个表达在给定事务下对缓存的所做修改。
+      当 <literal>prepare()</literal> 成功返回时，
+      缓存加载器<emphasis>必须</emphasis>能够成功提交（或回滚）事务。
+      </para>
+
+      <para>
+         JBoss Cache 在正确的时间，小心调用缓存加载器的 prepare(), commit() 和 rollback()。
+      </para>
+
+      <para><literal>commit()</literal> 方法告诉缓存加载器提交事务，
+      而 <literal>rollback()</literal> 方法告诉缓存加载器丢弃与这个事务有关的修改。
+      </para>
+
+      <para>查看这个接口的 javadocs，了解每个方法的详细解释和需要满足的约定实现。
+      </para>
+
+   </section>
+
+   <section>
+      <title>配置</title>
+
+      <para>象下面所示，缓存加载器在 JBoss Cache 的 XML 文件里面配置。
+      注意，你可以在一个链里定义多个缓存加载器。
+      这么做的影响就是，缓存将按照它们配置的顺序查找所有的缓存加载器，
+      直到它找到一个有效的、非空数据元素。
+      当执行写操作的时候，所有缓存加载器都写入（除非某个缓存加载器的
+      <literal>ignoreModifications</literal> 元素设置为 <literal>true</literal>）。
+      查看下面的配置部分，了解详情。
+      </para>
+
+      <programlisting role="XML"><![CDATA[
+...
+
+<!-- Cache loader config block -->
+<attribute name="CacheLoaderConfiguration">
+   <config>
+      <!-- if passivation is true, only the first cache loader is used; the rest are ignored -->
+      <passivation>false</passivation>
+      <!-- comma delimited FQNs to preload -->
+      <preload>/</preload>
+      <!-- are the cache loaders shared in a cluster? -->
+      <shared>false</shared>
+
+      <!-- we can now have multiple cache loaders, which get chained -->
+      <!-- the 'cacheloader' element may be repeated -->
+      <cacheloader>
+
+         <class>org.jboss.cache.loader.JDBCCacheLoader</class>
+
+         <!-- properties to pass in to the cache loader -->
+         <properties>
+            cache.jdbc.driver=com.mysql.jdbc.Driver
+            cache.jdbc.url=jdbc:mysql://localhost:3306/jbossdb
+            cache.jdbc.user=root
+            cache.jdbc.password=
+            cache.jdbc.sql-concat=concat(1,2)
+         </properties>
+
+         <!-- whether the cache loader writes are asynchronous -->
+         <async>false</async>
+
+         <!-- only one cache loader in the chain may set fetchPersistentState to true.
+              An exception is thrown if more than one cache loader sets this to true. -->
+         <fetchPersistentState>true</fetchPersistentState>
+
+         <!-- determines whether this cache loader ignores writes - defaults to false. -->
+         <ignoreModifications>false</ignoreModifications>
+
+         <!-- if set to true, purges the contents of this cache loader when the cache starts up.
+              Defaults to false. -->
+         <purgeOnStartup>false</purgeOnStartup>
+
+         <!-- defines the cache loader as a singleton store where only the coordinator of the
+              cluster will store modifications. -->
+         <singletonStore>
+            <!-- if true, singleton store functionality is enabled, defaults to false -->
+            <enabled>false</enabled>
+
+            <!-- implementation class for singleton store functionality which must extend
+                 org.jboss.cache.loader.AbstractDelegatingCacheLoader. Default implementation
+                 is org.jboss.cache.loader.SingletonStoreCacheLoader -->
+            <class>org.jboss.cache.loader.SingletonStoreCacheLoader</class>
+
+            <!-- properties and default values for the default singleton store functionality
+                 implementation -->
+            <properties>
+               pushStateWhenCoordinator=true
+               pushStateWhenCoordinatorTimeout=20000
+            </properties>
+         </singletonStore>
+      </cacheloader>
+
+   </config>
+</attribute>
+]]></programlisting>
+
+      <para><literal>class</literal> 元素定义缓存加载器的实现类。
+      （注意，由于 JBoss AS 属性编辑器里的一个错误，
+      Windows 文件变量里的反斜线符号有可能不能正确展开，因此 replace="false" 可能是需要的）。
+      注意，缓存加载器的实现必须有一个空的构造器。
+      </para>
+
+      <para><literal>properties</literal> 元素定义给定实现的特定配置。
+      例如，基于文件系统的实现，定义使用的根路径；
+      而数据库实现可能定义数据库 URL，用户名和密码来建立数据库连接。
+      这个配置通过 <literal>CacheLoader.setConfig(Properties)</literal> 传递给缓存加载器实现。
+      注意，退格可能必须转义。
+      </para>
+
+      <para><literal>preload</literal> 允许我们定义在缓存启动时可访问的节点列表或者甚至整个子树，
+      这是为了预先加载这些节点关联的数据。
+      缺省（“/”）的情况下，从后台存储加载全部可用数据到缓存，
+      这可能不是一个好的做法，因为后台数据可能会很大。
+      举个例子，<literal>/a, /product/catalogue</literal> 加载
+      <literal>/a</literal> 和 <literal>/product/catalogue</literal> 子树到缓存，别的不加载。
+      其他数据只有在被访问时才加载。当用户预期要频繁使用给定子树下的元素时，预先加载才有意义。
+      </para>
+
+      <para>当加入一个集群时，<literal>fetchPersistentState</literal> 决定是否取回缓存的持久状态。
+      只有一个配置的缓存加载器能够将这个属性设置为 true，如果多于一个缓存加载器这样设置，
+      当启动缓存服务时会抛出配置异常。
+      </para>
+
+      <para><literal>async</literal> 决定是否在写入缓存加载器时阻塞直到完成，
+      或者在一个单独的线程里运行让写操作立即返回。
+      如果设置为 true，就用使用的实际缓存加载器实例来构造一个
+      <literal>org.jboss.cache.loader.AsyncCacheLoader</literal> 实例。
+      然后，如果需要<literal>AsyncCacheLoader</literal> 使用一个单独的线程向底层缓存加载器委派所有的请求。
+      查看 <literal>AsyncCacheLoader</literal> 的有关 javadoc，了解详细情况。
+      如果没有说明， <literal>async</literal> 元素的缺省值是 <literal>false</literal>。
+      </para>
+
+      <para>
+         <emphasis role="bold">注意有关 <literal>async</literal> 元素的使用：
+         </emphasis>
+         既然写操作是异步的，所以总有脏读的可能性，（即便是）当写操作成功时，也不能保证。
+         当将 <literal>async</literal> 元素设置为 true，要时刻记住这一点。
+      </para>
+
+      <para>
+         <literal>ignoreModifications</literal> 决定写方法是否向下推送到某个缓存加载器。
+         在同一个服务器上，作为内存缓存有些情况下，暂时应用数据应该只存在于基于文件的缓存加载器里，
+         例如，网络里所有的服务器都使用一个远程共享的 <literal>JDBCCacheLoader</literal>。
+         这个功能允许你写入“本地”文件缓存加载器里，而不是共享的 <literal>JDBCCacheLoader</literal>。
+         这个属性缺省的情况下是 <literal>false</literal>，因此写操作传播到所有配置的缓存加载器。
+      </para>
+
+      <para>
+         当缓存加载器启动时，<literal>purgeOnStatup</literal> 腾空指定缓存加载器
+         （如果 <literal>ignoreModifications</literal> 是 <literal>false</literal>）。
+      </para>
+
+      <para>
+         <literal>shared</literal> 指示缓存加载器是在不同缓存实例间共享的，
+         例如，在一个集群里所有的实例使用相同 JDBC 设置与相同的远程的、共享的数据库对话。
+         将这个属性设置为 <literal>true</literal>，将防止相同的数据被不同缓存实例反复和不必要地写入缓存加载器。
+         缺省值是 <literal>false</literal>。
+      </para>
+
+      <section>
+         <title>单独存储配置</title>
+
+         <para>
+            <literal>singletonStore</literal> 元素使修改只由集群里的一个节点保存，
+            即协调程序。从根本上来说，无论何时任何数据进入某些节点，
+            它总是复制以保持缓存内存状态的同步性，但是，协同程序有单独的责任将状态推到磁盘上。
+            通过将所有节点的 <literal>enabled</literal> 子元素设定为 true，来激活这个功能。
+            但是，还是这样，仅集群的协调程序在
+            <literal>cacheloader</literal> 元素定义的底层缓存加载器存储修改。
+            你不能将一个缓存加载器定义为 <literal>shared</literal>，
+            而同时打开 <literal>singletonStore</literal>。
+            <literal>enabled</literal> 的缺省值是 <literal>false</literal>。
+         </para>
+
+         <para>
+            可选择地，在 <literal>singletonStore</literal> 元素内，
+            你可以定义一个 <literal>class</literal> 元素，说明提供单独存储功能的实现类。
+            这个类必须扩展 <literal>org.jboss.cache.loader.AbstractDelegatingCacheLoader</literal>，
+            如果缺失，它缺省是 <literal>org.jboss.cache.loader.SingletonStoreCacheLoader</literal>。
+         </para>
+
+         <para>
+            <literal>properties</literal> 子元素定义一些属性，
+            这些属性允许修改提供单独存储功能类的行为。缺省情况下，
+            <literal>pushStateWhenCoordinator</literal> 和
+            <literal>pushStateWhenCoordinatorTimeout</literal> 属性已经定义，
+            但是用户定义的提供单独存储功能类需要时，也应该添加更多属性。
+         </para>
+
+         <para>当集群的拓扑结构变化时，由于重新选择协调程序的原因，某个节点变成了协调程序，
+         这时 <literal>pushStateWhenCoordinator</literal> 允许将内存状态推送到缓存存储里。
+         这在协调程序崩溃，而选择新协调程序又有时间间隙的情况下，非常有用。
+         在这段时间内，如果这个属性设置为 <literal>false</literal>，并且缓存更新了，
+         这些修改永远不会存储。这个属性设置为 <literal>true</literal>，
+         将保证在这个过程中任意修改也能保存到缓存加载器里。
+         如果每个节点的缓存加载器配置在不同的位置上，你也可能想将这个属性设置 <literal>true</literal>。
+         缺省值是 <literal>true</literal>。
+         </para>
+
+         <para>只有 <literal>pushStateWhenCoordinator</literal> 是 <literal>true</literal> 的情况下，
+         <literal>pushStateWhenCoordinatorTimeout</literal> 才有意义。
+         在这种情况下，它设定推送内存状态到底层缓存加载器过程所用时间的最大毫秒数，
+         如果超过，在报告一个 <literal>PushStateException</literal> 异常。
+         缺省值是 20000。
+         </para>
+
+         <para>
+            <emphasis role="bold">有关使用 <literal>singletonStore</literal>元素的注意事项：
+            </emphasis>
+            将一个缓存加载器设定为独立的，并使用缓存钝化（通过驱逐），可能导致意想不到的效果。
+            如果一个节点由于驱逐的原因导致钝化，而集群又处于选择新协调程序过程中，数据将丢失。
+            这是因为，在哪个时间里，没有协调程序是激活的，因此，集群里没有节点存储钝化的节点。
+            当协调程序离开集群，或者协调程序崩溃或停止反应，将在集群里选择一个新的协调程序。
+         </para>
+      </section>
+   </section>
+
+   <section id="cl.impls">
+
+      <title>带有的实现</title>
+
+      <para>当前，JBoss Cache 带有的实现如下。</para>
+
+      <section>
+         <title>基于文件系统的缓存加载器</title>
+         <para>
+            JBoss Cache 带有几个缓存加载器，它们利用文件系统作为数据存储。
+            它们都需要 <literal><![CDATA[<cacheloader><properties>]]></literal>
+            配置元素包含一个 <literal>location</literal> 属性，这个属性映射到一个目录用做持久存储。
+            （例如，<literal>location=/tmp/myDataStore</literal>）。
+            这些加载器主要用于测试，不推荐在产品中使用。
+         </para>
+         <itemizedlist>
+            <listitem>
+               <para>
+                  <literal>FileCacheLoader</literal> 是一个简单的基于文件的实现。
+                  缺省情况下，这个缓存加载器在路径或树节点名称里检查任何可移植的字符问题，
+                  例如，无效的字符，并产生警告信息。
+                  通过向 <literal><![CDATA[<properties>]]></literal>
+                  添加 <literal>check.character.portability</literal> 属性并设置为
+                  <literal>false</literal> 可以关闭这些检查。
+                  （例如，<literal>check.character.portability=false</literal>）。
+               </para>
+               <para>
+                  FileCacheLoader 有几个局限，限制了它在产品环境中的使用。
+                  或者，如果在这种环境下使用，应该小心使用，并对这些局限有充足的理解。
+                  <itemizedlist>
+                     <listitem>由于 FileCacheLoader 在磁盘（目录和文件）上表达树结构的方式，
+                     对于很深的树遍历的效率很低。
+                     </listitem>
+                     <listitem>应该避免在共享的文件系统下使用，例如，Windows 共享 NFS。
+                     因为这不能实现正确的文件加锁，可能导致数据毁坏。
+                     </listitem>
+                     <listitem>如果使用 NONE 的隔离等级，可能会因为多个线程试图写相同文件而造成写操作失败。
+                     </listitem>
+                     <listitem>文件系统本身不支持事务，因此试图在事务环境下使用缓存，
+                     失败后对文件的写操作（在提交阶段发生）不能恢复。
+                     </listitem>
+                  </itemizedlist>
+                    作为经验，推荐不要将 FileCacheLoader 用在高并发、事务管理和压力大的环境下，
+                     它的作用仅限于测试。
+               </para>
+            </listitem>
+
+            <listitem>
+               <para>
+                  <literal>BdbjeCacheLoader</literal> 是一个基于 Oracle/Sleepycat 的
+                  <ulink url="http://www.oracle.com/database/berkeley-db/index.html">BerkeleyDB Java Edition</ulink>
+                  的缓存加载器实现。
+               </para>
+            </listitem>
+
+            <listitem>
+               <para>
+                  <literal>JdbmCacheLoader</literal> 是一个基于
+                  <ulink url="http://jdbm.sourceforge.net/">JDBM engine</ulink> 的缓存加载器实现，
+                  是一个很快，而且自由的 BerkeleyDB 替代品。
+               </para>
+            </listitem>
+         </itemizedlist>
+
+         <para>注意，BerkeleyDB 实现要比基于文件系统的实现更加高效，并且提供事务保证，
+         但是如果随着应用一起发布需要一个商业许可
+         （查看 http://www.oracle.com/database/berkeley-db/index.html 了解更多详情）。
+         </para>
+
+      </section>
+
+      <section>
+         <title>向其他缓存委托的缓存加载器</title>
+         <itemizedlist>
+            <listitem>
+               <para>
+                  <literal>LocalDelegatingCacheLoader</literal>，
+                  它能从另一个本地（同一个 JVM）缓存加载和存储。
+               </para>
+            </listitem>
+            <listitem>
+               <para>
+                  <literal>ClusteredCacheLoader</literal>，它允许查询相同集群里其他缓存的内存数据，
+                  使用相同集群协议复制数据。然而<emphasis>不</emphasis>存储写，同样地，复制仅针对需要的更新。
+                  你需要说明一个叫 <literal>timeout</literal> 属性，它是一个长整形，
+                  说明在假定一个空值前，缓存加载器等待集群反应的毫秒数。
+                  例如， <literal>timeout = 3000</literal> 将使用一个 3 秒的超时值。
+               </para>
+            </listitem>
+         </itemizedlist>
+      </section>
+
+
+      <section id="cl.jdbc">
+         <title>JDBCCacheLoader</title>
+
+         <para>JBossCache 带有一个基于 JDBC 的缓存加载器实现，它向一个关系型数据库存储/加载节点状态。
+         实现类是 <literal>org.jboss.cache.loader.JDBCCacheLoader</literal>。
+         </para>
+
+         <para>当前实现仅使用一个表。表里的每行代表一个节点，包含三个列：
+            <itemizedlist>
+               <listitem>
+                  <literal>Fqn</literal> 列（也是主键列）
+               </listitem>
+
+               <listitem>节点内容列（属性/值对）
+               </listitem>
+
+               <listitem>父 <literal>Fqn</literal> 列
+               </listitem>
+            </itemizedlist>
+         </para>
+
+         <para>
+            <literal>Fqn</literal> 存储成字符串。节点内容存储成一个 <glossterm linkend="blob">BLOB</glossterm>。
+            <emphasis>警告：</emphasis>JBoss Cache 没有约束 <literal>Fqn</literal> 里使用的对象类型，
+            但是这个缓存加载器实现需要 <literal>Fqn</literal> 仅包含
+            <literal>java.lang.String</literal> 类型的对象。
+            另一个 <literal>Fqn</literal> 的约束是它的长度。
+            既然 <literal>Fqn</literal> 是一个主键，它的缺省列类型是 <literal>VARCHAR</literal>，
+            由使用的数据库来决定存储文本值的最大长度。
+         </para>
+
+         <para>查看
+            <ulink url="http://wiki.jboss.org/wiki/Wiki.jsp?page=JDBCCacheLoader">
+               http://wiki.jboss.org/wiki/Wiki.jsp?page=JDBCCacheLoader
+            </ulink> 来了解特定数据库系统的配置提示。
+         </para>
+
+         <section>
+            <title>JDBCCacheLoader 配置</title>
+
+            <section>
+               <title>表配置</title>
+
+               <para>通过下列属性配置表和列名字，以及列类型。
+                  <itemizedlist>
+                     <listitem>
+                        <emphasis>cache.jdbc.table.name</emphasis>
+                        - 表名字。可以在给定表的前面追加模式名：
+                        &lt;schema_name&gt;.&lt;table_name&gt;。
+                        缺省值是“jbosscache”。
+                     </listitem>
+
+                     <listitem>
+                        <emphasis>cache.jdbc.table.primarykey</emphasis>
+                        - 表的主键名。缺省值是“jbosscache_pk”。
+                     </listitem>
+
+                     <listitem>
+                        <emphasis>cache.jdbc.table.create</emphasis>
+                        - 可以是 true 或 false。指示在启动时，是否创建表。
+                        如果是 true，如果表还不存在就创建它。缺省值是 true。
+                     </listitem>
+
+                     <listitem>
+                        <emphasis>cache.jdbc.table.drop</emphasis>
+                        - 可以是 true 或 false。指示在关闭时，是否删除表。缺省值是 true。
+                     </listitem>
+
+                     <listitem>
+                        <emphasis>cache.jdbc.fqn.column</emphasis>
+                        - FQN 列名。缺省值是“fqn”。
+                     </listitem>
+
+                     <listitem>
+                        <emphasis>cache.jdbc.fqn.type</emphasis>
+                        - FQN 列类型。缺省值是“varchar(255)”。
+                     </listitem>
+
+                     <listitem>
+                        <emphasis>cache.jdbc.node.column</emphasis>
+                        - 节点内容列名。缺省值是“node”。
+                     </listitem>
+
+                     <listitem>
+                        <emphasis>cache.jdbc.node.type</emphasis>
+                        - 节点内容列类型。缺省值是“blob”。
+                        这个类型必须定义成所用数据库的正确二进制数据类型。
+                     </listitem>
+                  </itemizedlist>
+               </para>
+            </section>
+
+            <section>
+               <title>DataSource（数据源）</title>
+
+               <para>如果你在一个管理环境（例如一个应用服务器）中使用 JBossCache，
+               你可以指定想要使用的 DataSource 的 <glossterm linkend="jndi">JNDI</glossterm> 名。
+                  <itemizedlist>
+                     <listitem>
+                        <emphasis>cache.jdbc.datasource</emphasis>
+                        - DataSource 的 JNDI 名。缺省是 <literal>java:/DefaultDS</literal>。
+                     </listitem>
+                  </itemizedlist>
+               </para>
+            </section>
+
+            <section>
+               <title>JDBC 驱动</title>
+
+               <para>如果你<emphasis>没有</emphasis>使用 DataSource，
+               你可以通过下列配置属性，使用 JDBC 驱动访问数据库。
+                  <itemizedlist>
+                     <listitem>
+                        <emphasis>cache.jdbc.driver</emphasis>
+                        - JDBC 驱动程序的全名。
+                     </listitem>
+
+                     <listitem>
+                        <emphasis>cache.jdbc.url</emphasis>
+                        - 数据库连接 URL。
+                     </listitem>
+
+                     <listitem>
+                        <emphasis>cache.jdbc.user</emphasis>
+                        - 数据库连接用户名。
+                     </listitem>
+
+                     <listitem>
+                        <emphasis>cache.jdbc.password</emphasis>
+                        - 数据库连接密码。
+                     </listitem>
+                  </itemizedlist>
+               </para>
+            </section>
+
+            <section>
+               <title>c3p0 连接池</title>
+
+               <para>当在应用服务器之外独立运行时，JBoss Cache 使用 c3p0:JDBC 数据源/资源池库，
+               来实现 JDBC 连接池。为了打开这个功能，只需编辑下列属性：
+                  <itemizedlist>
+                     <listitem>
+                        <emphasis>cache.jdbc.connection.factory</emphasis>
+                        - 连接工厂类名。如果没有设置，缺省是标准的不支持池的实现。
+                        要打开 c3p0 池，只要为 c3p0 设置连接工厂类。参看下面的例子。
+                     </listitem>
+                  </itemizedlist>
+               </para>
+
+               <para>你也可以在相同的缓存加载器属性部分设置任意 c3p0 参数，
+               但是不要忘记属性名要以“c3p0.”开头。想要查找可用的属性列表，
+               请检查 c3p0 库中 c3p0 文档，发布在
+               <ulink url="http://sourceforge.net/projects/c3p0">c3p0:JDBC 数据源/资源池</ulink>。
+               同时，为了提供快速、方便的尝试不同池参数的方法，所有这些属性都可以通过系统属性设置，
+               这种方法可以覆盖 JBoss Cache XML 配置文件里的任意属性值，
+               例如 <literal>-Dc3p0.maxPoolSize=20</literal>。
+               如果在配置文件或系统属性里面都没有定义 c3p0 属性，将应用 c3p0 文档里指明的缺省值。
+               </para>
+            </section>
+
+            <section>
+               <title>配置例子</title>
+
+               <para>下面是一个使用 Oracle 作为数据库的 JDBCCacheLoader 的例子。
+               CacheLoaderConfiguration XML 元素包含一个任意的属性集，
+               定义有关数据库的配置。
+               </para>
+
+               <programlisting role="XML"><![CDATA[
+<attribute name="CacheLoaderConfiguration">
+<config>
+   <passivation>false</passivation>
+   <preload>/some/stuff</preload>
+   <cacheloader>
+      <class>org.jboss.cache.loader.JDBCCacheLoader</class>
+
+      <properties>
+         cache.jdbc.table.name=jbosscache
+         cache.jdbc.table.create=true
+         cache.jdbc.table.drop=true
+         cache.jdbc.table.primarykey=jbosscache_pk
+         cache.jdbc.fqn.column=fqn
+         cache.jdbc.fqn.type=varchar(255)
+         cache.jdbc.node.column=node
+         cache.jdbc.node.type=blob
+         cache.jdbc.parent.column=parent
+         cache.jdbc.driver=oracle.jdbc.OracleDriver
+         cache.jdbc.url=jdbc:oracle:thin:@localhost:1521:JBOSSDB
+         cache.jdbc.user=SCOTT
+         cache.jdbc.password=TIGER
+         cache.jdbc.sql-concat=concat(1,2)
+      </properties>
+
+      <async>false</async>
+      <fetchPersistentState>true</fetchPersistentState>
+      <ignoreModifications>false</ignoreModifications>
+      <purgeOnStartup>false</purgeOnStartup>
+   </cacheloader>
+</config>
+</attribute>
+]]></programlisting>
+
+               <para>另外一种配置整个 JDBC 连接的方法是，给出一个已经存在的数据源名：
+               </para>
+
+               <programlisting role="XML"><![CDATA[
+<attribute name="CacheLoaderConfiguration">
+<config>
+   <passivation>false</passivation>
+   <preload>/some/stuff</preload>
+   <cacheloader>
+      <class>org.jboss.cache.loader.JDBCCacheLoader</class>
+
+      <properties>
+         cache.jdbc.datasource=java:/DefaultDS
+      </properties>
+
+      <async>false</async>
+      <fetchPersistentState>true</fetchPersistentState>
+      <ignoreModifications>false</ignoreModifications>
+      <purgeOnStartup>false</purgeOnStartup>
+   </cacheloader>
+</config>
+</attribute>
+]]></programlisting>
+
+               <para>使用 c3p0 JDBC 连接池的缓存加载器配置例子：</para>
+
+               <programlisting role="XML"><![CDATA[
+<attribute name="CacheLoaderConfiguration">
+<config>
+   <passivation>false</passivation>
+   <preload>/some/stuff</preload>
+   <cacheloader>
+      <class>org.jboss.cache.loader.JDBCCacheLoader</class>
+
+      <properties>
+         cache.jdbc.table.name=jbosscache
+         cache.jdbc.table.create=true
+         cache.jdbc.table.drop=true
+         cache.jdbc.table.primarykey=jbosscache_pk
+         cache.jdbc.fqn.column=fqn
+         cache.jdbc.fqn.type=varchar(255)
+         cache.jdbc.node.column=node
+         cache.jdbc.node.type=blob
+         cache.jdbc.parent.column=parent
+         cache.jdbc.driver=oracle.jdbc.OracleDriver
+         cache.jdbc.url=jdbc:oracle:thin:@localhost:1521:JBOSSDB
+         cache.jdbc.user=SCOTT
+         cache.jdbc.password=TIGER
+         cache.jdbc.sql-concat=concat(1,2)
+         cache.jdbc.connection.factory=org.jboss.cache.loader.C3p0ConnectionFactory
+         c3p0.maxPoolSize=20
+         c3p0.checkoutTimeout=5000
+      </properties>
+
+      <async>false</async>
+      <fetchPersistentState>true</fetchPersistentState>
+      <ignoreModifications>false</ignoreModifications>
+      <purgeOnStartup>false</purgeOnStartup>
+   </cacheloader>
+</config>
+</attribute>
+]]></programlisting>
+
+            </section>
+         </section>
+      </section>
+
+      <section id="cl.s3">
+         <title>S3CacheLoader</title>
+
+         <para>
+            <literal>S3CacheLoader</literal> 使用
+            <ulink url="http://aws.amazon.com/">Amazon S3</ulink>
+            （Simple Storage Solution，简单存储解决方案）来存储缓存数据。
+            既然 Amazon S3 是远程网络存储，并且具有相当高的延迟，
+            因此它最适合存储大块数据的缓存，例如媒体或文件。
+            但是如果你想远程管理，则可以认为这个缓存加载器比 JDBC 或基于文件系统的缓存要好，
+            是个高可靠性的存储。
+            或者，为运行在 Amazon 的 EC2 （Elastic Compute Cloud）上的应用程序使用它。            
+         </para>
+
+         <para>
+            如果你计划用 Amazon S3 来存储，并考虑与 JBoss Cache 一起使用，
+            JBoss Cache 自己为你的数据提供一个内存缓存，以便最小化远程访问调用的数量，
+            这样减少延迟和取回 Amazon S3 数据的代价。
+            在缓存复制的情况下，你也可以从你的本地集群里加载数据而不用非得每次远程访问。
+         </para>
+
+         <para>
+            注意，Amazon S3 不支持事务。如果在你的应用程序里使用了事务，
+            当使用这个缓存加载器时，有可能有状态不一致的可能性。
+            但是，写是原子的，也就是说如果写失败了，就认为没有写任何东西，数据永远不会损坏。
+         </para>
+
+         <para>
+            数据以节点的 Fqn 作为键来存储，而节点数据用
+            <literal>CacheSPI.getMarshaller()</literal> 实例串行化为 java.util.Map。
+            查阅有关如何组织和存储数据的 javadoc。
+            数据通过使用 Java 串行化来存储。
+            应该认识到，这么做意味着，对非 JBoss Cache 客户端来说，通过 HTTP 不容易访问这些数据。
+            为了改进这个缓存加载器这方面的功能，我们期望您的反馈和帮助。
+         </para>
+
+         <para>
+            用这个缓存加载器，单稽操作，例如
+            <literal>Node.remove(Object)</literal> 和
+            <literal>Node.put(Object, Object)</literal> 是最慢的，
+            因为数据是存储在单一的 Map 实例。
+            使用批量操作，例如
+            <literal>Node.replaceAll(Map)</literal> 和
+            <literal>Node.clearData()</literal> 更有效一些。
+            也可以尝试 <literal>cache.s3.optimize</literal> 选项。
+         </para>
+
+         <section>
+            <title>Amazon S3 库</title>
+            <para>在缺省的发布程序中提供 S3 缓存加载器，但是需要一个运行时访问服务的库。
+            这个运行时库可以通过 Sourceforge 的 Maven 库来包含。
+            将下面的部分包含在你的 pom.xml 文件中：
+            </para>
+            <programlisting><![CDATA[
+      <repository>
+         <id>e-xml.sourceforge.net</id>
+         <url>http://e-xml.sourceforge.net/maven2/repository</url>
+      </repository>
+        ...
+      <dependency>
+         <groupId>net.noderunner</groupId>
+         <artifactId>amazon-s3</artifactId>
+         <version>1.0.0.0</version>
+         <scope>runtime</scope>
+      </dependency>
+              ]]>
+            </programlisting>
+            如果你不使用 Maven，你还可以通过浏览库或通过
+            <ulink url="http://e-xml.sourceforge.net/maven2/repository/net/noderunner/amazon-s3/1.0.0.0/amazon-s3-1.0.0.0.jar">这个 URL</ulink>.
+            下载 amazon-s3 库。
+         </section>
+
+         <section>
+            <title>配置</title>
+            <para>最小程度，你必须配置你的 Amazon S3 访问键和秘密访问键。
+            下面的配置键按照一般用途的顺序排列。
+            </para>
+
+            <para>
+               <itemizedlist>
+                  <listitem>
+                     <literal>cache.s3.accessKeyId</literal>
+                     - Amazon S3 访问键，从你的帐户档案中获得。
+                  </listitem>
+
+                  <listitem>
+                     <literal>cache.s3.secretAccessKey</literal>
+                     - Amazon S3 秘密访问键，从你的帐户档案中获得。
+                     因为这是一个密码，所以小心不要发布出去或者在构建完成的软件中包含这个秘密键。
+                  </listitem>
+
+                  <listitem>
+                     <literal>cache.s3.secure</literal>
+                     - 缺省值是 <literal>false</literal>：通过公网时，数据流是没有加密发送的。
+                     设为 <literal>true</literal>，使用 HTTPS。
+                     注意，没有加密的上传和下载使用的 CPU 也少。
+                  </listitem>
+
+                  <listitem>
+                     <literal>cache.s3.bucket</literal>
+                     - 存储数据的存储桶的名称。对不同的缓存使用相同的访问键，应使用不同存储桶的名字。
+                     阅读 S3 文档中有关存储桶的定义。缺省值是 <literal>jboss-cache</literal>。
+                  </listitem>
+
+                  <listitem>
+                     <literal>cache.s3.callingFormat</literal>
+                     - <literal>PATH</literal>, <literal>SUBDOMAIN</literal>, 或
+                     <literal>VANITY</literal> 中的一个。
+                     阅读 S3 文档有关调用域的用法。缺省值是 <literal>SUBDOMAIN</literal>。
+                  </listitem>
+
+                  <listitem>
+                     <literal>cache.s3.optimize</literal>
+                     - 缺省值是 <literal>false</literal>。如果是 true，
+                     <literal>put(Map)</literal> 操作将替换存储在 Fqn 中的数据，
+                     而不是尝试取回并合并。（目前，这个选项还处于试验的初期。）
+                  </listitem>
+
+                  <listitem>
+                     <literal>cache.s3.parentCache</literal>
+                     - 缺省值是 <literal>true</literal>。如果你使用多个共享相同 S3 存储桶的缓存，
+                     将这个值设定为 <literal>false</literal>，那将移除其他缓存建立节点的父节点。
+                     （这不是一个通常用法。）
+                     <para>
+                        JBoss Cache 在一个树型格式里存储节点，并自动创建中间必须的父节点。
+                        S3 缓存加载器也必须创建这些父节点，这才能让类似
+                        <literal>getChildrenNames</literal> 的操作正常工作。
+                        为每个 <literal>put</literal> 操作检查所有父节点是否存在是相当费时的，
+                        因此缺省情况下，缓存加载器缓存这些已经存在的父节点。
+                     </para>
+                  </listitem>
+
+                  <listitem>
+                     <literal>cache.s3.location</literal>
+                     - 这个参数为你的数据选择一个主要的存储位置，以减少加载和取回的延迟。
+                     设定为 <literal>EU</literal>，则在欧洲存储数据。
+                     缺省值是 <literal>null</literal>，在美国存储数据。
+                  </listitem>
+               </itemizedlist>
+            </para>
+         </section>
+
+      </section>
+
+      <section id="cl.tcp">
+         <title>TcpDelegatingCacheLoader</title>
+
+         <para>这个缓存加载器允许向另一个 JBoss Cache 实例委派加载和存储，
+         这另一个实例可能存在于：（a）相同的地址空间里；（b）相同的主机上不同的进程里；
+         （c）不同的主机上不同的进程里。
+         </para>
+
+         <para>TcpDelegatingCacheLoader 与一个远程
+            <literal>org.jboss.cache.loader.tcp.TcpCacheServer</literal> 对话，
+            这可能是命令行启动的一个独立进程，或 JBoss AS 里嵌入的 MBean。
+            <literal>TcpCacheServer</literal> 有一个别的 JBoss Cache 实例的引用，
+            这个引用可以是它自己创建的，或者给它的（例如通过 JBoss，使用依赖注入）。
+         </para>
+
+         <para>
+            在 JBoss Cache 2.1.0 版本中，如果与 TcpCacheServer 的连接丢失，
+            TcpDelegatingCacheLoader 能够透明地处理重新连接。
+         </para>
+
+         <para>TcpDelegatingCacheLoader 的配置中包括主机和远程 TcpCacheServer 端口，
+         并使用这些与之通信。另外，用两个新的可选参数控制与 TcpCacheServer 的透明重连接。
+         <literal>timeout</literal> 属性（缺省是 5000）定义 TcpCacheServer 放弃并抛出异常之前，
+         缓存加载器必须连续尝试连接 TcpCacheServer 的时间长度。
+         <literal>reconnectWaitTime</literal> （缺省值 500）是如果它检测到通信失败尝试重新连接之前，
+         需要等待的时间间隔。后面的这两个参数可以用于增加缓存加载器容忍故障的水平，
+         用于处理 TcpCacheServer 的重启。
+         </para>
+
+         <para>配置如下所示：</para>
+
+         <programlisting role="XML"><![CDATA[
+<attribute name="CacheLoaderConfiguration">
+<config>
+   <cacheloader>
+      <class>org.jboss.cache.loader.TcpDelegatingCacheLoader</class>
+      <properties>
+         host=myRemoteServer
+         port=7500
+         timeout=10000
+         reconnectWaitTime=250
+      </properties>
+   </cacheloader>
+</config>
+</attribute>
+]]></programlisting>
+
+         <para>这意味着，JBoss Cache 的这个实例将委派所有的加载和存储要求到远程 TcpCacheServer，
+         这个 TcpCacheServer 在 <literal>myRemoteServer:7500</literal> 上运行。
+         </para>
+
+         <para>典型的使用方法可能是，多个同一个集群中 JBoss Cache 复制实例都委派到相同的 TcpCacheServer 实例。
+         TcpCacheServer 自己可能通过 JDBCCacheLoader 委派到一个数据库，
+         但是注意的一点是，如果我们有 5 个节点都访问相同的数据集，他们将从 TcpCacheServer 加载数据，
+         这会在每次卸载数据集时执行一个 SQL 声明。
+         如果节点直接连接数据库，那么我们多次执行相同的 SQL。
+         因此将 TcpCacheServer 作为 DB 前的自然缓存
+         （假定一个网络往返比 DB 访问快，而 DB 访问通常也包括一个网络往返）。
+         </para>
+
+         <para>为了减轻单点失败，我们可以配置多个缓存加载器。
+         第一个缓存加载器是一个 ClusteredCacheLoader，第二个是一个 TcpDelegatingCacheLoader，
+         最后一个是一个 JDBCacheLoader，用一个渐增的顺序有效地向缓存定义我们的访问代价。
+         </para>
+
+      </section>
+
+      <section id="cl.transforming">
+         <title>转换缓存加载器</title>
+
+         <para>在 JBoss Cache 2.0 里，数据写入基于 <literal>FileCacheLoader</literal> 和
+            <literal>JDBCCacheLoader</literal> 的缓存加载器的方式发生了变化，
+            现在这些缓存加载器使用相同的编码框架写或读数据，这个编码框架也用于跨越网络复制数据。
+            这些变化对复制的效果影响不大，因为它仅需要其余的节点理解这个格式。
+            但是，修改缓存存储里数据的格式带来一个新的问题：已经将他们的数据存储在 JBoss Cache 1.x.x 格式的用户
+            如何迁移他们的存储到 JBoss Cache 2.0 格式？
+         </para>
+
+         <para>请记住这一点，JBoss Cache 2.0 带有两个缓存加载器实现，叫做
+            <literal>org.jboss.cache.loader.TransformingFileCacheLoader</literal> 和
+            <literal>org.jboss.cache.loader.TransformingJDBCCacheLoader</literal>，
+            位于可选的 jbosscache-cacheloader-migration.jar 文件里。
+            他们是一次性地缓存加载器，将数据从 JBoss Cache 1.x.x 格式的缓存存储中读取出来，
+            并写入 JBoss Cache 2.0 格式的缓存存储。
+         </para>
+
+         <para>对于用户来说，做法就是即刻修改他们已经存在的（多个）缓存配置文件以使用这些缓存加载器，
+         并用这些缓存加载器建立一个小的 Java 应用，这个 Java 应用创建这个缓存的一个实例递归读取整个缓存，
+         并将数据写回缓存。一旦数据已经转换，用户可以返回到他们原先的（多个）缓存配置文件。
+         为了帮助用户完成这个任务，已经构建了一个缓存加载器迁移的例子，这个例子位于 JBoss Cache 发布程序的
+            <literal>examples/cacheloader-migration</literal> 目录下。
+            这个例子叫做 <literal>examples.TransformStore</literal>，
+            它独立于存储在缓存里的实际数据，因为不管是什么它都递归地读出并写回。
+            极力推荐想要移植他们数据的人，先运行这个例子。
+            这个例子有一个 <literal>readme.txt</literal> 文件，详细描述例子自身信息，
+            也可将它用作自己应用程序的基础。
+         </para>
+
+      </section>
+
+   </section>
+
+
+   <section id="cl.pass">
+      <title>缓存钝化</title>
+
+      <para>当一个缓存驱逐数据时，可以用缓存加载器强制节点的钝化和激活。
+      </para>
+
+      <para>
+         <emphasis>缓存钝化</emphasis>是当驱逐时，从内存缓存移除一个对象并将它写入二级数据存储
+         （例如，文件系统、数据库）的过程。
+         <emphasis>缓存激活</emphasis>是当需要使用时，将一个对象从数据存储中恢复到内存缓存的过程。
+         在这两种情况下，用配置的缓存加载器读出和写入数据存储。
+      </para>
+
+      <para>当一个驱逐策略起作用，从缓存中驱逐一个节点时，如果打开钝化，
+      则一个有关节点正在被钝化的通知发送给缓存监听器，然后节点及其子节点将被存储在缓存加载器存储中。
+      当用户试图取回一个先前被驱逐的节点时，从缓存加载器存储里加载（延迟模式）节点。
+      当节点及其子节点加载后，它们就从缓存加载器中移除，一个通知发送给缓存监听器说明这个节点已经激活。
+      </para>
+
+      <para>为了打开缓存的钝化/激活功能，你可以将 <literal>passivation</literal> 设置为 true。
+      缺省值是 <literal>false</literal>。当使用钝化时，只使用配置的第一个缓存加载器，其他的都忽略。
+      </para>
+
+      <section>
+         <title>钝化打开和关闭下缓存加载器的行为</title>
+
+         <para>
+            当关闭钝化时，每当修改、添加或移除一个元素，则这个修改就会通过缓存加载器持久化到后台存储。
+            在驱逐和缓存加载器之间没有直接的关系。如果你不使用驱逐，持久存储内容基本上是内存里内容的一个拷贝。
+            如果你使用驱逐，持久存储内容基本上是内存里内容的一个超集
+            （例如，它包括已经从内存中驱逐的节点）。
+         </para>
+
+         <para>
+            当打开钝化时，驱逐和缓存加载器之间有一个直接的关系。
+            通过缓存加载器写入持久存储仅发生在驱逐过程的一部分。
+            当应用程序将数据读回内存时，数据从持久存储删除。
+            内存里内容和持久存储内容是整个信息集合的两个子集，而且两个子集没有交叉。
+         </para>
+
+         <para>
+            下面是一个简单的例子，显示一个 6 步过程每步过程后的 RAM 里状态和持久存储里状态：
+         </para>
+
+         <orderedlist>
+            <listitem>Insert /A</listitem>
+            <listitem>Insert /B</listitem>
+            <listitem>Eviction thread runs, evicts /A</listitem>
+            <listitem>Read /A</listitem>
+            <listitem>Eviction thread runs, evicts /B</listitem>
+            <listitem>Remove /B</listitem>
+         </orderedlist>
+
+         <para>当关闭钝化时：</para>
+         <programlisting>
+            1) RAM: /A Disk: /A
+            2) RAM: /A, /B Disk: /A, /B
+            3) RAM: /B Disk: /A, /B
+            4) RAM: /A, /B Disk: /A, /B
+            5) RAM: /A Disk: /A, /B
+            6) RAM: /A Disk: /A
+         </programlisting>
+
+         <para>当打开钝化时：</para>
+         <programlisting>
+            1) RAM: /A Disk:
+            2) RAM: /A, /B Disk:
+            3) RAM: /B Disk: /A
+            4) RAM: /A, /B Disk:
+            5) RAM: /A Disk: /B
+            6) RAM: /A Disk:
+         </programlisting>
+      </section>
+
+   </section>
+
+   <section>
+      <title>策略</title>
+      <para>
+         这个部分讨论不同缓存加载器类型和配置选项的组合类型下，实现的特定结果。
+      </para>
+
+      <section>
+         <title>带有存储的本地缓存</title>
+
+         <para>这是最简单的情况。我们有一个缓存模式是 <literal>LOCAL</literal> 的 JBoss Cache 实例，
+         因此没有进行复制。缓存加载器简单地从存储中加载不存在的元素，并将修改存回存储。
+         当缓存启动时，依赖 <literal>preload</literal> 元素，一部分数据可以预先加载，
+         因此缓存部分热身。
+         </para>
+      </section>
+
+      <section>
+         <title>所有缓存共享相同存储情况下的复制缓存</title>
+
+         <para>下面的图显示 2 个 JBoss Cache 实例共享相同的后台存储：
+         </para>
+
+         <figure>
+            <title>2 个节点共享一个后台存储</title>
+
+            <mediaobject>
+               <imageobject>
+                  <imagedata fileref="SharedCacheLoader.png"/>
+               </imageobject>
+            </mediaobject>
+         </figure>
+
+         <para>两个节点都有一个缓存加载器，这些缓存加载器访问一个公用的共享后台存储。
+         例如，这可以是一个共享文件系统（使用 FileCacheLoader），或一个共享的数据库。
+         因为两个节点访问相同的存储，在启动时他们不必需要状态转移。
+            <footnote>
+               <para>当然，如果他们想在启动后有一个暖或热缓存，他们可以打开状态转移。
+               </para>
+            </footnote>
+            相反地，<literal>FetchInMemoryState</literal> 属性可以设置为 false，
+            结果会得到一个“冷”缓存，随着第一时间的元素访问他们会逐渐热起来。
+            这将意味着，在某一时间集群里个别的缓存可以有不同的内存状态
+            （主要依赖于他们的预加载和驱逐策略）。
+         </para>
+
+         <para>当存储一个值，写程序在后台存储里小心地存储修改。例如，如果 node1 修改 C1 并且 node2 修改 C2，
+         那么 node1 将让它的缓存加载器存储 C1，并且 node2 将让它的缓存加载器来存储 C2。
+         </para>
+      </section>
+
+      <section>
+         <title>只有一个缓存带有一个存储的复制缓存</title>
+
+         <figure>
+            <title>2 个节点但是只有一个访问后台存储</title>
+
+            <mediaobject>
+               <imageobject>
+                  <imagedata fileref="OnlyOneCacheLoader.png"/>
+               </imageobject>
+            </mediaobject>
+         </figure>
+
+         <para>这个情况与上一个有点类似，但只是这里集群里只有一个节点通过缓存加载器与后台存储交互。
+         所有的其他节点执行内存复制。这里的想法是，所有应用状态保持在每个节点的内存里，
+         使存在的多个缓存都能高效提供数据。
+         （这里假定需要数据的客户能够以某种方式从一个缓存错误转移到另一个）
+         那么，在集群所有缓存失败或需要重启的情况下，单一的持久后台存储提供数据后台备份。
+         </para>
+         <para>
+            这里需要注意，这可能对异步存储修改的缓存加载器有意义，
+            为了不降低集群访问（例如）数据库的速度，它<emphasis>没有</emphasis>在调用者线程。
+            当使用异步复制时，这不是一个问题。
+         </para>
+         <para>
+            这个体系结构的缺点是，带有访问缓存加载器的缓存成为了单点失败源。
+            而且，如果集群重启，带有缓存加载器的缓存必须最先启动（很容易忘记）。
+            对于第一个问题的一个解决方法是，为每个节点配置一个缓存加载器，
+            但是将 <literal>singletonStore</literal> 配置设置为 <literal>true</literal>。
+            在这种设置下，将永远仅有一个节点写入持久存储。
+            但是，这么做将使重启问题复杂化，因为启动前，你需要决定关机/故障前哪个缓存正在写入，
+            然后最先启动那个缓存。
+         </para>
+      </section>
+
+      <section>
+         <title>每个缓存有它自己存储的复制缓存</title>
+
+         <figure>
+            <title>2 个节点，每个有它自己的后台存储</title>
+
+            <mediaobject>
+               <imageobject>
+                  <imagedata fileref="LocalCacheLoader.png"/>
+               </imageobject>
+            </mediaobject>
+         </figure>
+
+         <para>这里，每个节点有它自己数据存储。对缓存的修改是
+         （a）跨越集群的复制（b）使用缓存加载器的持久化。
+         这意味着所有的数据存储有完全相同的状态。当同步复制修改并在一个事务内时，
+         两阶段提交协议保证在每个数据存储内所有的修改都被复制并持久化，
+         或者都没有复制和持久化（原子更新）。
+         </para>
+
+         <para>注意，JBoss Cache <emphasis>不是</emphasis>一个 XA 源，那意味着它没有实现恢复。
+         当使用一个支持恢复的事务管理器时，这个功能是不可用的。
+         </para>
+
+         <para>这里的挑战是状态的转移：当一个新节点启动时，它需要做下面的事：
+         </para>
+
+         <orderedlist>
+            <listitem>
+               <para>让协调程序（集群中最久的节点）给它发送状态。这总是一个全状态传递，
+               覆盖已经存在的任何状态。
+               </para>
+            </listitem>
+
+            <listitem>
+               <para>接着，协调程序需要等待直到所有正在执行的事务结束。在这个时间里，
+               它不会允许启动新的事务。
+               </para>
+            </listitem>
+
+            <listitem>
+               <para>然后，协调程序使用 <literal>loadEntireState()</literal> 要求它的缓存加载器返回整个状态。
+               随后，它将那个状态发送给新的节点。
+               </para>
+            </listitem>
+
+            <listitem>
+               <para>新节点让它的缓存加载器在它的存储中存储那个状态，覆盖旧的状态。
+               这使用 <literal>CacheLoader.storeEntireState()</literal> 方法。
+               </para>
+            </listitem>
+
+            <listitem>
+               <para>状态转移期间，瞬时（内存）状态也可以转移。
+               </para>
+            </listitem>
+
+            <listitem>
+               <para>现在与集群里其他节点相比，新节点在它的后台存储里有相同的状态，
+               同时，现在使用本地缓存加载器将从其他节点接收的修改持久化了。
+               </para>
+            </listitem>
+         </orderedlist>
+
+
+      </section>
+
+      <section>
+         <title>分层的缓存</title>
+
+         <para>如果你需要在单一 JVM 内建立一个分层结构，你可以使用 <literal>LocalDelegatingCacheLoader</literal>。
+         当前，这种类型的分层只能通过编程建立。
+         </para>
+
+         <para>
+            分层的缓存也可以跨越多个 JVM 或服务器使用
+            <literal>TcpDelegatingCacheLoader</literal> 建立。
+            <figure>
+               <title>TCP 委托缓存加载器</title>
+
+               <mediaobject>
+                  <imageobject>
+                     <imagedata fileref="DelegatingCacheLoader.png"/>
+                  </imageobject>
+               </mediaobject>
+            </figure>
+
+         </para>
+
+      </section>
+
+
+      <section>
+         <title>多个缓存加载器</title>
+
+         <para>
+            你可以用链的形式建立多个缓存加载器。在内部使用一个委托 <literal>ChainingCacheLoader</literal>，
+            它引用你配置的每个缓存加载器。
+            依据链里使用缓存加载器类型，使用方式会发生变化。
+            一个例子就是，为相同主机的 JVM 配置一个基于文件的缓存加载器，用于内存溢出。
+            这能保证相对容易地得到数据，而代价又很低。
+            一个附加的远程缓存加载器，例如 <literal>TcpDelegatingCacheLoader</literal>，
+            为服务器重启之间提供恢复。
+         </para>
+
+         <figure>
+            <title>在一个链中的多个缓存加载器</title>
+
+            <mediaobject>
+               <imageobject>
+                  <imagedata fileref="MultipleCacheLoaders.png"/>
+               </imageobject>
+            </mediaobject>
+         </figure>
+
+      </section>
+   </section>
+</chapter>

@@ -1,0 +1,51 @@
+<preface id="preface">
+   <title>前言</title>
+
+   <para>
+      这是 JBoss Cache 的官方用户指导。
+      与它的伴随文档（一个<glossterm linkend="faq">FAQ</glossterm>，一个指南，以及一整套 PojoCache文档）一起，
+      都可以从 JBoss Cache <ulink url="http://labs.jboss.com/jbosscache">文档站点</ulink>免费得到。
+   </para>
+   <para>
+      当我们使用 JBoss Cache 这个词的时候，是指 JBoss Cache Core，
+      一个树形结构的、支持集群、支持事务的缓存技术。
+      Pojo Cache 也是 JBoss Cache 发布程序的一部分，但它的文档是独立的。
+      （Pojo Cache 是一个面向简单 Java 对象的缓存技术，它完全能够处理对象关系，
+      而且在维护这些 <glossterm linkend="pojo">POJO</glossterm> 关系的同时实现集群能力。
+      请查看有关 Pojo Cache 文档，以便了解更多有关信息。）
+   </para>
+
+   <para>
+      这本书的目标读者，既包括想要用 JBoss Cache 作为他们数据库集群缓存库的开发人员，
+      也包括想要基于 JBoss Cache 并扩展它功能的 <glossterm linkend="oem">OEM</glossterm> 厂商。
+      基于这个想法，这本书分成两个主要部分，一个部分详细介绍 “用户”
+      <glossterm linkend="api_gloss">API</glossterm>，
+      而另一个部分深入探讨专门的主题和 JBoss Cache 架构。
+   </para>
+
+   <para>
+      一般来说，Java 编程语言的良好知识基础，以及对事务和并发线程的认识和理解，
+      是阅读本书所必须的。 不期望或不需要读者预先具备 JBoss 应用服务器的知识。
+   </para>
+
+   <para>
+      想要进一步讨论，请使用 JBoss Cache 
+      <ulink url="http://labs.jboss.com/jbosscache">Web站点</ulink>上
+      <ulink url="http://jboss.org/index.html?module=bb&amp;op=main&amp;c=29">用户论坛</ulink>连接。
+      我们也提供了错误跟踪报告和功能需求的机制，
+      它在 JBoss Cache <ulink url="http://jira.jboss.com/jira/browse/JBCACHE">JIRA 问题跟踪</ulink>上。
+      如果你对 JBoss Cache 开发或文档翻译感兴趣，我们欢迎您的来信。
+      请在
+      <ulink url="http://jboss.org/index.html?module=bb&amp;op=main&amp;c=29">用户论坛</ulink>
+      上发布消息，或通过使用 JBoss Cache 
+      <ulink url="https://lists.jboss.org/mailman/listinfo/jbosscache-dev">开发者邮件列表</ulink>
+      联系我们。
+   </para>
+
+   <para>
+      这本书针对于 JBoss Cache 相同版本号的发布程序。
+      它可能对旧版或更新版本的 JBoss Cache 不适用。
+      很重要的一点是，你要使用的文档一定要与将要使用 JBoss Cache 版本对应。
+   </para>
+
+</preface>

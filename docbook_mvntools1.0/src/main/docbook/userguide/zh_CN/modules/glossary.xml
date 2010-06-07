@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glossary>
+    <title>术语表</title>
+    <glossdiv>
+        <title>A</title>
+        <glossentry id="acid">
+            <glossterm>ACID</glossterm>
+            <acronym>ACID</acronym>
+            <glossdef>
+                <para>指数据库的不可部分完成性（又称「原子性」，Atomicity）、一致性（Consistency）、
+                隔离性（Isolation）、持久性（Durability）。</para>
+            </glossdef>
+        </glossentry>
+        <glossentry id="api_gloss">
+            <glossterm>API</glossterm>
+            <acronym>API</acronym>
+            <glossdef>
+                <para>Application Programming Interface，应用编程接口。</para>
+            </glossdef>
+        </glossentry>
+        <glossentry id="as">
+            <glossterm>AS</glossterm>
+            <acronym>AS</acronym>
+            <glossdef>
+                <para>Application Server，应用服务器。</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>B</title>
+        <glossentry id="blob">
+            <glossterm>BLOB</glossterm>
+            <acronym>BLOB</acronym>
+            <glossdef>
+                <para>Binary Large Object，二进制大对象。</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>D</title>
+        <glossentry id="dirty-read">
+            <glossterm>Dirty Read</glossterm>
+            <glossdef>
+                <para>脏读，线程 1 写入了数据，线程 2 读取了线程 1 所写入的数据。
+                线程 1 更改了数据，最后线程 2 读取的是没有更新的旧数据</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>F</title>
+        <glossentry id="faq">
+            <glossterm>FAQ</glossterm>
+            <glossdef>
+                <para>Frequently Asked Questions，常见问题。</para>
+            </glossdef>
+        </glossentry>
+        <glossentry id="fqn">
+                <glossterm>Fqn</glossterm>
+                <acronym>Fqn</acronym>
+                <glossdef>
+                    <para>Fully Qualified Name，全路径名。</para>
+                </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>I</title>
+        <glossentry id="ioc">
+            <glossterm>IOC</glossterm>
+            <acronym>IOC</acronym>
+            <glossdef>
+                <para>Inversion of Control，反转控制。</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>J</title>
+        <glossentry id="jdbc">
+            <glossterm>JDBC</glossterm>
+            <acronym>JDBC</acronym>
+            <glossdef>
+                <para>Java Data Base Connectivity，Java 数据库连接是一个数据库驱动程序，
+                可用来以编程方式连接到数据库。
+                这个连接可以用作应用程序与实际的数据库之间的一座桥梁。</para>
+            </glossdef>
+        </glossentry>
+        <glossentry id="jmx">
+            <glossterm>JMX</glossterm>
+            <acronym>JMX</acronym>
+            <glossdef>
+                <para>Java Management Extensions,是一个为应用程序植入管理功能的框架。</para>
+            </glossdef>
+        </glossentry>
+        <glossentry id="jndi">
+            <glossterm>JNDI</glossterm>
+            <acronym>JNDI</acronym>
+            <glossdef>
+                <para>Java Naming and Directory Interface，JAVA命名和目录服务。</para>
+            </glossdef>
+        </glossentry>
+        <glossentry id="jta">
+            <glossterm>JTA</glossterm>
+            <acronym>JTA</acronym>
+            <glossdef>
+                <para>Java Transaction API，是一个独立于实现和协议的高级 API，
+                   它使应用程序和应用服务器可以访问事务。
+                   参见
+                    <ulink url="http://java.sun.com/products/jta/">JTA
+                    </ulink>。
+                </para>
+            </glossdef>
+        </glossentry>
+        <glossentry id="jvm">
+            <glossterm>JVM</glossterm>
+            <acronym>JVM</acronym>
+            <glossdef>
+                <para>Java Virtual Machines，Java虚拟机。</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>L</title>
+        <glossentry id="lfu">
+            <glossterm>LFU</glossterm>
+            <acronym>LFU</acronym>
+            <glossdef>
+                <para>Least Frequently Used，最少使用。</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>M</title>
+        <glossentry id="map">
+            <glossterm>Map</glossterm>
+            <glossdef>
+                <para>java.util.Map，Java 核心库中的一个数据结构，用键/值对的形式存储数据。</para>
+            </glossdef>
+        </glossentry>
+        <glossentry id="mbean">
+            <glossterm>MBean</glossterm>
+            <glossdef>
+                <para>一个能代表管理资源的Java对象，
+                   遵从一定的设计模式，还需实现该规范定义的特定的接口。</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>N</title>
+        <glossentry id="non-repeatable-read">
+            <glossterm>Non-Repeatable Read</glossterm>
+            <glossdef>
+                <para>不可重复读，是指事务 1 读取数据后，事务 2 执行更新操作，使 1 无法再现前一次读取结果。</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>P</title>
+        <glossentry id="passivation">
+            <glossterm>Passivation</glossterm>
+            <glossdef>
+                <para>是指将数据从缓存转移到持久存储区中，腾空内存，它是激活（Activation）的反向操作。</para>
+            </glossdef>
+        </glossentry>
+        <glossentry id="phantom-read">
+            <glossterm>Phantom Read</glossterm>
+            <glossdef>
+                <para>幻像读，一行数据满足搜索规则，却在开始没有被看到。
+                例如：事务1读取了一系列满足搜索规则的行，而事务2插入或删除了一个满足事务1搜索行。</para>
+            </glossdef>
+        </glossentry>
+        <glossentry id="pojo">
+            <glossterm>POJO</glossterm>
+            <acronym>POJO</acronym>
+            <glossdef>
+                <para>Plain Old Java Object,简单Java对象。</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>R</title>
+        <glossentry id="rpc">
+            <glossterm>RPC</glossterm>
+            <acronym>RPC</acronym>
+            <glossdef>
+                <para>Remote Procedure Call，远程过程调用。</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>S</title>
+        <glossentry id="sar">
+            <glossterm>SAR</glossterm>
+            <acronym>SAR</acronym>
+            <glossdef>
+                <para>Service Archive，服务归档。</para>
+            </glossdef>
+        </glossentry>
+        <glossentry id="session_affinity">
+            <glossterm>Session Affinity</glossterm>
+            <glossdef>
+                <para>会话亲缘性，也被称作粘性对话（sticky sessions），当一个客户浏览器第一次发送页面请求时，
+                负载平衡器将请求转向多个 Web 服务器中的一个，
+                当该客户浏览器发送更多请求时，这些请求会自动被转发到同一个 Web 服务器中，
+                因此，这个用户的Session是被保留的。</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>U</title>
+        <glossentry id="utc">
+            <glossterm>UTC</glossterm>
+            <acronym>UTC</acronym>
+            <glossdef>
+                <para>Universal Time Coordinated，协调世界时。</para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+    <glossdiv>
+        <title>W</title>
+        <glossentry id="write_through">
+            <glossterm>Write-through</glossterm>
+            <glossdef>
+                <para>如果在执行写操作时，数据同时写入缓存和主存称为写通（Write-through），
+                该方法操作简单，可随时保持Cache和主存数据的一致性，但可能增加多次不必要的写入。
+                </para>
+            </glossdef>
+        </glossentry>
+    </glossdiv>
+</glossary>

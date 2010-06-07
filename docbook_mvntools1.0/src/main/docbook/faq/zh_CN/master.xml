@@ -1,0 +1,1661 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+      "../../../../docbook-support/support/docbook-dtd/docbookx.dtd"
+      >
+<book lang="zh-CN">
+   <bookinfo>
+      <title>有关JBoss Cache的常见问题</title>
+      <!-- Release version and date -->
+      <releaseinfo>版本 2.2.0 Poblano</releaseinfo>
+      <pubdate>2008 五月</pubdate>
+
+      <author>
+         <firstname>Manik</firstname>
+         <surname>Surtani</surname>
+         <email>manik@jboss.org</email>
+      </author>
+
+      <author>
+         <firstname>Ben</firstname>
+         <surname>Wang</surname>
+         <email>ben.wang@jboss.com</email>
+      </author>
+
+      <author>
+         <firstname>Bela</firstname>
+         <surname>Ban</surname>
+         <email>bela@jboss.com</email>
+      </author>
+
+      <author>
+         <firstname>Scott</firstname>
+         <surname>Marlow</surname>
+         <email>smarlow@novell.com</email>
+      </author>
+
+      <author>
+         <firstname>Galder</firstname>
+         <surname>Zamarreño</surname>
+         <email>galder.zamarreno@jboss.com</email>
+      </author>
+
+      <abstract>
+         <para>这是有关JBoss Cache的常见问题汇总。
+         如果这个<glossterm linkend="faq">FAQ</glossterm>里面有任何错误、不一致、遗漏，请上报到
+            <ulink url="http://jboss.org/index.html?module=bb&amp;op=main&amp;c=29">JBoss Cache 用户论坛
+            </ulink>
+            。
+         </para>
+         <para>
+            这个 FAQ 分为几个特定部分，这些部分都是关于 JBoss Cache 核心库的。
+            PojoCache 有一个属于自己的单独 FAQ 文档。
+         </para>
+      </abstract>
+
+      <!-- copyright info -->
+      <copyright>
+         <year>2005</year>
+         <year>2006</year>
+         <year>2007</year>
+         <year>2008</year>
+         <holder>红帽子公司 JBoss 部门</holder>
+      </copyright>
+   </bookinfo>
+
+
+   <chapter id="general">
+      <title>一般信息</title>
+      <qandaset>
+
+         <qandaentry>
+            <question>
+               <para>JBoss Cache 是什么？</para>
+            </question>
+
+            <answer>
+               <para>JBoss Cache 是一种支持复制和事务管理的缓存技术。
+               如果部署了多个 JBoss Cache 实例（在同一个 <glossterm linkend="jvm">JVM</glossterm> 内，
+               或者跨越多个 JVM，
+               这些 JVM 可以在同一台计算机上，也可以分布于网络中不同计算机上），
+               数据可以在整个集群内复制。JBoss Cache 是支持事务的，用户可以配置
+               一个符合<glossterm linkend="jta">JTA</glossterm>标准的事务管理器，
+               使每个缓存操作都在事务控制下。当然，缓存运行时也可以不复制，这是一种本地运行模式。
+               </para>
+
+               <para>JBoss Cache 有两种版本：核心版和 <glossterm linkend="pojo">Pojo</glossterm> 版。
+               核心库（使用<literal>org.jboss.cache.Cache</literal>接口）
+               是基础库，用类似于树形的结构组织数据，处理缓存数据的锁定、
+               钝化（<glossterm linkend="passivation">Passivation</glossterm>）、
+               驱逐（<glossterm linkend="eviction">Eviction</glossterm>）和复制。
+               Pojo 库
+               （使用<literal>org.jboss.cache.pojo.PojoCache</literal>接口）在核心库的基础上，
+               通过 JBoss <glossterm linkend="aop">AOP</glossterm>
+               透明地支持缓存对象的自省（<glossterm linkend="introspection">Introspection</glossterm>）。
+               注意：JBoss Cache 的 Pojo 版本
+               （以下简称PojoCache）有自己单独的一套文档（用户手册，
+               <glossterm linkend="faq">FAQ</glossterm>等），可以在
+                  <ulink url="http://labs.jboss.com/portal/jbosscache/docs/index.html">JBoss Cache 文档站点
+                  </ulink>
+                 中找到。
+               </para>
+
+               <para>
+                  JBoss Cache 有四种打包方式：
+                  <itemizedlist>
+                     <listitem>
+                        <para>
+                           <literal>jboss-cache-core</literal>
+                        </para>
+                        ，包含核心缓存库，如果用户不想使用PojoCache提供的额外功能可以选择这个库。
+                     </listitem>
+                     <listitem>
+                        <para>
+                           <literal>jboss-cache-pojo</literal>
+                        </para>
+                        ，包含核心缓存库，同时还有PojoCache扩展和依赖库。
+                     </listitem>
+                     <listitem>
+                        <para>
+                           <literal>jboss-cache-all</literal>
+                        </para>
+                        ，包含上面所有的内容，还有单元测试和源代码。
+                     </listitem>
+                     <listitem>
+                        <para>
+                           <literal>jboss-cache-core-JDK140</literal>
+                        </para>
+                        ，是符合 JDK 1.4 标准的核心缓存库版本。注意：PojoCache 只支持JDK 5.0及以上版本。
+                     </listitem>
+                  </itemizedlist>
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>JBoss Cache 开发者都是谁？</para>
+            </question>
+
+            <answer>
+               <para>
+                  JBoss Cache 有一个活跃的开发者和贡献者社区。这个项目由 Bela Ban 建立，
+                  现在由 Manik Surtani 领导。Jason Greene 是 PojoCache 子系统的领导，
+                  过去和现在的其他贡献者还有 Ben Wang, Harald Gliebe, Brian Stansberry, Vladimir
+                  Blagojevic, Mircea Markus, Jimmy Wilson, Galder Zamarreño 和 Elias Ross。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>JBoss Cache 的使用许可是怎样的？</para>
+            </question>
+
+            <answer>
+               <para>JBoss Cache 的使用许可是
+                  <ulink url="http://www.gnu.org/licenses/lgpl.html">LGPL</ulink>
+                  。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>我在那里能够下载 JBoss Cache？</para>
+            </question>
+
+            <answer>
+               <para>在 JBoss Cache 的
+                  <ulink url="http://www.jboss.com/products/jbosscache/downloads">产品下载页面</ulink>
+                  上有预先建好的二进制程序，也有分发的源代码。
+                  你也可以从 JBoss CVS 库里得到快照（详见
+                  <ulink url="http://wiki.jboss.org/wiki/Wiki.jsp?page=CVSRepository">wiki 页</ulink>
+                  ），模块名是
+                  <emphasis role="bold">JBossCache</emphasis>。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>我怎样才能从 CVS 源代码库中构建 JBoss Cache？</para>
+            </question>
+
+            <answer>
+               <para>为了构建，需要运行
+                  <literal>sh build.sh
+                     jar
+                  </literal>
+                  。这会在<literal>dist/lib</literal>目录下产生
+                  <literal>jboss-cache.jar</literal>
+                  和
+                  <literal>pojocache.jar</literal>
+                  。
+                  注意：需要使用 JDK 5 构建程序。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>JBoss Cache 支持那些版本的JDK？</para>
+            </question>
+
+            <answer>
+               <para>
+                  JBoss Cache 是基于 Java 5.0 的，在这个平台上 JBoss Cache 测试的比较充分。
+                  如果因为某种原因你必须使用 Java 1.4，
+                  可以反向编译一个符合 Java 1.4 的核心缓存库。
+                  可以参考
+                  <ulink url="http://wiki.jboss.org/wiki/Wiki.jsp?page=JBossCacheHabaneroJava1.4"> 
+                    有关在 Java 1.4 上构建和运行JBoss Cache
+                  </ulink> 的 Wiki 页，上面有简单介绍。
+                  注意：红帽子公司现阶段不提供反向编译程序的商业支持。
+               </para>
+               <para>
+                  JBoss Cache 对 Java 6 的支持也是很好的，
+                  到目前为止我们还没有听到有关 JBoss Cache 有针对 Java 6 的运行问题。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>我怎样才能知道正在使用的 JBoss Cache 版本？</para>
+            </question>
+
+            <answer>
+               <para>
+                  运行 <code>java -jar jbosscache.jar</code> ，将能列出详细的版本信息。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>在JBoss 应用服务器之外我能使用 JBoss Cache 吗？</para>
+            </question>
+
+            <answer>
+               <para>
+                  当然！虽然 JBoss Cache 通过一个 <glossterm linkend="mbean">MBean</glossterm> 服务的形式集成到 JBoss Application Server中，
+                  它还可以在Java EE 服务器（例如BEA WebLogic, IBM Websphere 或 Tomcat）上单独运行。
+                  它也完全可以在应用服务器之外的独立 Java 进程中运行。有关这部分的详细内容，可以参考用户指导。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>我如何将应用程序和配置从 JBoss Cache 1.x 迁移到 2.x 吗？</para>
+            </question>
+            <answer>
+               <para>可以查询相关
+                  <ulink url="http://wiki.jboss.org/wiki/Wiki.jsp?page=JBossCache200Migration"> wiki 页</ulink>
+                  寻求帮助。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>我在哪里上报错误或问题？</para>
+            </question>
+
+            <answer>
+               <para>请在
+                  <ulink
+                        url="http://jboss.org/index.html?module=bb&amp;op=main&amp;c=29">JBoss Cache 用户论坛
+                  </ulink>上，报告错误或问题。
+                  .
+               </para>
+            </answer>
+         </qandaentry>
+      </qandaset>
+   </chapter>
+
+   <chapter id="TreeCache">
+      <title>核心 JBoss Cache</title>
+
+      <qandaset>
+
+         <qandaentry>
+            <question>
+               <para>我如何将 JBoss Cache 部署成一个 <glossterm linkend="mbean">MBean</glossterm> 服务？</para>
+            </question>
+
+            <answer>
+               <para>如果想将 JBoss Cache 部署成 JBoss 内部的一个MBean，
+               你可以将 xml 配置文件拷贝到<literal>deploy</literal> 目录
+               （在 all 配置目录，因为必要的库都有）。
+               在独立打包程序的
+                  <literal>resources/config-samples</literal> 目录下，
+                  针对不同缓存模式有不同的例子配置文档，这些也可以用于部署 JBoss Cache。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>我如何才能知道JBoss Cache MBean已经部署成功？</para>
+            </question>
+
+            <answer>
+               <para>要想验证你的 JBoss Cache MBean 部署是否成功，
+               你首先要在命令行控制台下检查日志输出是否正确，
+               然后你还要从 JBoss <glossterm linkend="jmx">JMX</glossterm>
+               控制台查找 <literal>jboss.cache</literal> 域来验证部署是否成功。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>我如何访问 JBoss Cache MBean ？</para>
+            </question>
+
+            <answer>
+               <para>访问 JBoss Cache MBean 并无特殊之处，与访问其他
+                  JBoss MBean 一样。这有一段代码片段供参考：
+               </para>
+
+               <programlisting role="JAVA"><![CDATA[
+
+import org.jboss.mx.util.MBeanServerLocator;
+import org.jboss.mx.util.MBeanProxyExt;
+import org.jboss.cache.TreeCacheMBean;
+import javax.management.MBeanServer;
+...
+
+MBeanServer server;
+TreeCacheMBean cache;
+
+public init() throws Exception
+{
+   try
+   {
+      server = MBeanServerLocator.locateJBoss();
+      cache = (TreeCacheMBean) MBeanProxyExt.create(TreeCacheMBean.class,
+                  "jboss.cache:service=TreeCache", server);
+   }
+   catch (Exception ex)
+   {
+      // handle exception
+   }
+}
+
+public void myBusinessMethod()
+{
+   Object value = cache.get("/my/node", "myKey");
+
+   HashMap stuff = new HashMap();
+   stuff.put("key1", "value1");
+   stuff.put("key2", "value2");
+   stuff.put("key3", "value3");
+
+   cache.put("/my/new/node", stuff);
+
+   cache.remove("/my/node");
+
+   ...
+}
+
+               ]]></programlisting>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>我能在同一个 VM 上运行多个 JBoss Cache 实例吗？</para>
+            </question>
+
+            <answer>
+               <para>可以。有些情况下，你可能需要运行多个 JBoss Cache 的实例。
+               举例来说，你想运行多个本地缓存实例，而且每个实例有自己的配置
+               （例如不同的缓存策略）。在这种情况下，你需要多个 xml 配置文件。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>JBoss Cache 能作为 <glossterm linkend="hibernate">Hibernate</glossterm> 内部的二级缓存运行吗？</para>
+            </question>
+
+            <answer>
+               <para>可以。自从 Hibernate 3.0 版本，
+               你就可以将 JBoss Cache 配置成 Hibernate 的二级缓存。
+               如果想了解更多细节，请查看 Hibernate 文档，也可以查看
+                  <ulink url="http://wiki.jboss.org/wiki/Wiki.jsp?page=JBossCacheHibernate">
+                     http://wiki.jboss.org/wiki/Wiki.jsp?page=JBossCacheHibernate
+                  </ulink>。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>可不可以将 Pojo Cache 作为 Hibernate 的缓存？</para>
+            </question>
+
+            <answer>
+               <para>没必要将 PojoCache 作为 Hibernate 内部的二级缓存，因为
+               Hibernate 管理细粒度的 Java 对象字段。使用 PojoCache 不能提供任何好处。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>如何配置 JBoss Cache ？</para>
+            </question>
+
+            <answer>
+               <para>你可以通过一个 xml 配置文件配置 JBoss Cache ，或者通过将
+                  <literal>org.jboss.cache.config.Configuration</literal>
+                  对象传入
+                  <literal>org.jboss.cache.CacheFactory</literal>
+                  实例的编程方法实现。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>在 xml 配置文件中，有些
+                  <literal>class</literal>
+                  、
+                  <literal>MBean</literal>
+                  之类的标签，这些是什么？
+               </para>
+            </question>
+
+            <answer>
+               <para>这些标签的作用是将 JBoss Cache 配置成 JBoss MBean 服务。
+                  为了一致性，我们也把他们放在单独的包里面，特别是
+                  <literal>MBean</literal>
+                  标签。如果是独立运行模式，JBoss Cache 会忽略这些元素。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>不同的缓存模式之间的区别是什么？
+               </para>
+            </question>
+
+            <answer>
+               <para>JBossCache 有五个不同的缓存模式，它们是
+                  <literal>LOCAL</literal>
+                  ,
+                  <literal>REPL_SYNC</literal>
+                  ,
+                  <literal>REPL_ASYNC</literal>
+                  ,
+                  <literal>INVALIDATION_SYNC</literal>
+                  和
+                  <literal>INVALIDATION_ASYNC</literal>
+                  。如果你希望将 JBoss Cache 作为一个单独实例运行，
+                  你应该将缓存模式设为
+                  <literal>LOCAL</literal>
+                  ，这样它不会试图复制任何东西。
+                  如果你在不同 JBoss Cache 实例间有同步复制的需求，
+                  你应该将缓存模式设为
+                  <literal>REPL_SYNC</literal>
+                  。如果是异步复制，则使用
+                  <literal>AYSNC_REPL</literal>
+                  。如果你不希望复制缓存数据，只是希望通知集群中其他缓存实例，
+                  某一地址上的数据已经过期了应该从内存中驱逐，应该使用
+                  <literal>INVALIDATION_SYNC</literal>
+                  或
+                  <literal>INVALIDTAION_ASYNC</literal>
+                  。同步和异步操作适用于复制，也适用于失效。
+               </para>
+
+               <para>注意：
+                  <literal>ASYNC_REPL</literal>
+                  和
+                  <literal>INVALIDATION_ASYNC</literal>
+                  模式是非阻塞的。如果你希望另一个 JBoss Cache 作为一个镜像或备份运行，
+                  这两种模式非常有帮助，因为你不必等待确认这个镜像已经收到你的消息。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>JBoss Cache 复制机制的工作原理是什么？</para>
+            </question>
+
+            <answer>
+               <para>JBoss Cache 将
+                  <ulink url="http://www.jgroups.org">JGroups</ulink>
+                  作为复制层。
+                  用户可以通过共享一个相同的集群名称（<literal>cluster name</literal>），
+                  来配置 JBoss Cache 实例的集群。
+                  也有一个配置选项来决定，是否用 <literal>ClusterConfig</literal>
+                  属性启动一个新实例来组装缓存数据。
+               </para>
+
+               <para>注意，一旦所有实例参与到同一个复制组，
+               每个复制变化都会传播到所有的参与者。
+               没有替代分区的机制，让某些复制只发生在一部分成员之间，
+               除非你使用伙伴复制功能。
+               请查看用户指导，了解有关详细信息。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>我运行两个节点的集群，如果网络瘫痪，缓存能继续运行吗？</para>
+            </question>
+
+            <answer>
+               <para>可以，两个节点都能继续运行，但是视你的复制模式而定，
+               所有的事务或操作有可能不能完成。
+               如果使用的是 <literal>REPL_SYNC</literal>，
+               操作将失败，而如果使用 <literal>REPL_ASYNC</literal>，
+               操作就能成功。尽管操作成功了，缓存也将处于不同步状态。
+               </para>
+            </answer>
+         </qandaentry>
+
+
+         <qandaentry>
+            <question>
+               <para>我能用其他库代替 JGroups 处理远程访问和分组通信吗？</para>
+            </question>
+
+            <answer>
+               <para>在现阶段，回答是不行。
+               我们在通讯套件与 JBoss Cache 之间的通道上，确实有一个抽象层。
+               在未来的某个阶段，这个抽象层可能会成为一个功能。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>缓存需要复制到集群中的每个实例吗？如果集群很大这会不会很慢？
+               </para>
+            </question>
+
+            <answer>
+               <para>复制不需要发生集群的每个节点上。
+               这个功能，叫做伙伴复制，允许每个节点在集群上挑选一个或多个“伙伴”，
+               并只向伙伴复制。这将允许集群缩放自如，
+               从而使每添加一个节点都对内存或网络通信没有额外影响。
+               </para>
+               <para>
+               请查看用户指导，了解有关伙伴复制的详细信息，以及如何利用它实现高可伸缩性。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>如果我需要不同的配置属性(例如
+                  <literal>CacheMode</literal>
+                  和
+                  <literal>IsolationLevel</literal>
+                  )，我是否只需要简单地适当配置多个
+                  <literal>org.jboss.cache.Cache</literal>
+                  实例就行?
+               </para>
+            </question>
+
+            <answer>
+               <para>是的。所有上面提到的属性都是针对个别缓存实例的。
+               因此，你就需要单独
+                  <literal>org.jboss.cache.Cache</literal>
+                  实例。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>从网络观点看，为每个 <literal>org.jboss.cache.Cache</literal>
+               实例建立套接字是不是太耗资源？
+               </para>
+            </question>
+
+            <answer>
+               <para>
+                  是的，可能会这样。就因为这个原因，推荐你使用 JGroups 多路器配置你的缓存，
+                  这样将允许多个缓存共享一个 JGroups 通道。
+                  请查看用户指导，了解如何配置 JGroups 多路器的详细信息。
+               </para>
+            </answer>
+         </qandaentry>
+
+
+         <qandaentry>
+            <question>
+               <para>
+                  <literal>ClusterName</literal>
+                  配置元素与 JBoss AS 集群
+                  <literal>PartitionName</literal> 有关系吗？
+               </para>
+            </question>
+
+            <answer>
+               <para>是的。他们都是 JGroups 分组名称。除了 JGroups 里的通道概念，
+               它还可以将通道分割成不同的分组名称。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>当使用多个基于 JGroups 的组件
+                  [cluster-service.xml, 缓存 （多个实例）]时，
+                  配置这些组件使其保证广播地址不冲突的正确/有效方法是什么？
+               </para>
+            </question>
+
+            <answer>
+               <para>有两个参数要考虑：广播地址（加上端口）和分组名称。
+               至少，你必须用不同的分组名称运行组件。
+               但是，是否将它们在同一个通道内运行，依赖于通信效率对你是不是很重要。
+               如果很重要，最好在不同的通道上运行它们。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>JBoss Cache 支持缓存持久化存储吗？
+               </para>
+            </question>
+
+            <answer>
+               <para>是的。JBoss Cache 有一个缓存加载器接口，支持缓存持久化。
+               请查看下面的有关缓存加载器的更多 <glossterm linkend="faq">FAQ</glossterm>。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>JBoss Cache 支持缓存到数据存储的钝化/溢出吗？
+               </para>
+            </question>
+
+            <answer>
+               <para>是的。JBoss Cache 使用缓存加载器支持缓存的钝化/溢出。
+               请查看如何配置和使用这项功能的文档。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>JBoss Cache 是线程安全的吗？</para>
+            </question>
+
+            <answer>
+               <para>是的，它是线程安全的。</para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>现在，JBoss Cache 支持 <glossterm linkend="xa">XA</glossterm> （2PC）事务吗？</para>
+            </question>
+
+            <answer>
+               <para>不支持，虽然它也在我们工作计划列表上。
+              我们的内部实现确实使用一个类似于 2PC 的程序，来协调不同实例之间事务，
+              但是 JBoss Cache 不是一个 XA 源。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>JBoss Cache 支持那些事务管理器？
+               </para>
+            </question>
+
+            <answer>
+               <para>JBoss Cache 支持任何符合
+                  <ulink url="http://java.sun.com/products/jta/">JTA</ulink>
+                  的 TransactionManager，例如 JBossTM 或 JBossTS。
+                  JBoss Cache 仅带有一个测试目的的虚拟事务管理器
+                  （<literal>org.jboss.cache.transaction.DummyTransactionManager</literal>）。
+                  但是要注意，这个 <literal>DummyTransactionManager</literal> 不是线程安全的，
+                  例如它不支持并发事务，而是某一时间只允许运行一个事务。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>我怎么才能将缓存设置成支持事务的？</para>
+            </question>
+
+            <answer>
+               <para>作为选择，你可以使用 JBoss AS 自带的缺省事务管理器，
+               否则你必须实现
+               <literal>org.jboss.cache.transaction.TransactionManagerLookup</literal>
+               接口，然后返回你的一个实现
+                  <literal>javax.transaction.TransactionManager</literal>
+                  接口的实例。
+                  配置
+                  <literal>TransactionManagerLookupClass</literal>属性，
+                  定义缓存用于取回事务管理器的类。
+                  为了支持其他事务管理器而实现这个接口并不复杂。
+                  一旦定义了这个属性，缓存将从事务管理器查找缓存环境。
+               </para>
+
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>我如何控制缓存加锁层次？</para>
+            </question>
+
+            <answer>
+               <para>JBoss Cache 允许你通过事务隔离层次来控制加锁层次。
+               这是通过配置 <literal>IsolationLevel</literal> 属性实现。
+               事务隔离层次与数据库隔离层次相对应，也就是
+                  <literal>NONE</literal>
+                  ,
+                  <literal>READ_UNCOMMITTED</literal>
+                  ,
+                  <literal>READ_COMMITTED</literal>
+                  ,
+                  <literal>REPEATABLE_READ</literal>
+                  和
+                  <literal>SERIALIZABLE</literal>。
+                  注意，如果使用乐观锁这些隔离层次都将被忽略。
+                  想要了解详细信息，请参考用户手册。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>当并行访问时，JBoss Cache 如何给数据加锁？</para>
+            </question>
+
+            <answer>
+               <para>缺省情况下，JBoss Cache 基于配置的隔离层次，使用悲观锁对数据节点加锁。
+               为了在较少的处理负荷和较高性能的情况下，更快地并行访问，我们也提供乐观锁。
+               请查看 JBoss Cache 有关并行访问和加锁的更详细讨论文档。
+               </para>
+            </answer>
+         </qandaentry>
+
+
+         <qandaentry>
+            <question>
+               <para>我如何在 JBoss Cache 使用乐观锁？</para>
+            </question>
+
+            <answer>
+               <para>使用 XML 属性
+                  <code>NodeLockingScheme</code>
+                  。
+                  注意，如果<code>NodeLockingScheme</code>
+                  设置为
+                  <code>OPTIMISTIC</code>，则
+                  <code>IsolationLevel</code>
+                  将被忽略。
+                  还有注意，如果省略了，
+                  <code>NodeLockingScheme</code>
+                  的缺省值是
+                  <code>PESSIMISTIC</code>。
+               </para>
+            </answer>
+         </qandaentry>
+
+
+         <qandaentry>
+            <question>
+               <para>如何将写锁应用到一个<glossterm linkend="fqn">Fqn</glossterm>
+               节点，例如"/org/jboss/test"？
+               </para>
+            </question>
+
+            <answer>
+               <para>首先，JBoss Cache 有一个
+                  <literal>root</literal> 的概念，这个 root 作为所有导航操作的起点。
+                  缺省是 "/" （因为 Fqn 的缺省分隔符是 "/"）。
+                  加锁的操作应用到 root 下的节点，例如 "/org" （而不是对 "/" 加锁）。
+               </para>
+
+               <para>此外我们要说明一下，当 JBoss Cache 需要在
+               "/org/jboss/test" 节点上应用写锁时候，它将首先尝试从父节点开始递归地得到读锁
+               （在这个例子中，是 "/org" 和 "/org/jboss"）。
+               只有当成功后，它才尝试得到 "/org/jboss/test" 节点的写锁。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>在没有事务环境下，我能使用缓存加锁层次吗？
+               </para>
+            </question>
+
+            <answer>
+               <para>可以。JBoss Cache 通过隔离层次语义来控制个别节点的加锁动作。
+               这就意味着，即使你没有使用事务，你也能通过隔离层次定义加锁层次。
+               你可以将事务外的节点加锁操作理解为，它在打开
+                  <literal>auto_commit</literal> 开关的事务环境下工作。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>在复制（REPL_SYNC/REPL_ASYNC）或失效 （INVALIDATION_SYNC/INVALIDATION_ASYNC）情况下，
+               缓存在网络上广播消息的频率是怎样的？
+               </para>
+            </question>
+
+            <answer>
+               <para>如果在事务环境下更新，那么广播仅发生在当事务将要提交的时候
+               （实际上是内部准备阶段）。
+               也就是说，它将批量更新。
+               但是，如果操作没有发生在事务环境下，每次更新都将触发复制。
+               需要注意的是，如果网络流量很大（经常这样），这意味着性能有问题。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>我怎么做块移动？</para>
+            </question>
+
+            <answer>
+               <para>如果你进行一个 cache.removeNode(Fqn.fromString("/myroot")) 操作，
+               它将递归地移动所有 "/myroot" 下的记录。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>我能监视并管理 JBoss Cache 吗？</para>
+            </question>
+
+            <answer>
+               <para>是的，使用一个 <glossterm linkend="jmx">JMX</glossterm>控制台，
+               例如 JBoss AS 附带的那个或 Java 5 的
+                  <literal>jconsole</literal>
+                  实用工具。
+                  在 JBoss Cache 的用户指导中，查看标题为
+                  <emphasis role="bold">管理信息</emphasis>的章节，了解更详细信息。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>我能让 JBoss Cache 管理属性失效吗？</para>
+            </question>
+
+            <answer>
+               <para>是的，你可以。将
+                  <literal>UseInterceptorMbeans</literal>
+                  配置属性设置为
+                  <literal>false</literal>
+                  （缺省值是
+                  <literal>true</literal>
+                  ）。
+                  在 JBoss Cache 的用户指导中，查看标题为
+                  <emphasis role="bold">管理信息</emphasis>的章节，了解更详细信息。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>jboss-serialization.jar 有什么变化？</para>
+            </question>
+
+            <answer>
+               <para>
+                  在 JBoss Cache 2.0.0 版本以后，
+                  对 JBoss Serialization 的依赖已经降低，
+                  JBoss Serialization 的很多好处在升级后的 Java 5 VM 中都有体现。
+                  既然 JBoss Cache 2.0.0 是基于 Java 5，
+                  就没有必要单独提供这些好处了。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>JBoss Cache 支持分区吗？</para>
+            </question>
+
+            <answer>
+               <para>现在还不支持。JBoss Cache 不支持分区，
+               也就是说不支持用户在不同缓存实例上配置不同数据集，而这些缓存实例又参与一个复制组。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>JBoss Cache 支持 J2EE 容器应用类加载的概念吗？
+               </para>
+            </question>
+
+            <answer>
+               <para>针对应用的类加载技术，在 Java EE 容器中的应用还是很广泛的。
+                  例如，一个 Web 应用可能需要一个新类加载器，来确定用户库的某一特定版本。
+                  但是，缺省情况下 JBoss Cache 是不知道这样的类加载器的。
+                  一般说来，这会导致两类问题：
+               </para>
+
+               <itemizedlist>
+                  <listitem>
+                     <para>存储在缓存1的对象实例复制到了缓存2。
+                     结果就是，缓存2中的实例是由系统类加载器创建的。
+                     如果缓存2上的系统类加载器不能访问到需要的类型，则复制可能会失败。
+                     即使复制没有失败，缓存2上的用户线程也可能访问不到这个对象，
+                     因为用户线程可能希望得到的是应用类加载器定义的类型。 
+                     </para>
+                  </listitem>
+
+                  <listitem>
+                     <para>由线程1创建的对象实例可能被线程2访问，
+                     这两个线程由不同的类加载器创建。
+                     JBoss Cache 没有包含不同类加载器的概念。
+                     结果就是，你将得到一个
+                        <literal>ClassCastException</literal>
+                     异常。
+                     这是将对象从一个应用空间传递到另一个空间过程中会遇到的标准问题。
+                     JBoss Cache 仅仅在传递对象过程中增加了一个间接层。
+                     </para>
+                  </listitem>
+               </itemizedlist>
+
+               <para>为了解决第一类问题，JBoss Cache 使用
+                  <literal>CacheMarshaller</literal>。
+                  从根本上说，它允许应用代码在缓存树的一部分注册一个类加载器，
+                  来处理复制到这部分的对象。
+                  请查看用户指导
+                  <literal>CacheMarshaller</literal>
+                  部分的详细信息。
+               </para>
+
+               <para>为了解决第二类问题，唯一的解决方法（我们知道的）就是缓存“串行化”的字节码，
+               当想得到每个对象时候反串行化（这个过程代价很高）。
+               也就是说，在添加操作过程中，要将对象实例串行化，
+               因此，可以安全地被“外部”类加载器反串行化。
+               但是，这个方法的性能问题很严重。
+               因此，一般来说需要使用另一个本地 VM 内版本作为
+               <glossterm linkend="nearline">Near-line</glossterm> 缓存。
+               也要注意，每次反串行化一个串行化字节码，就创建了对象的一个新实例。
+               </para>
+
+               <para>为了辅助这类处理，JBoss 有一个工具类，叫做
+                  <literal>MarshalledValue</literal>，
+                  它包装在串行化对象的周围。
+                  这有一个代码片段，举例说明你怎样在 JBoss Cache 周围创建一个包装类，
+                  来处理类加载器问题：
+               </para>
+
+               <programlisting role="JAVA">
+                  <![CDATA[
+import org.jboss.invocation.MarshalledValue;
+
+public class CacheService
+{
+   private Cache cache;
+
+   public Object get(Fqn fqn, String key)
+   {
+      return getUnMarshalledValue(cache.get(fqn, key));
+   }
+
+   public Object set(Fqn fqn, String key, Object value)
+   {
+      cache.put(fqn, key, getMarshalledValue(value));
+      return value; // only if successful
+   }
+
+   ...
+
+   private Object getUnMarshalledValue(object value)
+   {
+      // assuming we use the calling thread context classloader
+      return ((MarshalledValue)value).get();
+   }
+
+   private Object getMarshalledValue(Object value)
+   {
+      return new MarshalledValue(value);
+   }
+}
+]]></programlisting>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>当前，JBoss Cache 支持事件前和事件后通知吗？
+               </para>
+            </question>
+
+            <answer>
+               <para>支持。每个通知回调方法都会传递进一个布尔值，
+               标示这个回调是事件前还是事件后。
+               请查看 <literal>org.jboss.cache.CacheListener</literal> 接口的详细信息。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>我怎样实现一个自定义的监听器，监听缓存事件？
+               </para>
+            </question>
+
+            <answer>
+               <para>
+                  或者实现
+                  <literal>org.jboss.cache.CacheListener</literal>，
+                  或者扩展
+                  <literal>org.jboss.cache.AbstractCacheListener</literal>
+                  并覆盖你感兴趣的事件方法。
+                  你可以通过使用
+                  <literal>org.jboss.cache.Cache.addCacheListener()</literal>
+                  API 来注册监听器.
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>在 JBoss Cache 中，我可以使用
+                  <literal>UseRegionBasedMarshalling</literal>属性吗？
+                  这是为了当访问缓存中已经调动的数据时，应对 ClassCastExceptions 异常发生。
+               </para>
+            </question>
+
+            <answer>
+               <para>是的，你可以。原先，缓存编组是设计用来作为那些复制缓存的工作基础，
+               当状态转移时不用访问缓存里定义的对象类加载器。
+               </para>
+
+               <para>每一次部署，JBoss 为每个顶层部署产品，例如一个<glossterm linkend="ear">EAR</glossterm>，
+               创建一个新的类加载器。
+               你也必须时刻记住，应用服务器里的一个类不仅需要类名来定义，也需要它的类加载器来定义。
+               因此，假定缓存不是你部署的一部分，
+               你可以部署一个应用并将属于这个部署的类实例存入缓存中。
+               如果你做了一个调换，并试图对原先存入的数据做一个取回操作，
+               这就会产生一个 ClassCastException。
+               这是因为，即使类名是相同的，类定义是不同的。
+               当前类加载器与原先存入类时的不同。
+               </para>
+
+               <para>通过使用编组，你可以控制缓存里数据的生命周期。
+               并且如果卸载，你先撤销区域，撤销部署时已经注册的类加载器，
+               然后驱逐本地缓存数据。
+               这意味着，下次部署时候数据不会在缓存里，因此避免了问题。
+               很显然，当你有某些保存数据的持久备份时，
+               例如使用缓存加载器或 JBoss Cache 作为某个持久框架的二级缓存时，
+               使用编组是应对这个问题的唯一推荐方法。
+               </para>
+
+               <para>为了实现这个功能，请遵循用户指导 CacheMarshaller 部分使用说明中例子。
+               没有什么实际价值，只是一个 <literal>ServletContextListener</literal>。
+               你可以在 <literal>MBean</literal> 添加一些包含生命周期方法的代码，
+               例如 <literal>start()</literal> 和 <literal>stop()</literal>。
+               关键是要让这个 MBean 依赖目标缓存，只要缓存启动并运转起来，
+               它就可以操作。
+               </para>
+            </answer>
+         </qandaentry>
+
+      </qandaset>
+   </chapter>
+
+   <chapter id="eviction_policies">
+      <title>驱逐（<glossterm linkend="eviction">Eviction</glossterm>）策略</title>
+      <qandaset>
+         <qandaentry>
+            <question>
+               <para>JBoss Cache 支持驱逐策略吗？</para>
+            </question>
+
+            <answer>
+               <para>是的。JBoss Cache 当前支持多种驱逐策略，象 LRU, MRU, 和 FIFO。
+               用户也可以插入自己的驱逐策略算法。
+               请查看用户指导的详细内容。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>在复制模式下，JBoss Cache 的驱逐策略能运行吗？
+               </para>
+            </question>
+
+            <answer>
+               <para>可以，也不可以。 :-)</para>
+
+               <para>驱逐策略只是在本地模式下运行。也就是说，
+               节点只是在本地被驱逐。
+               这会引起缓存内容的暂时不同步。
+               但是，当用户试图得到一个驱逐节点的缓存内容时，
+               会发现它是空的（例如 <literal>get</literal> 返回空），
+               它必须从其他数据源得到数据，再把它重新装入缓存。
+               在这个时候，节点内容转播开来，缓存内容又进入同步状态。
+               </para>
+
+               <para>然而，你还是可以在
+               <literal>REPL_SYNC</literal>
+                  或
+                  <literal>REPL_ASYNC</literal>
+                  缓存模式下运行驱逐策略。
+               视你的使用情况而定，你可以给多个缓存实例设定各自的驱逐策略（只应用于本地），
+               或者只激活选定实例的驱逐策略。
+               </para>
+
+               <para>同时要注意的是，带有缓存加载器选项时，
+               一个本地驱逐的节点也可能被持久化到后台存储中，
+               而后用户可能从存储中重新取回这些数据。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>JBoss Cache 支持 <literal>Region</literal> 吗？
+               </para>
+            </question>
+
+            <answer>
+               <para>支持。JBoss Cache 有区域的概念，
+               在区域中用户可以配置驱逐策略参数（例如
+                  <literal>maxNodes</literal>
+                  或
+                  <literal>timeToIdleSeconds</literal>
+                  ）。
+               </para>
+
+               <para>JBoss Cache 里的区域是指树的分层结构的一部分，
+               例如，一个全路径名（<literal>org.jboss.cache.Fqn</literal>）。
+               举例来说，用户可以将
+                  <literal>/org/jboss</literal>
+                  和
+                  <literal>/org/foocom</literal>
+                  定义为两个单独的区域。
+                  但是要注意的是，以前需要通过 xml 文件来配置的所有区域选项，
+                  现在你都可以通过编程来实现。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>
+                  <literal>org.jboss.cache.eviction.LRUPolicy</literal>
+                  的 <literal>EvictionPolicyConfig</literal> 标签参数是什么？
+               </para>
+            </question>
+
+            <answer>
+               <para>他们是：</para>
+
+               <table>
+                  <title>参数</title>
+
+                  <tgroup cols="2">
+                     <tbody>
+                        <row>
+                           <entry>eventQueueSize</entry>
+
+                           <entry>一个微调的参数，在其中你可以配置驱逐通知事件队列尺寸。
+                           缺省是 200,000。
+                           </entry>
+                        </row>
+
+                        <row>
+                           <entry>wakeUpIntervalInSeconds</entry>
+
+                           <entry>清除线程苏醒过来处理等待队列和清除旧数据的时间间隔。
+                           </entry>
+                        </row>
+
+                        <row>
+                           <entry>region</entry>
+
+                           <entry>每个驱逐策略参数起作用的范围。
+                           注意，至少它需要一个
+                              <literal>/_default</literal>
+                              区域。
+                           </entry>
+                        </row>
+
+                        <row>
+                           <entry>maxNodes</entry>
+
+                           <entry>驱逐队列里，允许的最大节点数。0 意味着没有限制。
+                           </entry>
+                        </row>
+
+                        <row>
+                           <entry>timeToLiveInSeconds</entry>
+
+                           <entry>队列里，被驱逐节点的年龄（用秒计算）。 0 表示没有限制。
+                           </entry>
+                        </row>
+                     </tbody>
+                  </tgroup>
+               </table>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>我已经打开驱逐策略开关，为什么还是得到“内存溢出”（out of memory，OOM）异常？
+               </para>
+            </question>
+
+            <answer>
+               <para>当缓存存取超过驱逐策略处理计时器的速度时，OOM 还是可能会发生。
+               驱逐策略处理器每隔 <literal>wakeUpIntervalInSeconds</literal> 秒就会苏醒，
+               处理驱逐事件队列。因此，当队列尺寸已经满了的时候，
+               它将产生一个积累过多的情况而导致产生 OOM 异常，除非驱逐计时器能及时处理。
+               要想解决这个问题，除了增加 VM 堆栈尺寸外，你也可以减少
+                  <literal>wakeUpIntervaleInSeconds</literal>，
+                  这样计时器线程处理队列更频繁。
+               </para>
+
+               <para>驱逐队列尺寸是可以配置的。
+               </para>
+            </answer>
+         </qandaentry>
+      </qandaset>
+   </chapter>
+   <chapter id="cacheloaders">
+      <title>缓存加载器</title>
+      <qandaset>
+
+
+         <qandaentry>
+            <question>
+               <para>什么是缓存加载器？</para>
+            </question>
+
+            <answer>
+               <para>缓存加载器是 JBoss Cache 与（持久）数据存储之间的纽带。
+               当数据没有在缓存中的时候，JBoss Cache 调用缓存加载器从存储中提取数据；
+               当缓存里面的数据修改了，JBoss Cache 调用缓存加载器将修改存回存储中。
+               </para>
+
+               <para>当与驱逐策略联合作用时，带有缓存加载器的 JBoss Cache 允许用户
+               ，用有限的缓存维护大型后台存储。把经常使用的数据从存储中提取出来；
+               而不常用的数据被驱逐出去，这样就能为经常访问的数据提供更高的速度。
+               所有这些都通过 XML 配置实现，开发人员不用考虑加载和驱逐问题。
+               </para>
+
+               <para>当前 JBoss Cache 自带了几个缓存加载器实现，包括：
+               </para>
+
+               <para>
+                  <itemizedlist>
+                     <listitem>
+                        <para>
+                           <literal>org.jboss.cache.loader.FileCacheLoader</literal>
+                           ：这个实现使用文件系统存储和取回数据。JBoss Cache 的节点映射到目录，
+                           子节点映射到子目录，依此类推。节点属性映射成目录下的数据文件。
+                        </para>
+                     </listitem>
+
+                     <listitem>
+                        <para>
+                           <literal>org.jboss.cache.loader.BdbjeCacheLoader</literal>
+                           ：这个实现是基于 Oracle 的 Berkeley Java 版数据库，
+                           这是一个很快的、高效的事务型数据库。它用单一文件作为整个存储。
+                           注意：如果你用带有 Berkeley 数据库缓存加载器的JBoss Cache，
+                           而且想与你的产品一起发售，你需要得到一个
+                           <ulink url="http://www.sleepycat.com/jeforjbosscache">Oracle 的商业许可证
+                           </ulink>
+                           。
+                        </para>
+                     </listitem>
+
+                     <listitem>
+                        <para>
+                           <literal>org.jboss.cache.loader.JDBCCacheLoader</literal>
+                           ：这个实现使用关系数据库作为持久存储。
+                        </para>
+                     </listitem>
+
+                     <listitem>
+                        <para>要得到更多的详细信息，请查看用户指导中有关缓存加载器的章节。</para>
+                     </listitem>
+                  </itemizedlist>
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>在产品中推荐使用 FileCacheLoader 吗？</para>
+            </question>
+
+            <answer>
+               <para>
+                  不推荐使用。FileCacheLoader 有一些严重的不足之处，限制了它在产品环境下使用。
+                  如果还要在这种环境下使用，应该非常小心，并且对这些不足之处有充分的了解。
+                  <itemizedlist>
+                     <listitem>因为 FileCacheLoader 在磁盘（目录和文件）上表达树形结构的方法，
+                     所以对于层次很深的树，遍历操作的效率很低。
+                     </listitem>
+                     <listitem>应该避免在共享的文件系统下使用，例如 NFS 格式的Windows 共享，
+                     因为这没有适当的文件加锁，会产生数据损坏。
+                     </listitem>
+                     <listitem>如果使用 NONE 的隔离等级，可能会因为多个线程试图写相同文件而造成写操作失败。
+                     </listitem>
+                     <listitem>文件系统本身不支持事务，因此试图在事务环境下使用缓存，
+                     失败后对文件的写操作（在提交阶段发生）不能恢复。
+                     </listitem>
+                  </itemizedlist>
+                     作为经验，推荐不要将 FileCacheLoader 用在高并发、事务管理和压力大的环境下，
+                     它的作用仅限于测试。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>缓存加载器的写操作能够异步吗？</para>
+            </question>
+
+            <answer>
+               <para>可以。将
+                  <literal>async</literal>
+                  属性设为 true。在 JBoss Cache 用户指导上有更多的详细讨论。
+                  缺省情况下，所有的缓存加载器的写操作都是同步的、阻塞的。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>我能自己写缓存加载器吗？</para>
+            </question>
+
+            <answer>
+               <para>可以。缓存加载器要实现
+                  <literal>org.jboss.cache.loader.CacheLoader</literal>
+                  ，或者扩展
+                  <literal>org.jboss.cache.loader.AbstractCacheLoader</literal>
+                  。通过 XML 文件配置（详情查看 JBoss Cache 用户指导）。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>缓存加载器必须用一个持久存储吗？</para>
+            </question>
+
+            <answer>
+               <para>不是的。例如，缓存加载器可以从一个具有
+               <glossterm linkend="webdav">Webdav</glossterm>能力的Web服务器上取回
+               （也可能存储）它的数据。另外一个例子就是缓存代理服务器，
+               它从 Web 上取回内容。需要注意的是，在这种情况下，一个 CacheLoader 的实现，
+               可能只是实现了“加载”功能，而没有实现“存储”功能。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>如果使用 Oracle 的 Berkeley 数据库缓存加载器，我必须付费吗？</para>
+            </question>
+
+            <answer>
+               <para>如果你只是个人使用就不用付费。
+               只要你将 BdbjeCacheLoader 与你的产品一起发布，
+               你就需要从 Oracle 购买一个商业许可证。
+               详细信息请查看
+                  <ulink
+                        url="http://www.sleepycat.com/jeforjbosscache">http://www.sleepycat.com/jeforjbosscache
+                  </ulink>
+                  。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>有没有监控 Berkeley 数据库实例的工具？</para>
+            </question>
+
+            <answer>
+               <para>
+                  有的。Oracle 提供一个基于 <glossterm linkend="jmx">JMX</glossterm> 的监视工具，
+                  叫做
+                  <ulink
+                        url="http://www.oracle.com/technology/documentation/berkeley-db/je/java/com/sleepycat/je/jmx/JEMonitor.html">
+                     JEMonitor
+                  </ulink>，这个工具可以从 Oracle 的 Web 站点上下载。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>当调整我的 Berkeley 数据库实例时，在哪里放置我的 je.properties 文件？</para>
+            </question>
+
+            <answer>
+               <para>
+                  <literal>je.properties</literal>
+                  应该放在 Berkeley 数据库的根目录下，这个目录也是你传递给
+                  BDBJECacheLoader 的
+                  <literal>location</literal>
+                  配置属性的目录。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>我能用多个缓存加载器吗？</para>
+            </question>
+
+            <answer>
+               <para>可以。在 CacheLoaderConfiguration 的 XML 元素中
+               （查看用户指导中有关缓存加载器的章节），
+               你可以描述多个缓存加载器。
+               这些描述将影响缓存，使其按照配置的顺序来查找所有的缓存加载器，
+               直到它找到一个有效的、非空的数据元素。
+               当执行写操作时候，所有的缓存加载器都被写入
+               （除非对某个缓存加载器的 ignoreModifications 元素设置为 true）。
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>我能够将基于 JDBCacheLoader 或 FileCacheLoader 的缓存存储数据，
+               从 JBoss Cache 1.x.x 格式移植到 JBoss Cache 2.0 格式吗？
+               </para>
+            </question>
+
+            <answer>
+               <para>可以。请查看 JBoss Cache 用户指导“缓存加载器”章节有关“转换缓存加载器”的部分。               
+               </para>
+            </answer>
+         </qandaentry>
+
+         <qandaentry>
+            <question>
+               <para>当TCPCacheServer 重启，TCPDelegatingCacheLoader 能恢复吗？
+               </para>
+            </question>
+
+            <answer>
+               <para>
+                  如果是 JBoss Cache 2.1.0，回答是可以的。
+                  请查看用户指导中有关重建 TCP 连接的详细信息，
+                  其中有关于如何配置和调整你的重启和等待周期相关内容。
+               </para>
+               <para>
+                  之前的版本，重启 TCPCacheServer 将意味着使用缓存的应用程序要重启。
+               </para>
+            </answer>
+         </qandaentry>
+
+      </qandaset>
+   </chapter>
+   <chapter id="troubleshooting">
+      <title>解决问题</title>
+      <qandaset>
+
+         <qandaentry>
+            <question>
+               <para>我的 JBoss Cache 有问题不能工作，在那里能够找到解决问题的方法？
+               </para>
+            </question>
+            <answer>
+               <para>可以在这个
+                  <ulink url="http://wiki.jboss.org/wiki/Wiki.jsp?page=JBossCacheTroubleshooting">wiki 连接</ulink>
+                 找到有关解决问题的部分。
+               </para>
+            </answer>
+         </qandaentry>
+      </qandaset>
+   </chapter>
+   <glossary>
+       <title>术语表</title>
+       <glossdiv>
+           <title>A</title>
+           <glossentry id="aop">
+               <glossterm>AOP</glossterm>
+               <acronym>AOP</acronym>
+               <glossdef>
+                   <para>Aspect-Oriented Programming，面向方面编程。</para>
+               </glossdef>
+           </glossentry>
+           <glossentry id="api">
+               <glossterm>API</glossterm>
+               <acronym>API</acronym>
+               <glossdef>
+                   <para>Application Programming Interface，应用编程接口。</para>
+               </glossdef>
+           </glossentry>
+       </glossdiv>
+       <glossdiv>
+           <title>E</title>
+           <glossentry id="ear">
+               <glossterm>EAR</glossterm>
+               <acronym>EAR</acronym>
+               <glossdef>
+                   <para>是一种特定的 Java 打包和发布格式，主要用于企业级应用。</para>
+               </glossdef>
+           </glossentry>
+           <glossentry id="eviction">
+               <glossterm>Eviction</glossterm>
+               <glossdef>
+                   <para>通过设置条件（例如过期日期或内存压力过大），
+                   将对象显式地从缓存中移除，这种方法称为Eviction，翻译为驱逐。</para>
+               </glossdef>
+           </glossentry>
+       </glossdiv>
+       <glossdiv>
+           <title>F</title>
+           <glossentry id="faq">
+               <glossterm>FAQ</glossterm>
+               <acronym>FAQ</acronym>
+               <glossdef>
+                   <para>Frequently Asked Questions，常见问题。</para>
+               </glossdef>
+           </glossentry>
+           <glossentry id="fqn">
+                <glossterm>Fqn</glossterm>
+                <acronym>Fqn</acronym>
+                <glossdef>
+                    <para>Fully Qualified Name，全路径名。</para>
+                </glossdef>
+            </glossentry>
+       </glossdiv>
+       <glossdiv>
+           <title>H</title>
+           <glossentry id="hibernate">
+               <glossterm>Hibernate</glossterm>
+               <glossdef>
+                   <para>一个功能强大、性能卓越的对象/关系存储和查询技术框架。</para>
+               </glossdef>
+           </glossentry>
+       </glossdiv>
+       <glossdiv>
+           <title>I</title>
+           <glossentry id="introspection">
+               <glossterm>Introspection</glossterm>
+               <glossdef>
+                   <para>当程序接受到请求时，它根据请求的参数名称，
+                   自动设定与 javaBean 相同属性名称的值，这种机制叫做自省(introspection)。</para>
+               </glossdef>
+           </glossentry>
+       </glossdiv>
+       <glossdiv>
+           <title>J</title>
+           <glossentry id="jmx">
+               <glossterm>JMX</glossterm>
+               <acronym>JMX</acronym>
+               <glossdef>
+                   <para>Java Management Extensions,是一个为应用程序植入管理功能的框架。</para>
+               </glossdef>
+           </glossentry>
+           <glossentry id="jta">
+               <glossterm>JTA</glossterm>
+               <acronym>JTA</acronym>
+               <glossdef>
+                   <para>Java Transaction API，是一个独立于实现和协议的高级 API，
+                   它使应用程序和应用服务器可以访问事务。
+                   参见<ulink url="http://java.sun.com/products/jta/">JTA</ulink>。</para>
+               </glossdef>
+           </glossentry>
+           <glossentry id="jvm">
+               <glossterm>JVM</glossterm>
+               <acronym>JVM</acronym>
+               <glossdef>
+                   <para>Java Virtual Machines，Java 虚拟机。</para>
+               </glossdef>
+           </glossentry>
+       </glossdiv>
+       <glossdiv>
+           <title>M</title>
+           <glossentry id="mbean">
+               <glossterm>MBean</glossterm>
+               <glossdef>
+                   <para>一个能代表管理资源的Java对象，
+                   遵从一定的设计模式，还需实现该规范定义的特定的接口。</para>
+               </glossdef>
+           </glossentry>
+       </glossdiv>
+       <glossdiv>
+           <title>N</title>
+           <glossentry id="nearline">
+               <glossterm>Near-ine</glossterm>
+               <glossdef>
+                   <para>近线（Near-line）是相对在线存储和离线存储而言的，
+                   介于在线存储和离线存储之间，
+                   近线存储系统通常有磁带库或光盘库和存储管理软件构成。</para>
+               </glossdef>
+           </glossentry>
+       </glossdiv>
+       <glossdiv>
+           <title>P</title>
+           <glossentry id="passivation">
+               <glossterm>Passivation</glossterm>
+               <glossdef>
+                   <para>是指将数据从缓存转移到持久存储中，腾空内存，它是激活（Activation）的反向操作。</para>
+               </glossdef>
+           </glossentry>
+           <glossentry id="pojo">
+               <glossterm>Pojo</glossterm>
+               <acronym>Pojo</acronym>
+               <glossdef>
+                   <para>Plain Old Java Object，简单Java对象。</para>
+               </glossdef>
+           </glossentry>
+       </glossdiv>
+       <glossdiv>
+           <title>W</title>
+           <glossentry id="webdav">
+               <glossterm>WebDAV</glossterm>
+               <acronym>WebDAV</acronym>
+               <glossdef>
+                   <para>Web-based Distributed Authoring and Versioning，是基于 HTTP 1.1 的一个通信协议。
+                   它为 HTTP 1.1 添加了一些扩展，使得应用程序可以直接将文件写到 Web Server 上，
+                   并且在写文件时候可以对文件加锁，写完后对文件解锁，还可以支持对文件所做的版本控制。</para>
+               </glossdef>
+           </glossentry>              
+       </glossdiv>
+       <glossdiv>
+           <title>X</title>
+           <glossentry id="xa">
+               <glossterm>XA</glossterm>
+               <glossdef>
+                   <para>X/Open DTP模型中的一个标准。
+                   XA接口是事务监控器和数据库之间的操作接口。
+                   在该标准中定义了事务监控器使用数据库的详细函数接口和使用方法。
+                   </para>
+                   <para>XA接口可以用于实现不同数据库之间的互连，
+                   可以用于在分布式交易系统中实现事务监控器对数据库的管理。</para>
+               </glossdef>
+           </glossentry>
+       </glossdiv>
+   </glossary>
+</book>
