@@ -19,6 +19,7 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -54,7 +55,7 @@ public class Activity1 extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				sendJson();
+				sendJsonToServer();
 				
 			}
 		});
@@ -65,7 +66,7 @@ public class Activity1 extends Activity {
       
       StringBuilder builder = new StringBuilder();
       
-      HttpGet get = new HttpGet("http://api.douban.com/book/subject/1220562?apikey=0f760660e3172b0e2e621322a945812a&alt=json");
+      HttpGet get = new HttpGet("http://api.douban.com/book/subject/1220562?alt=json");
       try {
           HttpResponse response = client.execute(get);
           BufferedReader reader = new BufferedReader(new InputStreamReader(
@@ -82,39 +83,41 @@ public class Activity1 extends Activity {
            JSONArray auJson = (JSONArray)jsonObject.get("author");
            title.setText("作者："+auJson.getJSONObject(0).getJSONObject("name").getString("$t"));
           
+           
+           
       } catch (Exception e) {
           e.printStackTrace();
       }
   }
     
-    public void sendJson(){
+    public void sendJsonToServer(){
     	HttpClient httpClient = new DefaultHttpClient();
     	try {
-    	//HttpPost get = new  HttpPost("http://192.168.0.57:8088/websms1.0/sendsms.jsp");
-    		HttpPost get = new  HttpPost("http://192.168.0.199:8080/ipformat/my.jsp");
+    
+    	HttpPost httpPost = new  HttpPost("http://192.168.0.199:8080/ipformat/my.jsp");
     	HttpParams httpParams = new BasicHttpParams();
     	List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
-    	
-    	
-//    	nameValuePair.add(new BasicNameValuePair("phonenum","15210133976"));
-//    	nameValuePair.add(new BasicNameValuePair("msg","测试"));
-    	
     	JSONObject jsonObject = new JSONObject();
     	Product product = new Product();
     	product.setLocation("北京");
-    	product.setName("Vsp");
+    	product.setName("腾讯");
     	jsonObject.put("product",product );
-    	nameValuePair.add(new BasicNameValuePair("phonenum",jsonObject.toString()));
+    	nameValuePair.add(new BasicNameValuePair("jsonString",jsonObject.toString()));
+
+    	httpPost.setEntity(new UrlEncodedFormEntity(nameValuePair));
+    	httpPost.setParams(httpParams);
+    	
+    	Log.v("http"," send  http");
+    	httpClient.execute(httpPost);
+    	
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		} 
+//HttpPost get = new  HttpPost("http://192.168.0.57:8088/websms1.0/sendsms.jsp");
+//    	nameValuePair.add(new BasicNameValuePair("phonenum","15210133976"));
+//    	nameValuePair.add(new BasicNameValuePair("msg","测试"));   	
 //    	httpParams.setParameter("phonenum","15210133976");
 //    	httpParams.setParameter("msg","测试");
-    	get.setEntity(new UrlEncodedFormEntity(nameValuePair));
-    	get.setParams(httpParams);
-    	
-    	Log.v("myhttp","发送http");
-    	httpClient.execute(get);
-		} catch (Exception e) {
-			
-		} 
-    	
     }
+  
 }
