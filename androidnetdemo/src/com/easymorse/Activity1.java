@@ -1,12 +1,22 @@
 package com.easymorse;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpParams;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -23,6 +33,8 @@ public class Activity1 extends Activity {
 	
 	private Button button ;
 	
+	private Button smsButton;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,13 +45,21 @@ public class Activity1 extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				  sendHttpRequest();
+				recievdJson();
 				
 			}
 		});
-        
+        smsButton  = (Button)this.findViewById(R.id.smsbutton);
+        smsButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				sendJson();
+				
+			}
+		});
     }
-    public void sendHttpRequest(){
+    public void recievdJson(){
       
       HttpClient client = new DefaultHttpClient();
       
@@ -66,4 +86,28 @@ public class Activity1 extends Activity {
           e.printStackTrace();
       }
   }
+    
+    public void sendJson(){
+    	HttpClient httpClient = new DefaultHttpClient();
+    	try {
+    	HttpPost get = new  HttpPost("http://192.168.0.57:8088/websms1.0/sendsms.jsp");
+    	HttpParams httpParams = new BasicHttpParams();
+    	List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
+    	nameValuePair.add(new BasicNameValuePair("phonenum","15210133976"));
+    	nameValuePair.add(new BasicNameValuePair("msg","测试"));
+    	
+//    	httpParams.setParameter("phonenum","15210133976");
+//    	httpParams.setParameter("msg","测试");
+    	get.setEntity(new UrlEncodedFormEntity(nameValuePair));
+    	get.setParams(httpParams);
+    	
+    	Log.v("myhttp","发送http");
+    	
+    	
+			httpClient.execute(get);
+		} catch (Exception e) {
+			
+		} 
+    	
+    }
 }
