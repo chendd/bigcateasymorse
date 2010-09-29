@@ -74,7 +74,7 @@ public class HttpTest {
 				method1.releaseConnection();
 				if(statusLine1.indexOf("200")==-1){
 					HttpClient client2 = new HttpClient();
-					client2.getHostConfiguration().setHost("192.168.0.56", 8088, "http");
+					client2.getHostConfiguration().setHost("192.168.0.57", 8088, "http");
 
 				
 					HttpMethod method2 = getGetMethod56();
@@ -109,7 +109,7 @@ public class HttpTest {
 
 			NameValuePair simcard = new NameValuePair("phonenum",
 					"15210133976");
-			NameValuePair simcard1 = new NameValuePair("msg", "mp服务器上的welcome 错误");
+			NameValuePair simcard1 = new NameValuePair("msg", "mp服务器可能发生异常");
 //			NameValuePair simcard2 = new NameValuePair("language", "zh-CN");
 			get.setQueryString(new NameValuePair[] { simcard,simcard1});
 
@@ -128,7 +128,7 @@ public class HttpTest {
 
 			NameValuePair simcard = new NameValuePair("phonenum",
 					"15210795342");
-			NameValuePair simcard1 = new NameValuePair("msg", "mp服务器上的welcome 错误");
+			NameValuePair simcard1 = new NameValuePair("msg", "mp服务器可能发生异常");
 //			NameValuePair simcard2 = new NameValuePair("language", "zh-CN");
 			get.setQueryString(new NameValuePair[] { simcard,simcard1});
 
