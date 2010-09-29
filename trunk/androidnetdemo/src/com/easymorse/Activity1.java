@@ -90,21 +90,28 @@ public class Activity1 extends Activity {
     public void sendJson(){
     	HttpClient httpClient = new DefaultHttpClient();
     	try {
-    	HttpPost get = new  HttpPost("http://192.168.0.57:8088/websms1.0/sendsms.jsp");
+    	//HttpPost get = new  HttpPost("http://192.168.0.57:8088/websms1.0/sendsms.jsp");
+    		HttpPost get = new  HttpPost("http://192.168.0.199:8080/ipformat/my.jsp");
     	HttpParams httpParams = new BasicHttpParams();
     	List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
-    	nameValuePair.add(new BasicNameValuePair("phonenum","15210133976"));
-    	nameValuePair.add(new BasicNameValuePair("msg","测试"));
     	
+    	
+//    	nameValuePair.add(new BasicNameValuePair("phonenum","15210133976"));
+//    	nameValuePair.add(new BasicNameValuePair("msg","测试"));
+    	
+    	JSONObject jsonObject = new JSONObject();
+    	Product product = new Product();
+    	product.setLocation("北京");
+    	product.setName("Vsp");
+    	jsonObject.put("product",product );
+    	nameValuePair.add(new BasicNameValuePair("phonenum",jsonObject.toString()));
 //    	httpParams.setParameter("phonenum","15210133976");
 //    	httpParams.setParameter("msg","测试");
     	get.setEntity(new UrlEncodedFormEntity(nameValuePair));
     	get.setParams(httpParams);
     	
     	Log.v("myhttp","发送http");
-    	
-    	
-			httpClient.execute(get);
+    	httpClient.execute(get);
 		} catch (Exception e) {
 			
 		} 
