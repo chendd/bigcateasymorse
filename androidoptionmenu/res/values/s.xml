@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello1">Hello World, 你好 Activity1!</string>
+    <string name="myname">test1</string>
+</resources>
