@@ -22,25 +22,12 @@ public class HttpUtil {
 
 
 	private static final String BASIC_URL = "http://192.168.0.8:8080/mavenproto/";
-	
-	private static HttpClient httpClient = new DefaultHttpClient();
 
 	/**
 	 * 发送http请求
 	 * 
 	 * @return
 	 */
-	public static BufferedReader getResponse(String httpUrl) {
-
-		try {
-			return new BufferedReader(new InputStreamReader(httpClient
-					.execute(new HttpGet(BASIC_URL+httpUrl)).getEntity()
-					.getContent()));
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-
-	}
 
 	  public static int sendFileToServer(String url,File file){
 	    	HttpClient httpClient = new DefaultHttpClient();
@@ -49,7 +36,7 @@ public class HttpUtil {
 	    	HttpPost httpPost = new  HttpPost(BASIC_URL+url);
 	    	
 	    	httpPost.setEntity(new FileEntity(file, "application/octet-stream"));
-	    	//Log.v("status","----   "+httpClient.execute(httpPost).getStatusLine().getStatusCode());
+	    	
 	    	return httpClient.execute(httpPost).getStatusLine().getStatusCode();
 			} catch (Exception e) {
 				throw new RuntimeException(e);
