@@ -31,14 +31,7 @@ public class SendCamera extends Activity {
 
 			@Override
 			public void onClick(View v) {
-//				Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-//				intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri
-//						.fromFile(new File(Environment
-//								.getExternalStorageDirectory(), "camera.jpg")));
-//				intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
-//				startActivityForResult(intent, 0);
-				//Intent intent = new Intent("android.media.action.IMAGE_CAMERA");
-				//android.media.action.STILL_IMAGE_CAMERA
+
 				Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
 				intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri
 						.fromFile(new File(Environment
@@ -56,19 +49,12 @@ public class SendCamera extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
-//			this.imageView.setImageDrawable(Drawable.createFromPath(new File(
-//					Environment.getExternalStorageDirectory(), "camera.jpg")
-//					.getAbsolutePath()));
-			this.imageView.setBackgroundResource(R.drawable.camera);
-			Log.v(">>>>>>>>>>>>","---------"+new File(
-					Environment.getExternalStorageDirectory(), "camera.jpg").getAbsolutePath());
+			this.imageView.setImageDrawable(Drawable.createFromPath(new File(
+					Environment.getExternalStorageDirectory(), "camera.jpg")
+					.getAbsolutePath()));
+			
 			Log.v("status>>>>>",">>>"+HttpUtil.sendFileToServer("my.jsp",new File(
 					Environment.getExternalStorageDirectory(), "camera.jpg")));
-			
-			// for(String s:bundle.keySet()){
-			// Log.v("cam.demo", s);
-			// }
-			Log.v("cam.demo", "====>" + data);
 
 		}
 	}
