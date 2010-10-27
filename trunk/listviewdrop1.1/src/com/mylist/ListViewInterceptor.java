@@ -140,7 +140,7 @@ public class ListViewInterceptor extends ListView {
 						+ "---" + ev.getRawY() + "----" + ev.getY()+"-----"+item.getTop());
 				mDragPoint = y - item.getTop();
 				mCoordOffset = ((int) ev.getRawY()) - y;
-				View dragger = item.findViewById(R.id.icon);
+				View dragger = item.findViewById(R.id.img);
 				Rect r = mTempRect;
 				// dragger.getDrawingRect(r);
 
