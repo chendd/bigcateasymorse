@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+	<script language="javascript">
+	    /* This function is invoked by the activity */
+		function wave(jsonText) {
+			document.getElementById("output").innerHTML="用户姓名："+jsonText.name;
+			alert("2");
+		}
+	</script>
+</head>
+
+	<body>这是一个html页面 <br /><br /><br />
+	<div id="output" >用户姓名：</div><br /><br />
+	  
+	
+		<input type="submit" value="发起请求" onclick="window.demo.clickOnAndroid();"/>
+	</body>
+</html>
