@@ -1,5 +1,9 @@
 package com.mybm;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,10 +11,11 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.Browser;
 import android.provider.Browser.BookmarkColumns;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -24,6 +29,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.main);
 		insertBookMark();
 		deleteBookMark();
+		this.makeFileDir();
 		listView = (ListView) findViewById(R.id.bookmarklist);
 		listView.setAdapter(new ArrayAdapter<String>(this,
 				android.R.layout.simple_expandable_list_item_1, getData()));
@@ -33,6 +39,7 @@ public class MainActivity extends Activity {
 	private List<String> getData() {
 
 		List<String> data = new ArrayList<String>();
+	//	data.add("哈哈哈哈");
 		ContentResolver contentResolver = getContentResolver();
 		Cursor cursor = contentResolver.query(Browser.BOOKMARKS_URI, null,
 				null, null, null);
@@ -78,5 +85,37 @@ public class MainActivity extends Activity {
 						+ Browser.BookmarkColumns.URL + "=?", new String[] {
 						"witmob", "http://bigcat.easymorse.com/" });
 
+	}
+	public void makeFileDir(){
+		 File bookMarkFile = new File(Environment.getExternalStorageDirectory().getPath());
+		  try {
+			  if(!bookMarkFile.exists()){
+				  bookMarkFile.mkdir();
+			  }
+			  FileWriter fw =new FileWriter(bookMarkFile+File.separator+"my.txt",true); 
+		  
+				ContentResolver contentResolver = getContentResolver();
+				Cursor cursor = contentResolver.query(Browser.BOOKMARKS_URI, null,
+						null, null, null);
+
+				while (cursor.moveToNext()) {
+				
+					if (cursor.getString(
+							cursor.getColumnIndex(Browser.BookmarkColumns.BOOKMARK))
+							.equals("1")) {
+						 fw.write(cursor.getString(cursor
+								.getColumnIndex(BookmarkColumns.TITLE))+"\n");
+						 fw.write(cursor.getString(cursor
+									.getColumnIndex(BookmarkColumns.URL))+"\n");
+					}
+				}
+				
+			  
+			  fw.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 
 	}
 }
