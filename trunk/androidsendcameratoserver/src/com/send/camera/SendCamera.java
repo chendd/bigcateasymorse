@@ -68,15 +68,15 @@ public class SendCamera extends Activity {
 			}
 
 		});
-
+		
 	}
 	
 	
 	public void Example_03() throws Exception {
-		Log.v("path-----",">>>>>"+Environment
+		Log.v("path-----mmmmm",">>>>>"+Environment
 				.getExternalStorageDirectory());
 		FileOutputStream fos = new FileOutputStream(PATH + File.separator
-				+ "aaa.pdf");
+				+ "mytest.pdf");
 
 		PDF pdf = new PDF(fos);
 
@@ -92,30 +92,18 @@ public class SendCamera extends Activity {
 				.getExternalStorageDirectory(), "camera.jpg")));
 		Image image1 = new Image(pdf, bis1, ImageType.JPEG);
 
-	
+		
 
 		Page page = new Page(pdf, A4.PORTRAIT);
 
-		TextLine text = new TextLine(f1,
-				"The map below is an embedded PNG image");
-		text.setPosition(90, 30);
-		text.drawOn(page);
+//		TextLine text = new TextLine(f1,
+//				"The map below is an embedded PNG image");
+//		text.setPosition(90, 30);
+//		text.drawOn(page);
 
-		image1.setPosition(90, 40);
+		image1.setPosition(0, 0);
+		
 		image1.drawOn(page);
-
-		text.setText("JPG image file embedded once and drawn 3 times");
-		text.setPosition(90, 550);
-		text.drawOn(page);
-
-
-		text.setText("The map on the right is an embedded BMP image");
-		text.setUnderline(true);
-		text.setStrikeLine(true);
-		text.setTextDirection(15);
-		text.setPosition(90, 800);
-		text.drawOn(page);
-
 
 		pdf.flush();
 		fos.close();
@@ -127,6 +115,7 @@ public class SendCamera extends Activity {
 			this.imageView.setImageDrawable(Drawable.createFromPath(new File(
 					Environment.getExternalStorageDirectory(), "camera.jpg")
 					.getAbsolutePath()));
+
 			try {
 				Example_03();
 			} catch (Exception e) {
@@ -135,6 +124,7 @@ public class SendCamera extends Activity {
 			}
 //			Log.v("status>>>>>",">>>"+HttpUtil.sendFileToServer("camera.jsp",new File(
 //					Environment.getExternalStorageDirectory(), "camera.jpg")));
+
 
 		}
 	}
