@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+<LinearLayout android:orientation="vertical"
+	android:layout_width="200px"
+	android:layout_height="fill_parent">
+	
+<ImageView android:id="@+id/scanImage" 
+	android:layout_height="300px"
+	android:layout_marginTop="0px"
+	android:layout_width="200px" 
+	android:src="@drawable/kuang" />
+</LinearLayout>
+<LinearLayout
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:id="@+id/rightview"
+android:orientation="vertical">
+<Button android:id="@+id/scan"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:text="@string/scanstring" />
+<Button android:id="@+id/makepdf"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:text="@string/makepdfstring" />
+</LinearLayout>
+</LinearLayout>
