@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	package="com.easymorse" android:versionCode="1" android:versionName="1.0">
+	<application android:icon="@drawable/icon" android:label="@string/app_name">
+		<activity android:name=".MainActivity" android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<receiver android:name=".SDCardListener">
+			<intent-filter>
+				<action android:name="android.intent.action.MEDIA_EJECT" />
+				<action android:name="android.intent.action.MEDIA_MOUNTED" />
+				<action android:name="android.intent.action.MEDIA_REMOVED" />
+				<action android:name="android.intent.action.MEDIA_UNMOUNTED" />
+				<category android:name="android.intent.category.LAUNCHER" />
+				<data android:scheme="file" />
+			</intent-filter>
+		</receiver>
+	</application>
+	<uses-sdk android:minSdkVersion="4" />
+
+</manifest> 
