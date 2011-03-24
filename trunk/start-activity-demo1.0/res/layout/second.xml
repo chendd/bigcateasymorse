@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	
+	<Button android:id="@+id/mybutton" android:layout_width="300px"
+			android:layout_height="200px" android:text="返回到第一个Activity"
+			android:clickable="true"  android:onClick="toFrist"/>
+
+</LinearLayout>
