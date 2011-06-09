@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, MainActivity!</string>
+    <string name="app_name">mvc_demo</string>
+    <string name="product_name_string">product name</string>
+    <string name="product_price_string">price</string>
+    <string name="add_button_string">Add</string>
+    <string name="select_all_string">Show All</string>
+    
+</resources>
