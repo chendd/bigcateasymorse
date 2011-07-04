@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:background="@drawable/bg_w">
+	<LinearLayout android:orientation="vertical"
+		android:layout_width="fill_parent" android:layout_height="wrap_content">
+		<TextView android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:gravity="center_horizontal"
+			android:text="公共频道" android:layout_marginTop="30px" />
+		<com.easymorse.mygallery.GalleryFlow
+			android:layout_marginTop="30px" android:id="@+id/mygallery1"
+			android:layout_width="fill_parent" android:layout_height="100px"
+			android:spacing="70dp" android:gravity="center" />
+	</LinearLayout>
+	<ImageView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:src="@drawable/line" />
+	<FrameLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_weight="2"
+		android:layout_margin="0px" android:gravity="center">
+		<LinearLayout android:id="@+id/mContener"
+			android:orientation="vertical" android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="0px" android:layout_gravity="center" android:gravity="center">
+			<ImageView android:layout_width="350px" android:id="@+id/album_corver1"
+				android:layout_height="350px" android:onClick="showContent" />
+
+			<ImageView android:layout_width="350px" android:id="@+id/album_corver2"
+				android:layout_height="350px" android:visibility="gone"
+				android:onClick="showPicture" />
+
+		</LinearLayout>
+		<TextView android:layout_width="250px" android:layout_height="wrap_content"
+			android:text="0:18" android:gravity="center_horizontal"
+			android:layout_marginBottom="80px"
+			android:layout_gravity="center|bottom" />
+		<TextView android:layout_width="250px" android:layout_height="wrap_content"
+			android:text=" Warner Bros. Records with Sony BMG"
+			android:singleLine="true" android:ellipsize="marquee"
+			android:marqueeRepeatLimit="marquee_forever" android:focusable="true"
+			android:layout_marginBottom="50px"
+			android:focusableInTouchMode="true" android:layout_gravity="center|bottom" />
+	</FrameLayout>
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_margin="0px"
+		android:orientation="horizontal">
+		<ImageView android:layout_width="75px"
+			android:layout_weight="1" android:layout_height="75px" android:src="@drawable/trash_1" />
+		<ImageView android:layout_width="75px"
+			android:layout_weight="1" android:layout_height="75px" android:src="@drawable/heart_1" />
+		<ImageView android:layout_width="75px"
+			android:layout_weight="1" android:layout_height="75px" android:src="@drawable/skip_1" />
+	</LinearLayout>
+</LinearLayout>
