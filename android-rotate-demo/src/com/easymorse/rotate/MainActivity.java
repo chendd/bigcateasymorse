@@ -42,7 +42,7 @@ public class MainActivity extends Activity {
 						Thread.sleep(4 * 1000);
 						
 						j++;
-						i = i + 60 * j;
+						i =60 * j;
 						myHandler.sendMessage(myHandler.obtainMessage());
 					}
 
