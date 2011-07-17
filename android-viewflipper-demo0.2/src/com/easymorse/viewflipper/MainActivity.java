@@ -2,6 +2,7 @@ package com.easymorse.viewflipper;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
@@ -21,7 +22,7 @@ public class MainActivity extends Activity {
         
         viewFlipper = (ViewFlipper)findViewById(R.id.myViewFlipper);
         
-        viewFlipper.addView(getLayoutInflater().inflate(R.layout.textlayout, null),viewFlipper.getChildCount());
+      //  viewFlipper.addView(getLayoutInflater().inflate(R.layout.textlayout, null),viewFlipper.getChildCount());
         
         gestureDetector = new GestureDetector(new OnGestureListener() {
 			
@@ -53,10 +54,18 @@ public class MainActivity extends Activity {
 			@Override
 			public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 					float velocityY) {
+				Log.v("tag", ">>>>>>>>>>>>>>>>>velocityX>>>"+velocityX);
 				if(velocityX>0){
-					viewFlipper.showNext();
-				}else {
+					
+					viewFlipper.setInAnimation(getApplicationContext(), R.anim.push_right_in);
+					viewFlipper.setOutAnimation(getApplicationContext(), R.anim.push_right_out);
 					viewFlipper.showPrevious();
+				}else {
+				
+					viewFlipper.setInAnimation(getApplicationContext(), R.anim.push_left_in);
+					viewFlipper.setOutAnimation(getApplicationContext(), R.anim.push_left_out);
+					viewFlipper.showNext();
+					
 				}
 				return false;
 			}
