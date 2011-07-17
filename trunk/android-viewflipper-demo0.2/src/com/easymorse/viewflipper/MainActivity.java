@@ -22,7 +22,7 @@ public class MainActivity extends Activity {
         
         viewFlipper = (ViewFlipper)findViewById(R.id.myViewFlipper);
         
-      //  viewFlipper.addView(getLayoutInflater().inflate(R.layout.textlayout, null),viewFlipper.getChildCount());
+        viewFlipper.addView(getLayoutInflater().inflate(R.layout.textlayout, null),viewFlipper.getChildCount());
         
         gestureDetector = new GestureDetector(new OnGestureListener() {
 			
