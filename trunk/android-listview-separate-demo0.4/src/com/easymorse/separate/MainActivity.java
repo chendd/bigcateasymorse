@@ -2,6 +2,7 @@ package com.easymorse.separate;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -9,35 +10,40 @@ import java.util.Set;
 
 
 
+import net.sourceforge.pinyin4j.PinyinHelper;
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.provider.Contacts.People;
+import android.provider.Contacts.Phones;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SectionIndexer;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import android.widget.AbsListView.OnScrollListener;
 
 public class MainActivity extends Activity implements OnTouchListener,
 		OnGestureListener {
 
 	public ListView listView;
 
-	MyAdapter myAdapter;
+//	MyAdapter myAdapter;
+
+	MyAdapters myAdapter;
 
 	public List<String> listTag = new ArrayList<String>();
 
@@ -48,7 +54,7 @@ public class MainActivity extends Activity implements OnTouchListener,
 	View view;
 
 	TextView overlay;
-	
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -56,23 +62,32 @@ public class MainActivity extends Activity implements OnTouchListener,
 		setContentView(R.layout.main);
 
 		listView = (ListView) findViewById(R.id.mylistview);
-		
-		
-		this.overlay = (TextView) this.getLayoutInflater().inflate(R.layout.overlay, null); 
-		getWindowManager() 
-		        .addView( 
-		                overlay, 
-		                new WindowManager.LayoutParams( 
-		                        LayoutParams.WRAP_CONTENT, 
-		                        LayoutParams.WRAP_CONTENT, 
-		                        WindowManager.LayoutParams.TYPE_APPLICATION, 
-		                        WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE 
-		                                | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, 
-		                        PixelFormat.TRANSLUCENT));
-		
-		
-		myAdapter = new MyAdapter(this, android.R.layout.simple_list_item_1,
-				getData());
+
+		this.overlay = (TextView) this.getLayoutInflater().inflate(
+				R.layout.overlay, null);
+		getWindowManager()
+				.addView(
+						overlay,
+						new WindowManager.LayoutParams(
+								LayoutParams.WRAP_CONTENT,
+								LayoutParams.WRAP_CONTENT,
+								WindowManager.LayoutParams.TYPE_APPLICATION,
+								WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+										| WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+								PixelFormat.TRANSLUCENT));
+
+//		myAdapter = new MyAdapter(this, android.R.layout.simple_list_item_1,
+//				getData());
+
+		Cursor c = getContentResolver().query(People.CONTENT_URI, null, null,
+				null, null);
+		myAdapter = new MyAdapters(this, android.R.layout.simple_list_item_1,
+				c,
+				// Map the NAME column in the people database to...
+				new String[] { People.NAME },
+				// The "text1" view defined in the XML template
+				new int[] { android.R.id.text1 });
+
 		listView.setAdapter(myAdapter);
 
 		view = (View) findViewById(R.id.zimulist);
@@ -85,32 +100,31 @@ public class MainActivity extends Activity implements OnTouchListener,
 		view.setOnTouchListener(this);
 		// 允许长按
 		view.setLongClickable(true);
-		
-		
+
 		listView.setOnScrollListener(new OnScrollListener() {
 
-		    boolean visible;
+			boolean visible;
 
-		    @Override 
-		    public void onScrollStateChanged(AbsListView view, int scrollState) { 
-		    	Log.v("tag", ">>>>>>>>onScrollStateChanged>>");
-		        visible = true; 
-		        if (scrollState == ListView.OnScrollListener.SCROLL_STATE_IDLE) { 
-		            overlay.setVisibility(View.INVISIBLE); 
-		        } 
-		    }
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				Log.v("tag", ">>>>>>>>onScrollStateChanged>>");
+				visible = true;
+				if (scrollState == ListView.OnScrollListener.SCROLL_STATE_IDLE) {
+					overlay.setVisibility(View.INVISIBLE);
+				}
+			}
 
-		    @Override 
-		    public void onScroll(AbsListView view, int firstVisibleItem, 
-		            int visibleItemCount, int totalItemCount) { 
-		    	Log.v("tag", ">>>>>>>>onScroll>>");
-		        //if (visible) { 
-		            overlay.setText(getData().get(firstVisibleItem).substring(0, 1)); 
-		            overlay.setVisibility(View.VISIBLE); 
-		       // } 
-		    } 
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem,
+					int visibleItemCount, int totalItemCount) {
+				Log.v("tag", ">>>>>>>>onScroll>>");
+				// if (visible) {
+				overlay.setText(nameList.get(firstVisibleItem).substring(0, 1));
+				overlay.setVisibility(View.VISIBLE);
+				// }
+			}
 		});
-		
+
 	}
 
 	@Override
@@ -150,150 +164,151 @@ public class MainActivity extends Activity implements OnTouchListener,
 	public void util(MotionEvent e2) {
 		int i = (int) ((e2.getRawY() - view.getTop()) / ((float) view
 				.getHeight() / 26f));
+		int j=0;
 		switch (i) {
 		case 0:
-			int pos = (myAdapter).getPositionForSection(1);
+			int pos = (myAdapter).getPositionForSection(j++);
 			listView.setSelectionFromTop(pos, 0);
 			break;
 
 		case 1:
-			pos = (myAdapter).getPositionForSection(2);
+			pos = (myAdapter).getPositionForSection(j++);
 			listView.setSelectionFromTop(pos, 0);
 			break;
 
 		case 2:
-			pos = (myAdapter).getPositionForSection(3);
+			pos = (myAdapter).getPositionForSection(j++);
 			listView.setSelectionFromTop(pos, 0);
 			break;
 
 		case 3:
-			pos = (myAdapter).getPositionForSection(4);
+			pos = (myAdapter).getPositionForSection(j++);
 			listView.setSelectionFromTop(pos, 0);
 			break;
 
 		case 4:
-			pos = (myAdapter).getPositionForSection(5);
+			pos = (myAdapter).getPositionForSection(j++);
 			listView.setSelectionFromTop(pos, 0);
 			break;
 
 		case 5:
-			pos = (myAdapter).getPositionForSection(6);
+			pos = (myAdapter).getPositionForSection(j++);
 			listView.setSelectionFromTop(pos, 0);
 
 			break;
 
 		case 6:
-			pos = (myAdapter).getPositionForSection(7);
+			pos = (myAdapter).getPositionForSection(j++);
 			listView.setSelectionFromTop(pos, 0);
 
 			break;
 
 		case 7:
-			pos = (myAdapter).getPositionForSection(8);
+			pos = (myAdapter).getPositionForSection(j++);
 			listView.setSelectionFromTop(pos, 0);
 
 			break;
 
 		case 8:
-			pos = (myAdapter).getPositionForSection(9);
+			pos = (myAdapter).getPositionForSection(j++);
 			listView.setSelectionFromTop(pos, 0);
 
 			break;
 
 		case 9:
-			pos = (myAdapter).getPositionForSection(10);
+			pos = (myAdapter).getPositionForSection(j++);
 			listView.setSelectionFromTop(pos, 0);
 
 			break;
 
 		case 10:
-			pos = (myAdapter).getPositionForSection(11);
+			pos = (myAdapter).getPositionForSection(j++);
 			listView.setSelectionFromTop(pos, 0);
 
 			break;
 
 		case 11:
-			pos = (myAdapter).getPositionForSection(12);
+			pos = (myAdapter).getPositionForSection(j++);
 			listView.setSelectionFromTop(pos, 0);
 
 			break;
 
 		case 12:
-			pos = (myAdapter).getPositionForSection(13);
+			pos = (myAdapter).getPositionForSection(j++);
 			listView.setSelectionFromTop(pos, 0);
 
 			break;
 
 		case 13:
-			pos = (myAdapter).getPositionForSection(14);
+			pos = (myAdapter).getPositionForSection(j++);
 			listView.setSelectionFromTop(pos, 0);
 
 			break;
 
 		case 14:
-			pos = (myAdapter).getPositionForSection(15);
+			pos = (myAdapter).getPositionForSection(j++);
 			listView.setSelectionFromTop(pos, 0);
 
 			break;
 
 		case 15:
-			pos = (myAdapter).getPositionForSection(16);
+			pos = (myAdapter).getPositionForSection(j++);
 			listView.setSelectionFromTop(pos, 0);
 
 			break;
 
 		case 16:
-			pos = (myAdapter).getPositionForSection(17);
+			pos = (myAdapter).getPositionForSection(j++);
 			listView.setSelectionFromTop(pos, 0);
 
 		case 17:
-			pos = (myAdapter).getPositionForSection(18);
+			pos = (myAdapter).getPositionForSection(j++);
 			listView.setSelectionFromTop(pos, 0);
 
 			break;
 
 		case 18:
-			pos = (myAdapter).getPositionForSection(19);
+			pos = (myAdapter).getPositionForSection(j++);
 			listView.setSelectionFromTop(pos, 0);
 
 			break;
 
 		case 19:
-			pos = (myAdapter).getPositionForSection(20);
+			pos = (myAdapter).getPositionForSection(j++);
 			listView.setSelectionFromTop(pos, 0);
 
 		case 20:
-			pos = (myAdapter).getPositionForSection(21);
+			pos = (myAdapter).getPositionForSection(j++);
 			listView.setSelectionFromTop(pos, 0);
 
 			break;
 
 		case 21:
-			pos = (myAdapter).getPositionForSection(22);
+			pos = (myAdapter).getPositionForSection(j++);
 			listView.setSelectionFromTop(pos, 0);
 
 			break;
 
 		case 22:
-			pos = (myAdapter).getPositionForSection(23);
+			pos = (myAdapter).getPositionForSection(j++);
 			listView.setSelectionFromTop(pos, 0);
 
 			break;
 
 		case 23:
-			pos = (myAdapter).getPositionForSection(24);
+			pos = (myAdapter).getPositionForSection(j++);
 			listView.setSelectionFromTop(pos, 0);
 
 			break;
 
 		case 24:
-			pos = (myAdapter).getPositionForSection(25);
+			pos = (myAdapter).getPositionForSection(j++);
 			listView.setSelectionFromTop(pos, 0);
 
 			break;
 
 		case 25:
-			pos = (myAdapter).getPositionForSection(26);
+			pos = (myAdapter).getPositionForSection(j++);
 			listView.setSelectionFromTop(pos, 0);
 
 			break;
@@ -314,254 +329,165 @@ public class MainActivity extends Activity implements OnTouchListener,
 		return false;
 	}
 
-	private List<String> getData() {
-		List<String> data = new ArrayList<String>();
-		int i = 0;
-
-		data.add("A");
-		listTag.add("A");
-		data.add("aa试数据" + (i++));
-		data.add("a试数据" + (i++));
-		data.add("aa试数据" + (i++));
-		data.add("aa试数据" + (i++));
-		data.add("a试数据" + (i++));
-		data.add("aa试数据" + (i++));
-		data.add("aa试数据" + (i++));
-		data.add("a试数据" + (i++));
-		data.add("aa试数据" + (i++));
-		data.add("aa试数据" + (i++));
-		data.add("a试数据" + (i++));
-		data.add("aa试数据" + (i++));
-		listTag.add("B");
-		data.add("B");
-		data.add("bb试数据" + (i++));
-		data.add("b试数据" + (i++));
-		data.add("b试数据" + (i++));
-		data.add("b试数据" + (i++));
-		data.add("bb试数据" + (i++));
-		data.add("b试数据" + (i++));
-		data.add("b试数据" + (i++));
-		data.add("b试数据" + (i++));
-		data.add("bb试数据" + (i++));
-		data.add("b试数据" + (i++));
-		data.add("b试数据" + (i++));
-		data.add("b试数据" + (i++));
-		data.add("bb试数据" + (i++));
-		data.add("b试数据" + (i++));
-		data.add("b试数据" + (i++));
-		data.add("b试数据" + (i++));
-		listTag.add("C");
-		data.add("C");
-		data.add("c测试数据" + (i++));
-		data.add("c测试数据" + (i++));
-		data.add("c测试数据" + (i++));
-		data.add("c测试数据" + (i++));
-		data.add("c测试数据" + (i++));
-		data.add("c测试数据" + (i++));
-		data.add("c测试数据" + (i++));
-		data.add("c测试数据" + (i++));
-		listTag.add("D");
-		data.add("D");
-		data.add("d测试数据" + (i++));
-		data.add("d测试数据" + (i++));
-		data.add("d测试数据" + (i++));
-		data.add("d测试数据" + (i++));
-		data.add("d测试数据" + (i++));
-		data.add("d测试数据" + (i++));
-		data.add("d测试数据" + (i++));
-		data.add("d测试数据" + (i++));
-		data.add("d测试数据" + (i++));
-		listTag.add("E");
-		data.add("E");
-		data.add("e测试数据" + (i++));
-		data.add("e测试数据" + (i++));
-		data.add("e测试数据" + (i++));
-		data.add("e测试数据" + (i++));
-		data.add("e测试数据" + (i++));
-		data.add("e测试数据" + (i++));
-		data.add("e测试数据" + (i++));
-		data.add("e测试数据" + (i++));
-		data.add("e测试数据" + (i++));
-		listTag.add("F");
-		data.add("F");
-		data.add("f测试数据" + (i++));
-		data.add("f测试数据" + (i++));
-		data.add("f测试数据" + (i++));
-		data.add("f测试数据" + (i++));
-		data.add("f测试数据" + (i++));
-		data.add("f测试数据" + (i++));
-		data.add("f测试数据" + (i++));
-		data.add("f测试数据" + (i++));
-		data.add("f测试数据" + (i++));
-		data.add("f测试数据" + (i++));
-		data.add("f测试数据" + (i++));
-		data.add("f测试数据" + (i++));
-		data.add("f测试数据" + (i++));
-		data.add("f测试数据" + (i++));
-		data.add("f测试数据" + (i++));
-		data.add("f测试数据" + (i++));
-		data.add("f测试数据" + (i++));
-		data.add("f测试数据" + (i++));
-
-		listTag.add("G");
-		data.add("G");
-		data.add("G测试数据" + (i++));
-		data.add("G测试数据" + (i++));
-		data.add("G测试数据" + (i++));
-		data.add("G测试数据" + (i++));
-
-		listTag.add("H");
-		data.add("H");
-		data.add("H测试数据" + (i++));
-
-		listTag.add("I");
-		data.add("I");
-		data.add("I测试数据" + (i++));
-
-		listTag.add("J");
-		data.add("J");
-		data.add("J测试数据" + (i++));
-		data.add("J测试数据" + (i++));
-		data.add("J测试数据" + (i++));
-		data.add("J测试数据" + (i++));
-
-		listTag.add("K");
-		data.add("K");
-		data.add("K测试数据" + (i++));
-		data.add("K测试数据" + (i++));
-		data.add("K测试数据" + (i++));
-		data.add("K测试数据" + (i++));
-		data.add("K测试数据" + (i++));
-		data.add("K测试数据" + (i++));
-		data.add("K测试数据" + (i++));
-		data.add("K测试数据" + (i++));
-		data.add("K测试数据" + (i++));
-		data.add("K测试数据" + (i++));
-		data.add("K测试数据" + (i++));
-		data.add("K测试数据" + (i++));
-
-		listTag.add("L");
-		data.add("L");
-		data.add("L测试数据" + (i++));
-		data.add("L测试数据" + (i++));
-		data.add("L测试数据" + (i++));
-		data.add("L测试数据" + (i++));
-		data.add("L测试数据" + (i++));
-		data.add("L测试数据" + (i++));
-		data.add("L测试数据" + (i++));
-
-		data.add("L测试数据" + (i++));
-
-		listTag.add("M");
-		data.add("M");
-		data.add("M测试数据" + (i++));
-		data.add("M测试数据" + (i++));
-		data.add("M测试数据" + (i++));
-		data.add("M测试数据" + (i++));
-
-		listTag.add("N");
-		data.add("N");
-		data.add("N测试数据" + (i++));
-		data.add("N测试数据" + (i++));
-		data.add("N测试数据" + (i++));
-		data.add("N测试数据" + (i++));
-		data.add("N测试数据" + (i++));
-
-		listTag.add("O");
-		data.add("O");
-		data.add("O试数据" + (i++));
-		data.add("O试数据" + (i++));
-		data.add("O试数据" + (i++));
-		data.add("O试数据" + (i++));
-
-		listTag.add("P");
-		data.add("P");
-		data.add("P测试数据" + (i++));
-
-		listTag.add("Q");
-		data.add("Q");
-		data.add("Q测试数据" + (i++));
-		listTag.add("R");
-		data.add("R");
-		data.add("R测试数据" + (i++));
-
-		listTag.add("S");
-		data.add("S");
-		data.add("S测试数据" + (i++));
-
-		listTag.add("T");
-		data.add("T");
-		data.add("T测试数据" + (i++));
-
-		listTag.add("U");
-		data.add("U");
-		data.add("U测试数据" + (i++));
-
-		listTag.add("V");
-		data.add("V");
-		data.add("V测试数据" + (i++));
-		data.add("V测试数据" + (i++));
-		data.add("V测试数据" + (i++));
-		data.add("V测试数据" + (i++));
-		data.add("V测试数据" + (i++));
-		data.add("V测试数据" + (i++));
-		data.add("V测试数据" + (i++));
-
-		listTag.add("W");
-		data.add("W");
-		data.add("W测试数据" + (i++));
-		data.add("W测试数据" + (i++));
-		data.add("W测试数据" + (i++));
-		data.add("W测试数据" + (i++));
-		data.add("W测试数据" + (i++));
-		data.add("W测试数据" + (i++));
-
-		listTag.add("X");
-		data.add("X");
-		data.add("X测试数据" + (i++));
-		data.add("X测试数据" + (i++));
-		data.add("X测试数据" + (i++));
-		data.add("X测试数据" + (i++));
-		data.add("X测试数据" + (i++));
-
-		listTag.add("Y");
-		data.add("Y");
-		data.add("Y测试数据" + (i++));
-		data.add("Y测试数据" + (i++));
-		data.add("Y测试数据" + (i++));
-		data.add("Y测试数据" + (i++));
-		data.add("Y测试数据" + (i++));
-		data.add("Y测试数据" + (i++));
-		data.add("Y测试数据" + (i++));
-		data.add("Y测试数据" + (i++));
-		data.add("Y测试数据" + (i++));
-		data.add("Y测试数据" + (i++));
-		data.add("Y测试数据" + (i++));
-
-		listTag.add("Z");
-		data.add("Z");
-		data.add("Z测试数据" + (i++));
-		data.add("Z测试数据" + (i++));
-		data.add("Z测试数据" + (i++));
-		data.add("Z测试数据" + (i++));
-		data.add("Z测试数据" + (i++));
-		data.add("Z测试数据" + (i++));
-		data.add("Z测试数据" + (i++));
-
-		return data;
-	}
 
 	public HashMap<String, Integer> alphaIndexer;
 
 	public String[] sections = new String[0];
 
-	
-	class MyAdapter extends ArrayAdapter<String> implements SectionIndexer {
 
-		public MyAdapter(Context context, int textViewResourceId,
-				List<String> objects) {
-			super(context, textViewResourceId, objects);
-			initSections(objects);
+	public String getAllFirstLetter(String str) { 
+        String convert = ""; 
+        for (int j = 0; j < str.length(); j++) { 
+            char word = str.charAt(j); 
+            String[] pinyinArray = PinyinHelper.toHanyuPinyinStringArray(word); 
+            if (pinyinArray != null) { 
+                convert += pinyinArray[0].charAt(0); 
+            }else { 
+                convert += word; 
+            } 
+        } 
+        return convert; 
+    }
+	
+	List<String> nameList = new ArrayList<String>();
+	class MyAdapters extends SimpleCursorAdapter implements SectionIndexer {
+
+		Context context;
+
+		
+
+		public MyAdapters(Context context, int layout, Cursor c, String[] from,
+				int[] to) {
+
+			super(context, layout, c, from, to);
+			int i = c.getColumnIndex(Phones.NAME);
+			if (c.moveToFirst()) {
+				while (c.moveToNext()) {
+					String name = c.getString(i);
+					
+					if(name != null && !name.equals("")){
+						if(name.trim()!=null && !name.trim().equals("") && !name.contains("3")){
+							nameList.add(name.trim());
+						}
+						
+					}
+
+					
+					Log.v("tag", ">>>>>>>>>>>>" + c.getString(i));
+				}
+			}
+			nameList.add("A");
+
+			nameList.add("B");
+
+			nameList.add("C");
+
+			nameList.add("D");
+
+			nameList.add("E");
+
+			nameList.add("F");
+
+			nameList.add("G");
+
+			nameList.add("H");
+
+			nameList.add("I");
+
+			nameList.add("J");
+
+			nameList.add("L");
+
+			nameList.add("M");
+
+			nameList.add("N");
+
+			nameList.add("O");
+
+			nameList.add("P");
+
+			nameList.add("Q");
+
+			nameList.add("R");
+
+			nameList.add("S");
+
+			nameList.add("T");
+
+			nameList.add("U");
+
+			nameList.add("V");
+
+			nameList.add("W");
+
+			nameList.add("X");
+
+			nameList.add("Y");
+
+			nameList.add("Z");
+			
+			listTag.add("A");
+
+			listTag.add("B");
+
+			listTag.add("C");
+
+			listTag.add("D");
+
+			listTag.add("E");
+
+			listTag.add("F");
+
+			listTag.add("G");
+
+			listTag.add("H");
+
+			listTag.add("I");
+
+			listTag.add("J");
+
+			listTag.add("K");
+
+			listTag.add("L");
+
+			listTag.add("M");
+
+			listTag.add("N");
+
+			listTag.add("O");
+
+			listTag.add("P");
+
+			listTag.add("Q");
+
+			listTag.add("R");
+
+			listTag.add("S");
+
+			listTag.add("T");
+
+			listTag.add("U");
+
+			listTag.add("V");
+
+			listTag.add("W");
+
+			listTag.add("X");
+
+			listTag.add("Y");
+
+			listTag.add("Z");
+			Collections.sort(nameList, new Comparator() {
+
+				public int compare(Object _o1, Object _o2) {
+
+					return (getAllFirstLetter(((String) _o1).toLowerCase()
+							).compareTo(getAllFirstLetter(((String) _o2).toLowerCase())));
+				}
+			});
+			initSections(nameList);
+			this.context = context;
+
 		}
 
 		@Override
@@ -582,11 +508,11 @@ public class MainActivity extends Activity implements OnTouchListener,
 			// 根据标签类型加载不通的布局模板
 			if (listTag.contains(getItem(position))) {
 				// 如果是标签项
-				view = LayoutInflater.from(getContext()).inflate(
+				view = LayoutInflater.from(context).inflate(
 						R.layout.group_list_item_tag, null);
 			} else {
 				// 否则就是数据项了
-				view = LayoutInflater.from(getContext()).inflate(
+				view = LayoutInflater.from(context).inflate(
 						R.layout.group_list_item, null);
 			}
 			// 显示名称
@@ -625,6 +551,16 @@ public class MainActivity extends Activity implements OnTouchListener,
 			Log.v("tag", ">>>>>>>>>>>>>" + sections.length + ">>>"
 					+ sections[0]);
 			return sections;
+		}
+
+		@Override
+		public String getItem(int position) {
+			if(position<nameList.size()){
+				return nameList.get(position);
+			}
+			else{
+				return null;
+			}
 		}
 
 	}
