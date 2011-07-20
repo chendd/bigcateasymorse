@@ -2,6 +2,7 @@ package com.easymorse.scroll;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 public class ScrollDemosActivity extends Activity {
@@ -27,5 +28,8 @@ public class ScrollDemosActivity extends Activity {
 			
 			viewGroup.addView(imageView);
 		}
+		
+		View view = (View)getLayoutInflater().inflate(R.layout.textlayout, null);
+		viewGroup.addView(view);
 	}
 }
