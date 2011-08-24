@@ -14,7 +14,7 @@ public class MainActivity extends Activity {
 
 	ImageView imageView;
 
-	View view;
+	//View view;
 
 	int i = 0;
 	int j = -1;
@@ -30,7 +30,8 @@ public class MainActivity extends Activity {
 	}
 
 	public void showAnimation(View view) {
-		this.view = view;
+	//	this.view = view;
+		 i = 0;
 		new Thread(new Runnable() {
 
 			@Override
@@ -40,9 +41,10 @@ public class MainActivity extends Activity {
 				try {
 					for (int a = 0; a < 3; a++) {
 						Thread.sleep(4 * 1000);
+					
 						
 						j++;
-						i =60 * j;
+						i =10 * j;
 						myHandler.sendMessage(myHandler.obtainMessage());
 					}
 
@@ -60,18 +62,32 @@ public class MainActivity extends Activity {
 
 		@Override
 		public void handleMessage(Message msg) {
+			
+			if(i==0){
+				imageView.setImageResource(R.drawable.hawana_0);
+			}
+			if(i==1){
+				imageView.setImageResource(R.drawable.hawana_1);
+			}
+			if(i==2){
+//				imageView.
+				imageView.setImageResource(R.drawable.hawana_2);
+			}
+			
 			// 作UI线程的修改。
 			Display display = getWindowManager().getDefaultDisplay();
-
-			Log.v("tag",">>>>>>>>>>>>>>>>>"+i+">>>>>>>>>>>>"+(i + 60));
-			final float centerX = view.getHeight() / 2.0f;
-			final float centerY = view.getWidth() / 2.0f;
+//			display.getHeight()
+			Log.v("tag",">>>>>>>>>>>>>>>>>"+i+">>>>>>>>>>>>"+(i + 10));
+			final float centerY = display.getHeight() / 2.0f;
+			final float centerX = display.getWidth() / 2.0f;
+//			final float centerX = view.getHeight() / 2.0f;
+//			final float centerY = view.getWidth() / 2.0f;
 			// final float centerX = display.getHeight() / 2.0f;
 			// final float centerY = display.getWidth()/ 2.0f;
-			Rotate3dAnimation rotation = new Rotate3dAnimation(i, i + 60,
+			Rotate3dAnimation rotation = new Rotate3dAnimation(i, i + 10,
 					centerX, centerY);
 			rotation.setDuration(4000);
-			view.startAnimation(rotation);
+			//imageView.startAnimation(rotation);
 			super.handleMessage(msg);
 		}
 
