@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="hello">Hello World, MainActivity!</string>
-    <string name="app_name">custom_dialog</string>
-    <color name="dialogbackgournd">#33000000</color>
-    <color  name = "transparent"> #9000 </color>   
-</resources>

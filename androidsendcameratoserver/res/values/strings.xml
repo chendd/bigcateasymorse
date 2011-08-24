@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="hello">Hello World, SendCamera!</string>
-    <string name="app_name">发布照片</string>
-     <string name="buttontext">拍照</string>
-</resources>
