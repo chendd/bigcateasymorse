@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+	android:oneshot="false">
+	<item android:drawable="@drawable/hawana_0" android:duration="200" />
+	<item android:drawable="@drawable/hawana_1" android:duration="200" />
+	<item android:drawable="@drawable/hawana_2" android:duration="200" />
+	<item android:drawable="@drawable/hawana_3" android:duration="200" />
+	<item android:drawable="@drawable/hawana_4" android:duration="200" />
+	<item android:drawable="@drawable/hawana_5" android:duration="200" />
+	<item android:drawable="@drawable/hawana_6" android:duration="200" />
+	<item android:drawable="@drawable/hawana_7" android:duration="200" />
+	<item android:drawable="@drawable/hawana_8" android:duration="200" />
+	<item android:drawable="@drawable/hawana_9" android:duration="200" />
+	<item android:drawable="@drawable/hawana_10" android:duration="200" />
+	<item android:drawable="@drawable/hawana_11" android:duration="200" />
+	<item android:drawable="@drawable/hawana_12" android:duration="200" />
+	<item android:drawable="@drawable/hawana_13" android:duration="200" />
+	<item android:drawable="@drawable/hawana_14" android:duration="200" />
+	<item android:drawable="@drawable/hawana_15" android:duration="200" />
+	<item android:drawable="@drawable/hawana_16" android:duration="200" />
+	<item android:drawable="@drawable/hawana_17" android:duration="200" />
+	<item android:drawable="@drawable/hawana_18" android:duration="200" />
+	<item android:drawable="@drawable/hawana_19" android:duration="200" />
+	<item android:drawable="@drawable/hawana_20" android:duration="200" />
+	<item android:drawable="@drawable/hawana_21" android:duration="200" />
+	<item android:drawable="@drawable/hawana_22" android:duration="200" />
+	<item android:drawable="@drawable/hawana_23" android:duration="200" />
+	<item android:drawable="@drawable/hawana_24" android:duration="200" />
+	<item android:drawable="@drawable/hawana_25" android:duration="200" />
+	<item android:drawable="@drawable/hawana_26" android:duration="200" />
+	<item android:drawable="@drawable/hawana_27" android:duration="200" />
+	<item android:drawable="@drawable/hawana_28" android:duration="200" />
+	<item android:drawable="@drawable/hawana_29" android:duration="200" />
+	<item android:drawable="@drawable/hawana_30" android:duration="200" />
+	<item android:drawable="@drawable/hawana_31" android:duration="200" />
+	<item android:drawable="@drawable/hawana_32" android:duration="200" />
+	<item android:drawable="@drawable/hawana_33" android:duration="200" />
+	<item android:drawable="@drawable/hawana_34" android:duration="200" />
+	<item android:drawable="@drawable/hawana_35" android:duration="200" />
+
+</animation-list>
