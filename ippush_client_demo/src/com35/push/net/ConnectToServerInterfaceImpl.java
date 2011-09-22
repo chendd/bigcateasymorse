@@ -1,4 +1,7 @@
 package com35.push.net;
+
+import java.util.UUID;
+
 /**
  * 
 * @ClassName: ConnectToServerInterfaceImpl
@@ -9,6 +12,8 @@ package com35.push.net;
  */
 public class ConnectToServerInterfaceImpl implements ConnectToServerInterface {
 
+	
+	
 	@Override
 	public void connectToServer() {
 		// TODO Auto-generated method stub
@@ -17,8 +22,14 @@ public class ConnectToServerInterfaceImpl implements ConnectToServerInterface {
 
 	@Override
 	public void heartLive() {
-		// TODO Auto-generated method stub
 		
+		
+	}
+
+	@Override
+	public String registerToServer() {
+		//TODO 注册服务器，返回注册id
+		return UUID.randomUUID().toString();
 	}
 
 }
