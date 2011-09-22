@@ -6,6 +6,7 @@ import javax.microedition.khronos.opengles.GL10;
 import android.content.Context;
 import android.opengl.GLU;
 import android.opengl.GLSurfaceView.Renderer;
+import android.util.Log;
 
 /**
  * This is a port of the {@link http://nehe.gamedev.net} OpenGL 
@@ -38,9 +39,9 @@ public class Lesson06 implements Renderer {
 	private Cube cube;	
 	
 	/* Rotation values for all axis */
-	private float xrot;				//X Rotation ( NEW )
-	private float yrot;				//Y Rotation ( NEW )
-	private float zrot;				//Z Rotation ( NEW )
+	public float xrot;				//X Rotation ( NEW )
+	public float yrot;				//Y Rotation ( NEW )
+	public float zrot;				//Z Rotation ( NEW )
 	
 	/** The Activity Context ( NEW ) */
 	private Context context;
@@ -86,17 +87,30 @@ public class Lesson06 implements Renderer {
 		gl.glScalef(0.8f, 0.8f, 0.8f); 			//Scale the Cube to 80 percent, otherwise it would be too large for the screen
 		
 		//Rotate around the axis based on the rotation matrix (rotation, x, y, z)
-		gl.glRotatef(xrot, 1.0f, 0.0f, 0.0f);	//X
-		gl.glRotatef(yrot, 0.0f, 1.0f, 0.0f);	//Y
-		gl.glRotatef(zrot, 0.0f, 0.0f, 1.0f);	//Z
+		
+		
+	//	if(xrot<200){
+			gl.glRotatef(xrot, 1.0f, 0.0f, 0.0f);	//X
+			gl.glRotatef(yrot, 0.0f, 1.0f, 0.0f);	//Y
+			gl.glRotatef(zrot, 0.0f, 0.0f, 1.0f);	//Z
 			
+//			Log.v("tag", "xrot is :>>>>>>>"+xrot);
+//			gl.glTranslatef(0.3f, 0.0f, -0.7f);	
+//			gl.glTranslatef(0.0f, 0.2f,-0.7f);	
+//			gl.glTranslatef(0.0f, 0.2f, -0.7f);	
+//			
+		
+	//	}
+//		if(yrot>0 && yrot<200){
+//			gl.glTranslatef(0.0f, 0.2f, -7.0f);	
+//		}
 		
 		
 		cube.draw(gl);							//Draw the Cube	
 		
 		//Change rotation factors (nice rotation)
-		xrot += 0.3f;
-		yrot += 0.2f;
+//		xrot += 0.3f;
+//		yrot += 0.2f;
 		zrot += 0.4f;
 	}
 
