@@ -9,6 +9,8 @@ package com35.push.net;
  */
 public interface ConnectToServerInterface {
 
+	public String registerToServer();
+	
 	/**
 	 * 于服务器保持长连
 	* @Title: connectToServer

@@ -3,6 +3,13 @@
 	package="com35.push" android:versionCode="1" android:versionName="1.0">
 	<uses-sdk android:minSdkVersion="4" />
 
+	<!-- 自定义权限 -->
+
+	<permission android:name="com35.push.permission.RECEIVE"
+		android:protectionLevel="normal" />
+	<permission android:name="com35.push.permission.SEND" />
+	<uses-permission android:name="com35.push.permission.SEND" />
+
 	<application android:icon="@drawable/icon" android:label="@string/app_name">
 		<activity android:name=".MainActivity" android:label="@string/app_name">
 			<intent-filter>
@@ -10,6 +17,12 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+
+		<service android:name=".MessageService" android:permission="com35.push.permission.RECEIVE"
+			android:label="@string/app_name">
+			<intent-filter>
+			</intent-filter>
+		</service>
 
 	</application>
 	<uses-permission android:name="android.permission.READ_PHONE_STATE" />

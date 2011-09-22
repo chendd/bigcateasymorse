@@ -12,4 +12,8 @@ public class Global {
 	
 	public static final String TAG = "35ippush";
 	
+	public  static final String APPLICATION_ID = "appid";
+	
+	public static final String KEY = "key";
+	
 }
