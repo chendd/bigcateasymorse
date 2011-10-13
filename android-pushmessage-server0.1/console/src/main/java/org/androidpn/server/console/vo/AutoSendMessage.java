@@ -11,7 +11,8 @@ import org.apache.commons.httpclient.methods.PostMethod;
 
 public class AutoSendMessage {
 
-	private static final String IP_ADDRESS=  "192.168.1.133";
+//	private static final String IP_ADDRESS=  "192.168.1.133";
+	private static final String IP_ADDRESS=  "218.5.81.140";
 	
 	private static final int PORT = 7070;
 	
@@ -26,13 +27,13 @@ public class AutoSendMessage {
 	* @return HttpMethod    
 	* @throws
 	 */
-	public static HttpMethod getPostMethod(String userName) throws IOException {
+	public static HttpMethod getPostMethod(String userName,String sign) throws IOException {
 		PostMethod post = new PostMethod("/notification.do?action=send");
 		
 		
 		NameValuePair simcard = new NameValuePair("broadcast", "N");
 		NameValuePair simcard0 = new NameValuePair("username", userName);
-		NameValuePair simcard1 = new NameValuePair("title", "test");
+		NameValuePair simcard1 = new NameValuePair("title", sign);
 		NameValuePair simcard2 = new NameValuePair("message", "test message ....");
 		NameValuePair simcard3 = new NameValuePair("uri", "http://www.baidu.com");
 	
@@ -42,11 +43,11 @@ public class AutoSendMessage {
 		return post;
 	}
 	
-	public static void sendMessage(String userName) throws IOException{
+	public static void sendMessage(String userName,String sign) throws IOException{
 		HttpClient client = new  HttpClient();
 		client.getHostConfiguration().setHost(IP_ADDRESS, PORT, "http");
 		
-		HttpMethod method = getPostMethod(userName);
+		HttpMethod method = getPostMethod(userName,sign);
 		client.executeMethod(method);
 		// 打印服务器返回的状态
 		System.out.println(method.getStatusLine());
