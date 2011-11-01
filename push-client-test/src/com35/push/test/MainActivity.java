@@ -15,11 +15,14 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         
     	Intent registrationIntent = new Intent();
-    	
-    	registrationIntent.setClassName("com35.push", "com35.push.MessageService");
-		registrationIntent.putExtra("appid", PendingIntent.getBroadcast(this, 0, new Intent(), 0)); // boilerplate
-		registrationIntent.putExtra("key", "123456");
+    	//com35.ippush.client.activity.MessageService
+    	registrationIntent.setClassName("org.androidpn.demoapp", "com35.ippush.client.activity.MessageService");
+		registrationIntent.putExtra("packagename", PendingIntent.getBroadcast(this, 0, new Intent(), 0)); // boilerplate
+		registrationIntent.putExtra("applicationid", "0123456789");
+		registrationIntent.putExtra("clientid", "");
+		registrationIntent.putExtra("reset", true);
 		
+
 		startService(registrationIntent);
     }
 }

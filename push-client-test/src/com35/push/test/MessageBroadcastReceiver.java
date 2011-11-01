@@ -8,9 +8,15 @@ import android.util.Log;
 public class MessageBroadcastReceiver extends BroadcastReceiver {
 
 	@Override
-	public void onReceive(Context arg0, Intent arg1) {
+	public void onReceive(Context context, Intent intent) {
 		
-		Log.v("tag", "received message from push client!");
+		String clientId = intent.getStringExtra("clientid");
+		
+		Log.v("tag", "received message from push client!!!!!  and client id is " + clientId);
+	
+		String pushMessage = intent.getStringExtra("pushmessage");
+		
+		Log.v("tag", "received message " + pushMessage);
 
 	}
 
