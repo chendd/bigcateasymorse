@@ -10,5 +10,4 @@
     android:layout_height="wrap_content" 
     android:text="@string/hello"
     />
-    <ImageView   android:background="@drawable/repreat" android:layout_width="fill_parent" android:layout_height="200px" />
 </LinearLayout>
