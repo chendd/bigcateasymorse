@@ -4,8 +4,12 @@ package com35.push.test;
 
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 
 public class MainActivity extends Activity {
     /** Called when the activity is first created. */
@@ -14,14 +18,11 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-    	Intent registrationIntent = new Intent();
-    	//com35.ippush.client.activity.MessageService
-    	registrationIntent.setClassName("com35.ippush.client", "com35.ippush.client.activity.MessageService");
+        Intent registrationIntent = new Intent();
+    	registrationIntent.setClassName("com.c35.ptc.as", "com.c35.ptc.as.activity.RegisterIPPush");
 		registrationIntent.putExtra("packagename", PendingIntent.getBroadcast(this, 0, new Intent(), 0)); // boilerplate
-		registrationIntent.putExtra("applicationid", "0123456780");
-		registrationIntent.putExtra("clientid", "");
-		registrationIntent.putExtra("reset", true);
-		//client id is b8f15f76edcb47fa99d172cf91e96725
+		registrationIntent.putExtra("subscriber", "dengyh@35.cn");
+		registrationIntent.putExtra("subscriberpass", "password");
 
 		/**
 		 *  测试4种情况，
@@ -33,5 +34,30 @@ public class MainActivity extends Activity {
 		 */
 
 		startService(registrationIntent);
+//		getLocationInfo(this);
     }
+    
+    public void unRegister(){
+    	Intent unregIntent = new Intent();
+    	unregIntent.setClassName("com35.ippush.client", "com35.ippush.intent.UnRegister");
+    	unregIntent.putExtra("packagename", PendingIntent.getBroadcast(this, 0, new Intent(), 0));
+    	unregIntent.putExtra("applicationid", "0123456780");
+    	startService(unregIntent);
+    }
+    
+    public static String[] getLocationInfo(Activity activity) { 
+	    LocationManager locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE); 
+	    Location location = locationManager 
+	            .getLastKnownLocation(LocationManager.NETWORK_PROVIDER); 
+	    String[] a = {"",""};
+	    
+	    if(location != null){
+	    	 a[0] = location.getLatitude()+"";
+	    	 a[1] = location.getLongitude()+"";
+	    	 
+	    }
+	    Log.v("tag", ">>>>>>>>>>>>>>"+a[0]+">>>>>>>>>>"+a[1]);
+	    return a;
+	}
+   
 }
