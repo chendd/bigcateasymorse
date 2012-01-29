@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="helpTitle">使用帮助：</string>
+    <string name="helpContent">需要点击下边的“激活”按钮，激活设备管理器，然后在桌面长按，选择“添加插件”，找到“快速所屏”，即可在桌面添加快速锁屏插件，通过点击快速锁屏按钮实现软件锁屏。</string>
+    <string name="buttonString">激活</string>
+    <string name="app_name">快捷锁屏</string>
+    <string name="load">点我变另外的字</string>
+	<string name="change">点击变回来</string>
+</resources>
