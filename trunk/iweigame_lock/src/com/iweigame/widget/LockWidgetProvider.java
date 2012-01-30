@@ -9,7 +9,14 @@ import android.content.Intent;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+/**
+ * 
+* @ClassName: LockWidgetProvider
+* @Description: 描述 
+* @author:jiessiedyh@gmail.com
 
+*
+ */
 
 public class LockWidgetProvider extends AppWidgetProvider {
 	private static final String CLICK_NAME_ACTION = "com.terry.action.widget.click";
@@ -36,18 +43,9 @@ public class LockWidgetProvider extends AppWidgetProvider {
 			rv = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 		}
 		if (intent.getAction().equals(CLICK_NAME_ACTION)) {
-//			if (uitil.isChange) {
-//				rv.setTextViewText(R.id.TextView01, context.getResources()
-//						.getString(R.string.load));
-//
-//			} else {
-//				rv.setTextViewText(R.id.TextView01, context.getResources()
-//						.getString(R.string.change));
-//
-//			}
+
 			new LockUtil().lock(context);
-//			Toast.makeText(context, Boolean.toString(Util.isChange),
-//					Toast.LENGTH_LONG).show();
+
 			Util.isChange = !Util.isChange;
 
 		}
