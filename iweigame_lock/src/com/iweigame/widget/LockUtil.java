@@ -9,7 +9,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.view.View;
-
+/**
+ * 
+* @ClassName: LockUtil
+* @Description: 描述 
+* @author:jiessiedyh@gmail.com
+*
+ */
 public class LockUtil  {  
     IDevicePolicyManager mService;  
   

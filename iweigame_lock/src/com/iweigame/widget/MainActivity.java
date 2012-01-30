@@ -11,7 +11,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
+/**
+ * 
+* @ClassName: LockWidgetProvider
+* @Description: 描述 
+* @author:jiessiedyh@gmail.com
 
+*
+ */
 public class MainActivity extends Activity {  
     IDevicePolicyManager mService;  
     @Override  
