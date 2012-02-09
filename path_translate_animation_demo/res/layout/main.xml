@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical" android:background="#FF787878">
+	<TextView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:text="@string/hello" />
+
+	<Button android:id="@+id/button1" android:text="Button"
+		android:onClick="myanimation" android:layout_width="wrap_content"
+		android:layout_height="wrap_content">
+	</Button>
+
+	<FrameLayout android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+		<ImageView android:id="@+id/picture_tiankong"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:src="@drawable/composer_camera"  />
+
+		<ImageView android:id="@+id/music" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:src="@drawable/composer_music"
+			 />
+
+		<ImageView android:id="@+id/place" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:src="@drawable/composer_place"
+			 />
+
+		<ImageView android:id="@+id/sleep" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:src="@drawable/composer_sleep"
+			/>
+
+
+		<ImageView android:id="@+id/thought" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:src="@drawable/composer_thought"
+			/>
+
+		<ImageView android:id="@+id/with" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:src="@drawable/composer_with"
+			 />
+			
+		<ImageView android:id="@+id/friends" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:src="@drawable/composer_button"
+			 />
+			
+			<ImageView android:id="@+id/myplus" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:src="@drawable/composer_icn_plus"
+			android:layout_gravity="center"
+			/>
+	</FrameLayout>
+</LinearLayout>
