@@ -46,57 +46,58 @@ public class MainActivity extends Activity {
     	showRotateAnimation(sign);
     	
     	if(!sign){
-    	    TranslateAnimation translateAnimation = new TranslateAnimation(0,200, 0, 0);
-    	    translateAnimation.setInterpolator(new OvershootInterpolator());
-    	    translateAnimation.setDuration(anicatinoTime * 1+240); 
-    	    translateAnimation.setFillAfter(true); 
-    	    cameraImage.startAnimation(translateAnimation); 
-    	    
-    	    
-    	    TranslateAnimation translateAnimation1 = new TranslateAnimation(0,190, 0, -60);
-    	    translateAnimation1.setInterpolator(new OvershootInterpolator());
-    	    translateAnimation1.setDuration(anicatinoTime * 1+180); 
-    	    translateAnimation1.setStartOffset(20);
-    	    translateAnimation1.setFillAfter(true); 
-    	    musicImage.startAnimation(translateAnimation1); 
-    	    
-    	    
-    	    TranslateAnimation translateAnimation2 = new TranslateAnimation(0,170, 0, -120);
-    	    translateAnimation2.setInterpolator(new OvershootInterpolator());
-    	    translateAnimation2.setDuration(anicatinoTime * 1+120); 
-    	    translateAnimation2.setStartOffset(40);
-    	    translateAnimation2.setFillAfter(true); 
-    	    placeImage.startAnimation(translateAnimation2);
-    	    
-    	    TranslateAnimation translateAnimation3 = new TranslateAnimation(0,120, 0, -165);
-    	    translateAnimation3.setInterpolator(new OvershootInterpolator());
-    	    translateAnimation3.setDuration(anicatinoTime * 1+80); 
-    	    translateAnimation3.setStartOffset(60);
-    	    translateAnimation3.setFillAfter(true); 
-    	    sleepImage.startAnimation(translateAnimation3);
-    	    
-    	    TranslateAnimation translateAnimation4 = new TranslateAnimation(0,60, 0, -190);
-    	    translateAnimation4.setInterpolator(new OvershootInterpolator());
-    	    translateAnimation4.setDuration(anicatinoTime * 1+40); 
-    	    translateAnimation4.setStartOffset(80);
-    	    translateAnimation4.setFillAfter(true); 
-    	    thoughtImage.startAnimation(translateAnimation4);
-    	    
-    	    TranslateAnimation translateAnimation5 = new TranslateAnimation(0,0, 0, -200);
-    	    translateAnimation5.setInterpolator(new OvershootInterpolator());
-    	    translateAnimation5.setDuration(anicatinoTime * 1); 
-    	    translateAnimation5.setStartOffset(100);
-    	    translateAnimation5.setFillAfter(true); 
-    	    withImage.startAnimation(translateAnimation5);
-    	
     	    sign = true;
+    	    outAnimation();
     	}else{
     		sign = false;
-    		
-    		//in animation
     		inAnimation();
     	}
     	
+    }
+    
+    public void outAnimation(){
+    	TranslateAnimation translateAnimation = new TranslateAnimation(0,200, 0, 0);
+ 	    translateAnimation.setInterpolator(new OvershootInterpolator());
+ 	    translateAnimation.setDuration(anicatinoTime * 1+240); 
+ 	    translateAnimation.setFillAfter(true); 
+ 	    cameraImage.startAnimation(translateAnimation); 
+ 	    
+ 	    
+ 	    TranslateAnimation translateAnimation1 = new TranslateAnimation(0,190, 0, -60);
+ 	    translateAnimation1.setInterpolator(new OvershootInterpolator());
+ 	    translateAnimation1.setDuration(anicatinoTime * 1+180); 
+ 	    translateAnimation1.setStartOffset(20);
+ 	    translateAnimation1.setFillAfter(true); 
+ 	    musicImage.startAnimation(translateAnimation1); 
+ 	    
+ 	    
+ 	    TranslateAnimation translateAnimation2 = new TranslateAnimation(0,170, 0, -120);
+ 	    translateAnimation2.setInterpolator(new OvershootInterpolator());
+ 	    translateAnimation2.setDuration(anicatinoTime * 1+120); 
+ 	    translateAnimation2.setStartOffset(40);
+ 	    translateAnimation2.setFillAfter(true); 
+ 	    placeImage.startAnimation(translateAnimation2);
+ 	    
+ 	    TranslateAnimation translateAnimation3 = new TranslateAnimation(0,120, 0, -165);
+ 	    translateAnimation3.setInterpolator(new OvershootInterpolator());
+ 	    translateAnimation3.setDuration(anicatinoTime * 1+80); 
+ 	    translateAnimation3.setStartOffset(60);
+ 	    translateAnimation3.setFillAfter(true); 
+ 	    sleepImage.startAnimation(translateAnimation3);
+ 	    
+ 	    TranslateAnimation translateAnimation4 = new TranslateAnimation(0,60, 0, -190);
+ 	    translateAnimation4.setInterpolator(new OvershootInterpolator());
+ 	    translateAnimation4.setDuration(anicatinoTime * 1+40); 
+ 	    translateAnimation4.setStartOffset(80);
+ 	    translateAnimation4.setFillAfter(true); 
+ 	    thoughtImage.startAnimation(translateAnimation4);
+ 	    
+ 	    TranslateAnimation translateAnimation5 = new TranslateAnimation(0,0, 0, -200);
+ 	    translateAnimation5.setInterpolator(new OvershootInterpolator());
+ 	    translateAnimation5.setDuration(anicatinoTime * 1); 
+ 	    translateAnimation5.setStartOffset(100);
+ 	    translateAnimation5.setFillAfter(true); 
+ 	    withImage.startAnimation(translateAnimation5);
     }
     
     public void inAnimation(){
