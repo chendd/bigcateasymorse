@@ -48,14 +48,14 @@ public class MainActivity extends Activity {
     	if(!sign){
     	    TranslateAnimation translateAnimation = new TranslateAnimation(0,200, 0, 0);
     	    translateAnimation.setInterpolator(new OvershootInterpolator());
-    	    translateAnimation.setDuration(anicatinoTime * 1+220); 
+    	    translateAnimation.setDuration(anicatinoTime * 1+240); 
     	    translateAnimation.setFillAfter(true); 
     	    cameraImage.startAnimation(translateAnimation); 
     	    
     	    
     	    TranslateAnimation translateAnimation1 = new TranslateAnimation(0,190, 0, -60);
     	    translateAnimation1.setInterpolator(new OvershootInterpolator());
-    	    translateAnimation1.setDuration(anicatinoTime * 1+160); 
+    	    translateAnimation1.setDuration(anicatinoTime * 1+180); 
     	    translateAnimation1.setStartOffset(20);
     	    translateAnimation1.setFillAfter(true); 
     	    musicImage.startAnimation(translateAnimation1); 
