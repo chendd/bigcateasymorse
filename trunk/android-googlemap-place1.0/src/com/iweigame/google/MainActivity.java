@@ -1,10 +1,18 @@
 package com.iweigame.google;
 
+import java.io.IOException;
+
 import org.json.JSONException;
 
+
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -20,66 +28,40 @@ public class MainActivity extends Activity {
 
 	private ResultListAdapter resultListAdapter;
 
+	ProgressDialog progressDialog;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		
+		progressDialog = new ProgressDialog(this);
+		progressDialog.setMessage("Loading...");
 		resultListView = (ListView) findViewById(R.id.resultList);
 		adapterListener(resultListView);
 	}
 
 	public void toUniversity(View view) {
-		try {
-
-			resultString = MapsHttpUtil.getGetRoundPlace(Tools.getLocation(getApplicationContext()), "2000", "university");
-			resultListAdapter = new ResultListAdapter(Tools.formatJsonTOBean(resultString), getApplicationContext());
-			resultListView.setAdapter(resultListAdapter);
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
+			progressDialog.show();
+			new GetMessageFromServer().execute("2000,university");
+	
 	}
 
 	public void toPark(View view) {
-		try {
-
-			resultString = MapsHttpUtil.getGetRoundPlace(Tools.getLocation(getApplicationContext()), "2000", "park");
-			resultListAdapter = new ResultListAdapter(Tools.formatJsonTOBean(resultString), getApplicationContext());
-			resultListView.setAdapter(resultListAdapter);
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
+			progressDialog.show();
+			new GetMessageFromServer().execute("2000,park");
+		
 	}
 
 	public void toFood(View view) {
-		try {
-
-			resultString = MapsHttpUtil.getGetRoundPlace(Tools.getLocation(getApplicationContext()), "1000", "food");
-			// resultListView = (ListView) findViewById(R.id.resultList);
-			resultListAdapter = new ResultListAdapter(Tools.formatJsonTOBean(resultString), getApplicationContext());
-			resultListView.setAdapter(resultListAdapter);
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
+		progressDialog.show();
+		new GetMessageFromServer().execute("2000,food");
+		
 	}
 
 	public void toATM(View view) {
-		try {
-
-			resultString = MapsHttpUtil.getGetRoundPlace(Tools.getLocation(getApplicationContext()), "2000", "atm");
-			// resultListView = (ListView) findViewById(R.id.resultList);
-			resultListAdapter = new ResultListAdapter(Tools.formatJsonTOBean(resultString), getApplicationContext());
-			resultListView.setAdapter(resultListAdapter);
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
+		progressDialog.show();
+		new GetMessageFromServer().execute("2000,atm");
 	}
 
 	public void adapterListener(ListView listView) {
@@ -102,5 +84,36 @@ public class MainActivity extends Activity {
 				
 			}
 		});
+	}
+	
+	
+	private class GetMessageFromServer extends AsyncTask<String, Void, String> {
+
+		@Override
+		protected String doInBackground(String... parameters) {
+			try {
+				resultString = MapsHttpUtil.getGetRoundPlace(Tools.getLocation(getApplicationContext()), parameters[0].split(",")[0],parameters[0].split(",")[1] );
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return resultString;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			// 作UI线程的修改。
+			try {
+				resultListAdapter = new ResultListAdapter(Tools.formatJsonTOBean(resultString), getApplicationContext());
+				resultListView.setAdapter(resultListAdapter);
+				progressDialog.dismiss();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			super.onPostExecute(result);
+		}
+
 	}
 }
