@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<LinearLayout android:orientation="horizontal"
+		android:layout_width="fill_parent" android:layout_height="wrap_content">
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="餐厅"
+			android:onClick="toFood" />
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="ATM机"
+			android:onClick="toATM" />
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="公园"
+			android:onClick="toPark" />
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="学校"
+			android:onClick="toUniversity" />
+	</LinearLayout>
+	<ListView android:id="@+id/resultList" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" />
+</LinearLayout>
