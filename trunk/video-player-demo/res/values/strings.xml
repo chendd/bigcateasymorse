@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ISWT WEB VIDEO DEMO</string>
+    <string name="version_name">1.0.0</string>
+    
+    <string name="confirm_install_hint">"安装提示"</string>	
+	<string name="confirm_install">"为保证支持更多格式视频播放，需要安装该插件。\n\n点击确定，立即安装。"</string>
+	
+	
+	<string name="Ensure">"确定"</string>
+	<string name="Cancel">"取消"</string>
+</resources>
